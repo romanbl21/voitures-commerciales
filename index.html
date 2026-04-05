@@ -1,0 +1,498 @@
+bash
+
+cat > /mnt/user-data/outputs/index.html << 'ENDOFFILE'
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voitures Commerciales</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
+.app{max-width:1100px;margin:0 auto;padding:1.5rem 1rem}
+h1{font-size:20px;font-weight:600;color:#1a1a1a}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:10px}
+.topbar p{font-size:12px;color:#888;margin-top:2px}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1.5rem}
+.sc{background:#fff;border-radius:10px;padding:10px 14px;border:0.5px solid #e5e5e5}
+.sc .lbl{font-size:11px;color:#888;margin-bottom:3px}
+.sc .val{font-size:20px;font-weight:600;color:#1a1a1a}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:640px){.layout{grid-template-columns:1fr}}
+.panel{background:#fff;border:0.5px solid #e5e5e5;border-radius:14px;overflow:hidden}
+.panel-head{padding:12px 14px;border-bottom:0.5px solid #e5e5e5;display:flex;align-items:center;justify-content:space-between}
+.panel-head h2{font-size:14px;font-weight:600}
+.panel-head .sub{font-size:11px;color:#888;margin-top:2px}
+.panel-body{padding:12px 14px}
+.cars-col{display:flex;flex-direction:column;gap:12px}
+.car-card{background:#fff;border:0.5px solid #e5e5e5;border-radius:14px}
+.car-header{padding:10px 12px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid #e5e5e5}
+.car-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.car-meta{flex:1;min-width:0}
+.car-meta h3{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.car-meta .sub{font-size:11px;color:#888;display:flex;align-items:center;gap:5px;margin-top:1px}
+.car-acts{display:flex;gap:4px}
+.ic-btn{width:24px;height:24px;border:0.5px solid #e0e0e0;background:transparent;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:#888;transition:background .12s}
+.ic-btn:hover{background:#f5f5f3}
+.car-body{padding:10px 12px}
+.sec-lbl{font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.obj-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.obj-row input{width:52px;font-size:12px;padding:3px 5px;text-align:center;border:0.5px solid #e0e0e0;border-radius:6px;background:#f9f9f9}
+.obj-unit{font-size:11px;color:#888}
+.obj-boxes{display:flex;gap:2px;flex-wrap:wrap;margin-bottom:8px}
+.box-pip{width:14px;height:14px;border-radius:3px}
+.box-pip.empty{background:#e5e5e5!important}
+.sector-chips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
+.schip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;background:#f5f5f3;color:#555;border:0.5px solid #e5e5e5}
+.schip .rm{cursor:pointer;opacity:.4;font-size:9px;margin-left:1px}
+.schip .rm:hover{opacity:1;color:#e24b4a}
+.add-sec-row{display:flex;gap:4px;margin-bottom:8px}
+.add-sec-row input{flex:1;font-size:11px;padding:4px 7px;border:0.5px solid #e0e0e0;border-radius:6px;background:#f9f9f9}
+.add-sec-row button{padding:4px 9px;font-size:11px;border:0.5px solid #e0e0e0;background:transparent;border-radius:6px;cursor:pointer;color:#555}
+.add-sec-row button:hover{background:#f5f5f3}
+.drop-zone{min-height:54px;border:1px dashed #d5d5d5;border-radius:8px;padding:5px;display:flex;flex-direction:column;gap:4px;transition:background .15s,border-color .15s}
+.drop-zone.drag-over{background:#eaf3de;border-color:#639922}
+.drop-hint{font-size:11px;color:#bbb;text-align:center;padding:12px 0;pointer-events:none}
+.member-pill{display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f9f9f9;border-radius:6px;cursor:grab;border:0.5px solid #e5e5e5;user-select:none;transition:opacity .15s}
+.member-pill:hover{border-color:#ccc}
+.member-pill.dragging{opacity:.25}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.mem-info{flex:1;min-width:0}
+.mem-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.role-badge{font-size:10px;color:#888}
+.drag-handle{font-size:13px;color:#ccc;cursor:grab;flex-shrink:0}
+.op-badge{display:inline-flex;padding:1px 6px;border-radius:20px;font-size:10px;font-weight:600}
+.op-free{background:#E6F1FB;color:#0C447C}
+.op-bouygues{background:#FAEEDA;color:#633806}
+.op-sfr{background:#FCEBEB;color:#791F1F}
+.add-car-btn{width:100%;padding:9px;border:1px dashed #d5d5d5;background:transparent;border-radius:10px;cursor:pointer;font-size:12px;color:#888;transition:background .12s;margin-top:2px}
+.add-car-btn:hover{background:#fff}
+.hist-section{margin-top:16px;background:#fff;border:0.5px solid #e5e5e5;border-radius:14px;padding:14px}
+.hist-section h2{font-size:13px;font-weight:600;margin-bottom:10px}
+.hist-list{display:flex;flex-direction:column;gap:4px;max-height:220px;overflow-y:auto}
+.hist-row{display:flex;align-items:flex-start;gap:10px;padding:6px 10px;border-radius:6px;background:#f9f9f9}
+.hist-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.hist-body{flex:1}
+.hist-text{font-size:12px;color:#1a1a1a}
+.hist-sub{font-size:10px;color:#888;margin-top:1px}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;padding:16px}
+.modal-backdrop.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:400px;padding:20px;max-height:90vh;overflow-y:auto}
+.modal h2{font-size:16px;font-weight:600;margin-bottom:14px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:#888;margin-bottom:3px;font-weight:500}
+.field input,.field select{width:100%;padding:7px 10px;border:0.5px solid #e0e0e0;border-radius:8px;font-size:13px;background:#f9f9f9}
+.chip-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.chip{padding:4px 11px;border-radius:20px;font-size:11px;border:0.5px solid #e0e0e0;background:#f5f5f3;color:#555;cursor:pointer;transition:all .12s}
+.chip.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.m-acts{display:flex;justify-content:flex-end;gap:7px;margin-top:14px}
+.btn-danger{padding:7px 13px;border:0.5px solid #fca5a5;background:transparent;border-radius:8px;cursor:pointer;font-size:12px;color:#dc2626}
+.btn-cancel{padding:7px 13px;border:0.5px solid #e0e0e0;background:transparent;border-radius:8px;cursor:pointer;font-size:12px;color:#555}
+.btn-ok{padding:7px 16px;border:none;background:#1a1a1a;color:#fff;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600}
+.profile-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:14px;border-bottom:0.5px solid #e5e5e5}
+.profile-avatar-lg{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;flex-shrink:0}
+.profile-info h3{font-size:15px;font-weight:600}
+.profile-info p{font-size:12px;color:#888;margin-top:2px}
+.pstat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.pstat{background:#f5f5f3;border-radius:8px;padding:8px 10px}
+.pstat .pl{font-size:10px;color:#888;margin-bottom:2px}
+.pstat .pv{font-size:13px;font-weight:600}
+.color-picker{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.color-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:border-color .12s}
+.color-dot.on{border-color:#1a1a1a}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.loader{text-align:center;padding:2rem;font-size:13px;color:#888}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="topbar">
+    <div>
+      <h1>Voitures commerciales</h1>
+      <p>Glissez les commerciaux vers leur voiture · Cliquez sur 👤 pour modifier un profil</p>
+    </div>
+  </div>
+  <div class="stats-bar" id="statsBar"><div class="loader">Chargement…</div></div>
+  <div class="layout">
+    <div>
+      <div class="panel">
+        <div class="panel-head">
+          <div><h2>Pool des commerciaux</h2><div class="sub">Glissez vers une voiture →</div></div>
+          <button class="ic-btn" style="width:auto;padding:0 8px;font-size:12px" onclick="openAddMember()">+ Ajouter</button>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')">
+            <div class="drop-hint">Chargement…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cars-col" id="carsCol"><div class="loader">Chargement…</div></div>
+  </div>
+  <div class="hist-section">
+    <h2>Historique des secteurs</h2>
+    <div class="hist-list" id="histList"><div class="loader">Chargement…</div></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://xtelveaprkhaccqevpjl.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0ZWx2ZWFwcmtoYWNjcWV2cGpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MDAwNjIsImV4cCI6MjA5MDk3NjA2Mn0.-eM6xfJlaaAALa5UAaIbWZ6efM9UFKJLzW1bUgYg0FI';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const EMOJIS = ['🚗','🚙','🚕','🚐','🏎️','🚌'];
+const OPERATORS = [{id:'free',label:'Free',cls:'op-free'},{id:'bouygues',label:'Bouygues',cls:'op-bouygues'},{id:'sfr',label:'SFR',cls:'op-sfr'}];
+const ROLES = ['Commercial','Commerciale','Chef d\'équipe','Animateur réseau'];
+const OPCOLOR = {free:'#378ADD',bouygues:'#BA7517',sfr:'#E24B4A'};
+const OPBG = {free:'#E6F1FB',bouygues:'#FAEEDA',sfr:'#FCEBEB'};
+const AV_COLORS = [
+  {bg:'#B5D4F4',tx:'#0C447C'},{bg:'#C0DD97',tx:'#3B6D11'},{bg:'#FAC775',tx:'#854F0B'},
+  {bg:'#CDB3F6',tx:'#3C3489'},{bg:'#F5C4B3',tx:'#993C1D'},{bg:'#F4C0D1',tx:'#72243E'},
+  {bg:'#9FE1CB',tx:'#0F6E56'},{bg:'#F7C1C1',tx:'#791F1F'},{bg:'#D3D1C7',tx:'#444441'}
+];
+
+let cars = [], members = [], sectors = [], history = [];
+let dragId = null;
+let selectedColorIdx = 0;
+
+function initials(n){return n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase()}
+function avStyle(m){const c=AV_COLORS[(m.color_idx||0)%AV_COLORS.length];return `background:${c.bg};color:${c.tx}`}
+function opBadge(op){const o=OPERATORS.find(x=>x.id===op);return o?`<span class="op-badge ${o.cls}">${o.label}</span>`:'';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+async function loadAll(){
+  const [cRes,mRes,sRes,hRes] = await Promise.all([
+    sb.from('cars').select('*').order('created_at'),
+    sb.from('members').select('*').order('created_at'),
+    sb.from('sectors').select('*').order('created_at'),
+    sb.from('sector_history').select('*').order('created_at',{ascending:false}).limit(60)
+  ]);
+  cars = cRes.data||[];
+  members = mRes.data||[];
+  sectors = sRes.data||[];
+  history = hRes.data||[];
+  render();
+}
+
+function getSectors(carId){return sectors.filter(s=>s.car_id===carId)}
+function getMembers(carId){return members.filter(m=>m.car_id===carId)}
+
+function boxes(car){
+  const obj=car.objectif||0; if(!obj)return '';
+  const count=getMembers(car.id).length;
+  const col=OPCOLOR[car.operator]||'#888';
+  let h='<div style="display:flex;gap:2px;flex-wrap:wrap;margin-bottom:8px">';
+  for(let i=0;i<obj;i++) h+=`<div class="box-pip${i<count?'':' empty'}" style="${i<count?'background:'+col:''}"></div>`;
+  return h+'</div>';
+}
+
+function memberPill(m){
+  return `<div class="member-pill" id="mp-${m.id}" draggable="true"
+    ondragstart="dstart(event,'${m.id}')" ondragend="dend(event)">
+    <span class="drag-handle">⠿</span>
+    <div class="avatar" style="${avStyle(m)}">${initials(m.name)}</div>
+    <div class="mem-info">
+      <div class="mem-name">${m.name}</div>
+      <div class="role-badge">${m.role}</div>
+    </div>
+    <button class="ic-btn" onclick="openProfile('${m.id}');event.stopPropagation()" title="Profil">👤</button>
+  </div>`;
+}
+
+function renderStats(){
+  const placed=members.filter(m=>m.car_id).length;
+  const totalBox=cars.reduce((a,c)=>a+(c.objectif||0),0);
+  document.getElementById('statsBar').innerHTML=`
+    <div class="sc"><div class="lbl">Voitures</div><div class="val">${cars.length}</div></div>
+    <div class="sc"><div class="lbl">Commerciaux</div><div class="val">${members.length}</div></div>
+    <div class="sc"><div class="lbl">Affectés</div><div class="val">${placed}</div></div>
+    <div class="sc"><div class="lbl">Objectif total</div><div class="val">${totalBox} box</div></div>
+  `;
+}
+
+function renderPool(){
+  const pool=members.filter(m=>!m.car_id);
+  const z=document.getElementById('pool-zone');
+  if(!z)return;
+  z.innerHTML=pool.map(memberPill).join('')+(pool.length===0?'<div class="drop-hint">Tous les commerciaux sont affectés ✓</div>':'');
+}
+
+function renderCars(){
+  const col=document.getElementById('carsCol');
+  col.innerHTML=cars.map(car=>{
+    const mems=getMembers(car.id);
+    const secs=getSectors(car.id);
+    return `<div class="car-card">
+      <div class="car-header">
+        <div class="car-icon" style="background:${OPBG[car.operator]||'#f0f0f0'}">${car.emoji}</div>
+        <div class="car-meta">
+          <h3>${car.name}</h3>
+          <div class="sub">${opBadge(car.operator)}<span>${mems.length} pers.</span></div>
+        </div>
+        <div class="car-acts">
+          <button class="ic-btn" onclick="openEditCar('${car.id}')">✎</button>
+          <button class="ic-btn" onclick="deleteCar('${car.id}')">🗑</button>
+        </div>
+      </div>
+      <div class="car-body">
+        <div class="sec-lbl">Objectif</div>
+        <div class="obj-row">
+          <input type="number" min="0" max="99" value="${car.objectif||0}" onchange="setObj('${car.id}',this.value)">
+          <span class="obj-unit">box</span>
+        </div>
+        ${boxes(car)}
+        <div class="sec-lbl">Secteurs</div>
+        <div class="sector-chips">${secs.map(s=>`<span class="schip">${s.name}<span class="rm" onclick="rmSector('${s.id}','${car.id}','${s.name}','${car.name}')">✕</span></span>`).join('')||'<span style="font-size:10px;color:#bbb">Aucun secteur</span>'}</div>
+        <div class="add-sec-row">
+          <input type="text" id="sec-${car.id}" placeholder="Ajouter un secteur…" onkeydown="if(event.key==='Enter')addSec('${car.id}','${car.name}')">
+          <button onclick="addSec('${car.id}','${car.name}')">+</button>
+        </div>
+        <div class="sec-lbl">Équipe (${mems.length})</div>
+        <div class="drop-zone" id="zone-${car.id}" ondragover="dov(event)" ondrop="ddr(event,'${car.id}')">
+          ${mems.map(memberPill).join('')}
+          ${mems.length===0?'<div class="drop-hint">Déposez un commercial ici</div>':''}
+        </div>
+      </div>
+    </div>`;
+  }).join('')+`<button class="add-car-btn" onclick="openAddCar()">+ Nouvelle voiture</button>`;
+}
+
+function renderHistory(){
+  const el=document.getElementById('histList');
+  if(!el)return;
+  if(!history.length){el.innerHTML='<div style="font-size:11px;color:#bbb;padding:4px">Aucune modification de secteur</div>';return;}
+  el.innerHTML=history.map(h=>{
+    const isAdd=h.action==='ajout';
+    const d=new Date(h.created_at);
+    const fmt=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' · '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="hist-row">
+      <div class="hist-dot" style="background:${isAdd?'#639922':'#e24b4a'}"></div>
+      <div class="hist-body">
+        <div class="hist-text">Secteur <strong>${h.sector_name}</strong> — ${isAdd?'ajouté à':'retiré de'} ${h.car_name}</div>
+        <div class="hist-sub">${fmt}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function render(){renderStats();renderPool();renderCars();renderHistory();}
+
+function dstart(e,id){
+  dragId=id;
+  e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>{const el=document.getElementById('mp-'+id);if(el)el.classList.add('dragging');},0);
+}
+function dend(e){
+  const el=document.getElementById('mp-'+dragId);
+  if(el)el.classList.remove('dragging');
+  document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));
+  dragId=null;
+}
+function dov(e){e.preventDefault();document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));e.currentTarget.classList.add('drag-over');}
+
+async function ddr(e,target){
+  e.preventDefault();
+  document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));
+  if(!dragId)return;
+  const m=members.find(x=>x.id===dragId);
+  if(!m)return;
+  const same=(target==='pool'&&!m.car_id)||(m.car_id===target);
+  if(same)return;
+  const newCarId=target==='pool'?null:target;
+  m.car_id=newCarId;
+  render();
+  await sb.from('members').update({car_id:newCarId}).eq('id',dragId);
+}
+
+async function setObj(carId,val){
+  const v=Math.max(0,Math.min(99,parseInt(val)||0));
+  const car=cars.find(c=>c.id===carId);if(!car)return;
+  car.objectif=v;
+  render();
+  await sb.from('cars').update({objectif:v}).eq('id',carId);
+}
+
+async function addSec(carId,carName){
+  const inp=document.getElementById('sec-'+carId);if(!inp)return;
+  const v=inp.value.trim();if(!v)return;
+  inp.value='';
+  const {data,error}=await sb.from('sectors').insert({car_id:carId,name:v}).select().single();
+  if(error){toast('Erreur lors de l\'ajout');return;}
+  sectors.push(data);
+  await sb.from('sector_history').insert({action:'ajout',sector_name:v,car_name:carName});
+  history.unshift({action:'ajout',sector_name:v,car_name:carName,created_at:new Date().toISOString()});
+  render();
+  toast(`Secteur "${v}" ajouté`);
+}
+
+async function rmSector(sectorId,carId,sectorName,carName){
+  sectors=sectors.filter(s=>s.id!==sectorId);
+  render();
+  await sb.from('sectors').delete().eq('id',sectorId);
+  await sb.from('sector_history').insert({action:'retrait',sector_name:sectorName,car_name:carName});
+  history.unshift({action:'retrait',sector_name:sectorName,car_name:carName,created_at:new Date().toISOString()});
+  renderHistory();
+  toast(`Secteur "${sectorName}" retiré`);
+}
+
+async function deleteCar(id){
+  const car=cars.find(c=>c.id===id);if(!car)return;
+  if(!confirm(`Supprimer "${car.name}" ? Les commerciaux retourneront dans le pool.`))return;
+  members.forEach(m=>{if(m.car_id===id)m.car_id=null;});
+  sectors=sectors.filter(s=>s.car_id!==id);
+  cars=cars.filter(c=>c.id!==id);
+  render();
+  await sb.from('cars').delete().eq('id',id);
+  toast('Voiture supprimée');
+}
+
+function openAddCar(){
+  selectedColorIdx=0;
+  showModal(`<h2>Nouvelle voiture</h2>
+    <div class="field"><label>Nom</label><input id="mName" type="text" placeholder="Voiture 4"/></div>
+    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="🚗"/></div>
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPERATORS.map(o=>`<span class="chip" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="free"/></div>
+    <div class="m-acts"><button class="btn-cancel" onclick="closeModal()">Annuler</button><button class="btn-ok" onclick="confirmAddCar()">Créer</button></div>
+  `);
+  document.querySelector('#modalContent .chip').classList.add('on');
+}
+
+async function confirmAddCar(){
+  const name=(document.getElementById('mName').value||'').trim()||'Nouvelle voiture';
+  const emoji=document.getElementById('mEmoji').value||'🚗';
+  const operator=document.getElementById('mOp').value||'free';
+  const {data,error}=await sb.from('cars').insert({name,emoji,operator,objectif:0}).select().single();
+  if(error){toast('Erreur');return;}
+  cars.push(data);
+  closeModal();render();
+  toast(`Voiture "${name}" créée`);
+}
+
+function openEditCar(id){
+  const car=cars.find(c=>c.id===id);if(!car)return;
+  showModal(`<h2>Modifier la voiture</h2>
+    <div class="field"><label>Nom</label><input id="mName" type="text" value="${car.name}"/></div>
+    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e===car.emoji?' on':''}" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="${car.emoji}"/></div>
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPERATORS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="${car.operator}"/></div>
+    <div class="m-acts"><button class="btn-cancel" onclick="closeModal()">Annuler</button><button class="btn-ok" onclick="confirmEditCar('${id}')">Enregistrer</button></div>
+  `);
+}
+
+async function confirmEditCar(id){
+  const car=cars.find(c=>c.id===id);if(!car)return;
+  car.name=(document.getElementById('mName').value||car.name).trim();
+  car.emoji=document.getElementById('mEmoji').value;
+  car.operator=document.getElementById('mOp').value;
+  closeModal();render();
+  await sb.from('cars').update({name:car.name,emoji:car.emoji,operator:car.operator}).eq('id',id);
+  toast('Voiture mise à jour');
+}
+
+function openAddMember(){
+  selectedColorIdx=0;
+  showModal(`<h2>Nouveau commercial</h2>
+    <div class="field"><label>Nom complet</label><input id="pName" type="text" placeholder="Jean Dupont"/></div>
+    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map(r=>`<span class="chip" onclick="selRole(this,'${r}')">${r}</span>`).join('')}</div><input type="hidden" id="pRole" value="${ROLES[0]}"/></div>
+    <div class="field"><label>Téléphone</label><input id="pPhone" type="text" placeholder="06 xx xx xx xx"/></div>
+    <div class="field"><label>Note</label><input id="pNote" type="text" placeholder="Infos utiles…"/></div>
+    <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV_COLORS.map((c,i)=>`<div class="color-dot${i===0?' on':''}" style="background:${c.bg}" onclick="selColor(this,${i})"></div>`).join('')}</div></div>
+    <div class="m-acts"><button class="btn-cancel" onclick="closeModal()">Annuler</button><button class="btn-ok" onclick="confirmAddMember()">Ajouter</button></div>
+  `);
+  document.querySelector('#modalContent .chip').classList.add('on');
+}
+
+async function confirmAddMember(){
+  const name=(document.getElementById('pName').value||'').trim();if(!name)return alert('Nom requis');
+  const role=document.getElementById('pRole').value;
+  const phone=document.getElementById('pPhone').value.trim();
+  const note=document.getElementById('pNote').value.trim();
+  const {data,error}=await sb.from('members').insert({name,role,phone,note,color_idx:selectedColorIdx,car_id:null}).select().single();
+  if(error){toast('Erreur');return;}
+  members.push(data);
+  closeModal();render();
+  toast(`${name} ajouté`);
+}
+
+function openProfile(id){
+  const m=members.find(x=>x.id===id);if(!m)return;
+  const car=m.car_id?cars.find(c=>c.id===m.car_id):null;
+  const avC=AV_COLORS[(m.color_idx||0)%AV_COLORS.length];
+  selectedColorIdx=m.color_idx||0;
+  showModal(`
+    <div class="profile-header">
+      <div class="profile-avatar-lg" id="profAv" style="background:${avC.bg};color:${avC.tx}">${initials(m.name)}</div>
+      <div class="profile-info">
+        <h3>${m.name}</h3>
+        <p>${m.role} · ${car?car.name:'Non affecté'}</p>
+      </div>
+    </div>
+    <div class="pstat-row">
+      <div class="pstat"><div class="pl">Voiture</div><div class="pv">${car?car.emoji+' '+car.name:'—'}</div></div>
+      <div class="pstat"><div class="pl">Opérateur</div><div class="pv">${car?OPERATORS.find(o=>o.id===car.operator)?.label||'—':'—'}</div></div>
+    </div>
+    <div class="field"><label>Nom</label><input id="pName" type="text" value="${m.name}"/></div>
+    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map(r=>`<span class="chip${r===m.role?' on':''}" onclick="selRole(this,'${r}')">${r}</span>`).join('')}</div><input type="hidden" id="pRole" value="${m.role}"/></div>
+    <div class="field"><label>Téléphone</label><input id="pPhone" type="text" value="${m.phone||''}"/></div>
+    <div class="field"><label>Note</label><input id="pNote" type="text" value="${m.note||''}"/></div>
+    <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV_COLORS.map((c,i)=>`<div class="color-dot${i===selectedColorIdx?' on':''}" style="background:${c.bg}" onclick="selColor(this,${i})"></div>`).join('')}</div></div>
+    <div class="m-acts">
+      <button class="btn-danger" onclick="deleteMember('${id}')">Supprimer</button>
+      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn-ok" onclick="saveProfile('${id}')">Enregistrer</button>
+    </div>
+  `);
+}
+
+async function saveProfile(id){
+  const m=members.find(x=>x.id===id);if(!m)return;
+  m.name=(document.getElementById('pName').value||m.name).trim();
+  m.role=document.getElementById('pRole').value;
+  m.phone=document.getElementById('pPhone').value.trim();
+  m.note=document.getElementById('pNote').value.trim();
+  m.color_idx=selectedColorIdx;
+  closeModal();render();
+  await sb.from('members').update({name:m.name,role:m.role,phone:m.phone,note:m.note,color_idx:m.color_idx}).eq('id',id);
+  toast('Profil mis à jour');
+}
+
+async function deleteMember(id){
+  if(!confirm('Supprimer ce commercial ?'))return;
+  members=members.filter(x=>x.id!==id);
+  closeModal();render();
+  await sb.from('members').delete().eq('id',id);
+  toast('Commercial supprimé');
+}
+
+function selE(el,v){document.querySelectorAll('#modalContent .chip[onclick*="selE"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v;}
+function selOp(el,v){document.querySelectorAll('#modalContent .chip[onclick*="selOp"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v;}
+function selRole(el,v){document.querySelectorAll('#modalContent .chip[onclick*="selRole"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('pRole').value=v;}
+function selColor(el,i){
+  selectedColorIdx=i;
+  document.querySelectorAll('#modalContent .color-dot').forEach(d=>d.classList.remove('on'));
+  el.classList.add('on');
+  const av=document.getElementById('profAv');
+  if(av){const c=AV_COLORS[i];av.style.background=c.bg;av.style.color=c.tx;}
+}
+
+function showModal(html){document.getElementById('modalContent').innerHTML=html;document.getElementById('modalBackdrop').classList.add('open');}
+function closeModal(){document.getElementById('modalBackdrop').classList.remove('open');}
+
+loadAll();
+</script>
+</body>
+</html>
+ENDOFFILE
+echo "Done"
+Sortie
+
+Done
