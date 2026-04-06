@@ -12,14 +12,11 @@
   --bg:#080808;--surface:#111;--surface2:#181818;--surface3:#202020;--surface4:#282828;
   --border:#222;--border2:#333;--border3:#444;
   --text:#f2f2f2;--text2:#888;--text3:#444;
-  --blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa;
-  --free:#3b82f6;--sfr:#ef4444;--bouygues:#f59e0b;
+  --blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;
   --r:12px;--r-sm:8px;--r-lg:16px;--r-xl:20px;
   --shadow:0 8px 32px rgba(0,0,0,.6);
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-/* LOGIN */
 #loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .login-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:40px 36px;width:100%;max-width:400px;box-shadow:var(--shadow)}
 .login-logo{text-align:center;font-size:48px;margin-bottom:20px}
@@ -33,8 +30,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .login-btn{width:100%;padding:13px;background:var(--text);color:var(--bg);border:none;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;transition:opacity .15s}
 .login-btn:hover{opacity:.88}
 .login-err{font-size:12px;color:var(--red);text-align:center;margin-top:10px;min-height:16px}
-
-/* SHELL */
 #appScreen{display:none;min-height:100vh}
 .shell{display:flex;min-height:100vh}
 .sidebar{width:230px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 12px;flex-shrink:0;position:sticky;top:0;height:100vh}
@@ -47,7 +42,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sb-item:hover{background:var(--surface2);color:var(--text)}
 .sb-item.active{background:var(--surface3);color:var(--text);font-weight:600}
 .sb-item .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0}
-.sb-section{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;padding:4px 12px;margin-top:10px;margin-bottom:2px}
 .sb-bottom{display:flex;flex-direction:column;gap:4px;padding-top:12px;border-top:1px solid var(--border)}
 .sb-user{font-size:11px;color:var(--text3);padding:4px 8px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .admin-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(245,158,11,.15);color:#fcd34d;margin:0 8px 6px}
@@ -55,22 +49,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sb-logout:hover{background:rgba(239,68,68,.1)}
 .main{flex:1;min-width:0;padding:28px 32px;overflow-y:auto}
 @media(max-width:860px){.sidebar{display:none}.main{padding:16px}}
-
-/* HEADERS */
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
 .page-title h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .page-title p{font-size:12px;color:var(--text2);margin-top:4px}
 .page-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-
-/* SEARCH */
 .search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:18px;transition:border-color .15s}
 .search-bar:focus-within{border-color:var(--border3)}
 .search-bar input{flex:1;background:transparent;border:none;font-size:13px;color:var(--text);font-family:inherit}
 .search-bar input:focus{outline:none}
 .search-bar input::placeholder{color:var(--text3)}
 .search-count{font-size:11px;color:var(--text3);white-space:nowrap}
-
-/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
 @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
@@ -81,17 +69,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .stat-card.c-red::after{background:var(--red)}
 .stat-card .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 .stat-card .val{font-size:28px;font-weight:800;letter-spacing:-1px}
-
-/* BOARD */
-.board{display:grid;grid-template-columns:290px 1fr;gap:14px;align-items:start}
+.board{display:grid;grid-template-columns:280px 1fr;gap:14px;align-items:start}
 @media(max-width:860px){.board{grid-template-columns:1fr}}
 .pool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;position:sticky;top:0}
 .card-head{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .card-head h3{font-size:13px;font-weight:700}
 .card-head .sub{font-size:10px;color:var(--text3);margin-top:2px}
 .card-body{padding:10px}
-
-/* CARS */
 .cars-list{display:flex;flex-direction:column;gap:10px}
 .car-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s}
 .car-card:hover{border-color:var(--border2)}
@@ -108,8 +92,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .car-sub-txt{font-size:11px;color:var(--text3)}
 .car-btns{display:flex;gap:4px}
 .car-body{padding:12px 14px}
-
-/* OBJ */
 .obj-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;margin-bottom:12px}
 .obj-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .obj-row span{font-size:12px;color:var(--text2);font-weight:500}
@@ -120,65 +102,53 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .boxes{display:flex;gap:3px;flex-wrap:wrap}
 .box{width:14px;height:14px;border-radius:3px}
 .box.empty{background:var(--surface3)}
-
-/* SECTEURS */
 .sec-block{margin-bottom:12px}
 .slbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
 .chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;min-height:12px}
-.chip-tag{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border)}
+.chip-tag{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid transparent}
 .chip-tag .x{cursor:pointer;opacity:.35;font-size:10px;margin-left:2px;transition:opacity .12s}
 .chip-tag .x:hover{opacity:1;color:var(--red)}
-
-/* SECTEUR PICKER */
 .sec-picker-wrap{position:relative}
 .sec-picker-btn{display:flex;align-items:center;gap:6px;padding:6px 11px;font-size:12px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface2);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .12s;width:100%}
 .sec-picker-btn:hover{background:var(--surface3);color:var(--text)}
 .sec-picker-btn:disabled{opacity:.4;cursor:not-allowed}
-.sec-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);z-index:50;max-height:300px;overflow:hidden;display:none;flex-direction:column;box-shadow:var(--shadow)}
+.sec-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);z-index:50;max-height:320px;overflow:hidden;display:none;flex-direction:column;box-shadow:var(--shadow)}
 .sec-dropdown.open{display:flex}
-.sec-drop-search{padding:8px 10px;border-bottom:1px solid var(--border)}
+.sec-drop-search{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
 .sec-drop-search input{width:100%;background:transparent;border:none;font-size:12px;color:var(--text);font-family:inherit}
 .sec-drop-search input:focus{outline:none}
 .sec-drop-search input::placeholder{color:var(--text3)}
 .sec-dept-list{overflow-y:auto;flex:1}
 .sec-dept{border-bottom:1px solid var(--border)}
-.sec-dept-header{padding:6px 12px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;background:var(--surface3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.sec-dept-header{padding:6px 12px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;background:var(--surface3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-shrink:0}
 .sec-dept-header:hover{color:var(--text2)}
 .sec-dept-cities{display:none;flex-direction:column}
 .sec-dept-cities.open{display:flex}
-.sec-city-item{padding:7px 16px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.sec-city-item{padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;user-select:none}
 .sec-city-item:hover{background:var(--surface3);color:var(--text)}
-.sec-city-item.selected{color:var(--green)}
+.sec-city-item.sel{color:var(--green)}
 .sec-city-item .chk{width:14px;height:14px;border-radius:3px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
-.sec-city-item.selected .chk{background:var(--green);border-color:var(--green);color:#000}
-.sec-custom-row{display:flex;gap:5px;margin-top:6px}
-.sec-custom-row input{flex:1;font-size:12px;padding:5px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface2);color:var(--text);font-family:inherit}
+.sec-city-item.sel .chk{background:var(--green);border-color:var(--green);color:#000}
+.sec-custom-row{display:flex;gap:5px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
+.sec-custom-row input{flex:1;font-size:12px;padding:5px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface3);color:var(--text);font-family:inherit}
 .sec-custom-row input::placeholder{color:var(--text3)}
 .sec-custom-row input:focus{outline:none;border-color:var(--border2)}
 .sec-custom-row button{padding:5px 10px;font-size:12px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;font-weight:700;color:var(--text2);font-family:inherit}
 .sec-custom-row button:hover{color:var(--text)}
-
-/* DROP */
 .drop-zone{min-height:58px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:5px;display:flex;flex-direction:column;gap:4px;transition:all .15s}
 .drop-zone.over{background:rgba(34,197,94,.07);border-color:var(--green)}
 .hint{font-size:11px;color:var(--text3);text-align:center;padding:16px 0;pointer-events:none;font-weight:500}
-
-/* PILL */
 .pill{display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--surface2);border-radius:var(--r-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s}
 .pill:hover{border-color:var(--border2);background:var(--surface3)}
 .pill.dragging{opacity:.18;cursor:grabbing}
 .av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 .pi{flex:1;min-width:0}
 .pname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prole{font-size:10px;color:var(--text3);margin-top:1px;font-weight:500}
+.prole{font-size:10px;margin-top:1px;font-weight:500}
+.role-0{color:var(--text3)}
+.role-1{color:#fcd34d}
+.role-2{color:#86efac}
 .dh{font-size:12px;color:var(--border2);flex-shrink:0}
-
-/* ROLE COLORS */
-.role-chef{color:#fcd34d}
-.role-anim{color:#86efac}
-.role-com{color:var(--text3)}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s;border:1px solid var(--border2)}
 .btn-ghost{background:var(--surface2);color:var(--text2)}
 .btn-ghost:hover{background:var(--surface3);color:var(--text);border-color:var(--border3)}
@@ -192,8 +162,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .add-car-btn{width:100%;padding:11px;border:1.5px dashed var(--border2);background:transparent;border-radius:var(--r-lg);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;transition:all .15s}
 .add-car-btn:hover{border-color:var(--border3);color:var(--text2);background:var(--surface)}
 .readonly-badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
-
-/* HISTORY */
 .hist-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .filt-btn{padding:6px 13px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
 .filt-btn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
@@ -211,16 +179,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .hist-badge.rm{background:rgba(239,68,68,.15);color:#fca5a5}
 .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
 .empty-state .ei{font-size:40px;margin-bottom:12px}
-.empty-state p{font-size:13px}
-
-/* MODAL */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
 .modal-bg.open{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-xl);width:100%;max-width:440px;padding:26px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
 .modal h2{font-size:18px;font-weight:800;margin-bottom:20px;letter-spacing:-.3px}
 .field{margin-bottom:13px}
 .field label{display:block;font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-.field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
+.field input{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
 .field input:focus{outline:none;border-color:var(--border3)}
 .field input::placeholder{color:var(--text3)}
 .chip-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
@@ -239,8 +204,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .pstat{background:var(--surface2);border-radius:var(--r-sm);padding:9px 12px;border:1px solid var(--border)}
 .pstat .pl{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 .pstat .pv{font-size:13px;font-weight:700}
-
-/* TOAST */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:11px 20px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
 .toast.show{opacity:1}
 ::-webkit-scrollbar{width:4px}
@@ -250,7 +213,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">🚗</div>
@@ -263,16 +225,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
-<!-- APP -->
 <div id="appScreen">
   <div class="shell">
     <aside class="sidebar">
-      <div class="sb-logo">
-        <span>🚗</span>
-        <div><h2>Voitures</h2><small>Montpellier & alentours</small></div>
-      </div>
+      <div class="sb-logo"><span>🚗</span><div><h2>Voitures</h2><small>Montpellier & alentours</small></div></div>
       <nav class="sb-nav">
-        <div class="sb-section">Navigation</div>
         <button class="sb-item active" id="nav-board" onclick="goPage('board')"><span class="ic">📋</span>Tableau de bord</button>
         <button class="sb-item" id="nav-history" onclick="goPage('history')"><span class="ic">🕐</span>Historique secteurs</button>
       </nav>
@@ -282,9 +239,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <button class="sb-logout" onclick="doLogout()"><span>↩</span> Déconnexion</button>
       </div>
     </aside>
-
     <main class="main">
-      <!-- BOARD -->
       <div id="pageboard">
         <div class="page-header">
           <div class="page-title"><h1>Tableau de bord</h1><p>Glissez les commerciaux vers leur voiture</p></div>
@@ -308,16 +263,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
           <div class="pool-card">
             <div class="card-head"><div><h3>Pool</h3><div class="sub">Sans voiture assignée</div></div></div>
             <div class="card-body">
-              <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')">
-                <div class="hint">Chargement…</div>
-              </div>
+              <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')"><div class="hint">Chargement…</div></div>
             </div>
           </div>
           <div class="cars-list" id="carsCol"><div class="hint">Chargement…</div></div>
         </div>
       </div>
-
-      <!-- HISTORY -->
       <div id="pagehistory" style="display:none">
         <div class="page-header">
           <div class="page-title"><h1>Historique des secteurs</h1><p>Toutes les modifications avec date et heure</p></div>
@@ -325,7 +276,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
         <div class="search-bar">
           <span style="font-size:15px">🔍</span>
-          <input type="text" id="histSearch" placeholder="Rechercher un secteur, une ville, une voiture…" oninput="renderHist()"/>
+          <input type="text" id="histSearch" placeholder="Rechercher une ville, un secteur, une voiture…" oninput="renderHist()"/>
           <span class="search-count" id="histCount"></span>
         </div>
         <div class="hist-toolbar">
@@ -352,7 +303,10 @@ const ADMIN_EMAIL='roman.blanchot21@gmail.com';
 
 const EMOJIS=['🚗','🚙','🚕','🚐','🏎️','🚌'];
 const OPS=[{id:'free',label:'Free',cls:'op-free',color:'#3b82f6'},{id:'bouygues',label:'Bouygues',cls:'op-bouygues',color:'#f59e0b'},{id:'sfr',label:'SFR',cls:'op-sfr',color:'#ef4444'}];
-const ROLES=['Commercial','Chef d\'équipe','Animateur réseau'];
+
+// ROLES : utiliser index pour éviter problèmes apostrophe
+const ROLES=['Commercial','Chef d\u2019\u00e9quipe','Animateur r\u00e9seau'];
+
 const OPBG={free:'rgba(59,130,246,.15)',bouygues:'rgba(245,158,11,.15)',sfr:'rgba(239,68,68,.15)'};
 const OPCOL={free:'#3b82f6',bouygues:'#f59e0b',sfr:'#ef4444'};
 const AV=[
@@ -361,29 +315,57 @@ const AV=[
   {bg:'#4a1e5f',tx:'#e9d5ff'},{bg:'#1e5f3a',tx:'#6ee7b7'},{bg:'#2a2a2a',tx:'#d1d5db'}
 ];
 
-// VILLES dans un rayon ~2h20 autour de Montpellier, classées par département
+// Couleurs par département pour les chips
+const DEPT_COLORS=[
+  {bg:'rgba(59,130,246,.18)',tx:'#93c5fd'},
+  {bg:'rgba(34,197,94,.15)',tx:'#86efac'},
+  {bg:'rgba(245,158,11,.15)',tx:'#fcd34d'},
+  {bg:'rgba(239,68,68,.15)',tx:'#fca5a5'},
+  {bg:'rgba(167,139,250,.18)',tx:'#c4b5fd'},
+  {bg:'rgba(14,165,233,.15)',tx:'#7dd3fc'},
+  {bg:'rgba(236,72,153,.15)',tx:'#f9a8d4'},
+  {bg:'rgba(249,115,22,.15)',tx:'#fdba74'},
+  {bg:'rgba(20,184,166,.15)',tx:'#5eead4'},
+  {bg:'rgba(168,85,247,.15)',tx:'#d8b4fe'},
+  {bg:'rgba(251,191,36,.15)',tx:'#fde68a'},
+  {bg:'rgba(244,63,94,.15)',tx:'#fda4af'},
+];
+
+// TOUTES LES COMMUNES - rayon ~2h20 autour de Montpellier
 const SECTEURS_GEO = {
-  '34 - Hérault': ['Montpellier','Béziers','Sète','Agde','Palavas-les-Flots','Frontignan','Lodève','Clermont-l\'Hérault','Mèze','Pézenas','Lunel','Mauguio','Lattes','Castelnau-le-Lez','Vendargues','Saint-Jean-de-Védas','Gigean','Mireval','Montagnac','Florensac','Marseillan','Cap-d\'Agde','Vias','Nézignan-l\'Évêque','Gignac','Aniane','Saint-Guilhem-le-Désert','Ganges','Le Vigan','Montpeyroux','Olargues','Saint-Pons-de-Thomières','Bédarieux','La Salvetat-sur-Agout','Murviel-lès-Béziers','Maraussan','Servian','Alignan-du-Vent'],
-  '30 - Gard': ['Nîmes','Alès','Bagnols-sur-Cèze','Beaucaire','Tarascon','Villeneuve-lès-Avignon','Saint-Gilles','Vauvert','Lunel-Viel','Sommières','Quissac','Le Vigan','Uzès','Pont-du-Gard','Remoulins','Aigues-Mortes','Le Grau-du-Roi','Grande-Motte','Gallargues-le-Montueux','Milhaud','Marguerittes','Manduel','Saint-Christol-lès-Alès','Génolhac','Valleraugue','Saint-Jean-du-Gard','Anduze','Saint-Ambroix','Barjac'],
-  '11 - Aude': ['Carcassonne','Narbonne','Castelnaudary','Limoux','Lézignan-Corbières','Coursan','Leucate','Port-la-Nouvelle','Sigean','Gruissan','La Nouvelle','Axat','Quillan','Alaigne','Bram','Alzonne','Trèbes','Rustiques','Conques-sur-Orbiel','Villalbe','Pezens'],
-  '66 - Pyrénées-Orientales': ['Perpignan','Canet-en-Roussillon','Argelès-sur-Mer','Collioure','Port-Vendres','Banyuls-sur-Mer','Céret','Le Boulou','Saint-Estève','Rivesaltes','Thuir','Ille-sur-Têt','Prades','Vinça','Millas','Elne','Saint-Cyprien','Leucate-Plage'],
-  '13 - Bouches-du-Rhône': ['Marseille','Aix-en-Provence','Arles','Istres','Martigues','Salon-de-Provence','Aubagne','La Ciotat','Vitrolles','Marignane','Berre-l\'Étang','Port-de-Bouc','Miramas','Fos-sur-Mer','Saint-Martin-de-Crau','Châteaurenard','Tarascon'],
-  '84 - Vaucluse': ['Avignon','Carpentras','Apt','Orange','Cavaillon','L\'Isle-sur-la-Sorgue','Pertuis','Bollène','Valréas','Sorgues','Le Pontet','Morières-lès-Avignon','Montfavet','Vedène','Cheval-Blanc'],
-  '83 - Var': ['Toulon','Fréjus','Draguignan','Brignoles','Hyères','La Seyne-sur-Mer','Six-Fours-les-Plages','Sanary-sur-Mer','Bandol','Saint-Raphaël','Sainte-Maxime'],
-  '12 - Aveyron': ['Millau','Rodez','Saint-Affrique','Villefranche-de-Rouergue','Decazeville','Espalion','Laguiole','Severac-le-Château','Roquefort-sur-Soulzon'],
-  '48 - Lozère': ['Mende','Florac','Marvejols','Saint-Chély-d\'Apcher','La Canourgue','Langogne','Châteauneuf-de-Randon'],
-  '09 - Ariège': ['Foix','Pamiers','Saint-Girons','Ax-les-Thermes','Lavelanet','Tarascon-sur-Ariège','Saverdun'],
-  '31 - Haute-Garonne': ['Toulouse','Colomiers','Tournefeuille','Blagnac','Muret','Saint-Gaudens','Cazères','Auterive','Caraman','Revel'],
-  '81 - Tarn': ['Albi','Castres','Gaillac','Mazamet','Graulhet','Carmaux','Lavaur','Saint-Sulpice-la-Pointe'],
+  '34 - H\u00e9rault': ['Abeilhan','Adissan','Agde','Ag\u00e8ne','Agones','Aigne','Aimargues','Alignan-du-Vent','Aniane','Argell\u00e8s','Aspiran','Assas','Aubais','Auriol','B\u00e9darieux','Bel-Air-de-Laval','B\u00e9larga','B\u00e9lesta','Bessan','Bouzigues','Brignac','Cabri\u00e8res','Campagnan','Cap-d\'Agde','Castelnau-de-Guers','Castelnau-le-Lez','Cazouls-d\'H\u00e9rault','Cazouls-l\u00e8s-B\u00e9ziers','C\u00e9bazan','Cers','Cessenon-sur-Orb','C\u00e9zerano','Cl\u00e9rmont-l\'H\u00e9rault','Corneilhan','Cournonsec','Cournonterral','Cruzy','Espondeilhan','Faugeres','F\u00e9rals-l\u00e8s-Mortagne','Florensac','Fonc\u00e9s','Fontes','Frontignan','Gabian','Ganges','Gigean','Gignac','Grabels','H\u00e9rault-d\u00e9pt','H\u00e9rouville','Joncels','La Boissiere','La Grande-Motte','La Mosson','Lattes','Launac','Lauret','Laverune','Le Caylar','Le Cr\u00e8s','Les Matelles','Liausson','Lieuran-l\u00e8s-B\u00e9ziers','Lodeve','Loupian','Lunel','Lunel-Viel','Magalas','M\u00e9z\u00e8','Marseillan','Maraussan','Mas-de-Londres','Mauguio','Maureilhan','Maurin','Mireval','Montagnac','Montbazin','Montferrier-sur-Lez','Montpellier','Morsang','Mudaison','Murviel-l\u00e8s-B\u00e9ziers','Murviel-l\u00e8s-Montpellier','N\u00e9ffiez','N\u00e9zignac-l\'Ev\u00eaque','Nis san-lez-Enserune','Nissan-lez-Ens\u00e9rune','Olargues','Oloron','Oupia','Palavas-les-Flots','Paulhan','P\u00e9zenas','Pianos','Pierrerue','Plaissan','Portiragnes','Poussan','Prades-le-Lez','Puimisson','Puilacher','Quarante','R\u00e9gusse','Roujan','Saint-And\u00e9ol-de-Clermont','Saint-Bauzille-de-Montmel','Saint-Br\u00e8s','Saint-Cl\u00e9ment-de-Rivi\u00e8re','Saint-Drezi','Saint-G\u00e9ly-du-Fesc','Saint-Georges-d\'Orques','Saint-Gilles','Saint-Guilhem-le-D\u00e9sert','Saint-Jean-de-F\u00e8s','Saint-Jean-de-V\u00e9das','Saint-Martin-de-Londres','Saint-Martin-de-l\'Arcon','Saint-Mathieu-de-Tr\u00e8viers','Saint-Nazaire-de-P\u00e9z\u00e8nes','Saint-Pargoire','Saint-Pons-de-Thomi\u00e8res','Saint-Saturnin-de-Lucian','Saint-S\u00e9ries','Saint-Thibery','Saint-Vincent-d\'Olargues','Salelles','Sauvian','S\u00e8te','Servian','Serignan','Teyran','Tourbes','Tournemire','Usclas-d\'H\u00e9rault','Valras-Plage','Valros','V\u00e9ndemian','Vendargues','Vias','Vic-la-Gardiole','Villeneuve-l\u00e8s-Maguelone','Villeneuve-l\u00e8s-B\u00e9ziers','Villev\u00e9yrac','Violes'],
+  '30 - Gard': ['Aigues-Mortes','Aigues-Vives','Aigueze','Al\u00e8s','Anduze','Arge','Arpaillargues-et-Aureillac','Arphy','Asperes','Aubais','Aubord','Aubussargues','Auriac','Aveze','Bagnols-sur-C\u00e8ze','Bagard','Baron','Barjac','Beaucaire','Beauvoisin','Bernis','Bez-et-Esparon','Boissi\u00e8res','Boucoiran-et-Nareci','Bouquemaison','Brouzet-l\u00e8s-Ales','Caissargues','Calvisson','Cannes-et-Clairan','Cardet','Caveirac','Codognan','Combas','Concoules','Corbes','Couty','Cres','Crespian','Dions','D\u00f6me','Dourbies','Estezargues','Fons','Fontanes','Gallargues-le-Montueux','Gajan','G\u00e9nolhac','Goudargues','Grande-Motte','Jonquieres-et-Saint-Vincent','La Cadiere-et-Cambo','La Capelle-et-Masmolene','La Roque-sur-Ceze','Langlade','Lanuejols','Laval-Saint-Roman','Le Grau-du-Roi','Les Mages','Lezan','Lignan-sur-Orb','Lussan','Lunel','Manduel','Marguerittes','Massanes','Milhaud','Meyrannes','Molesmes','Monoblet','Montaren-et-Saint-M\u00e9diers','Montpezat','Nages-et-Solorgues','Navacelles','Ners','N\u00eemes','Orsan','Parignargues','Pont-du-Gard','Pont-Saint-Esprit','Pougnadoresse','Poulx','Quissac','Remoulins','Ribaute-les-Tavernes','Rochefort-du-Gard','Rodilhan','Roque-sur-Pernes','Saint-Alexandre','Saint-Ambroix','Saint-Bonnet-du-Gard','Saint-Ch\u00e9ly-d\'Apcher','Saint-Christol-l\u00e8s-Al\u00e8s','Saint-Dionisy','Saint-Gilles','Saint-Gilles-du-Gard','Saint-Hippolyte-du-Fort','Saint-Jean-de-C\u00e9yrie','Saint-Jean-du-Gard','Saint-Julien-de-Cassagnas','Saint-Laurent-d\'Aigouze','Saint-M\u00e9diers','Saint-Privat-de-Champclos','Saint-Quentin-la-Poterie','Saint-S\u00e9bastien-d\'Aigrefeuille','Saint-Victor-des-Oules','Saint-Victor-la-Coste','Sainte-Anastasie','Saissac','Salazac','Sauv\u00e9','Sauzet','Saze','Serviers-et-Labaume','Sommier','Sommi\u00e8res','Souvignargues','Tavel','Theziers','Uchaud','Uzes','Valleraugue','Vauvert','Verfeuil','Vergeze','Vers-Pont-du-Gard','Vestric-et-Candiac','Villeneuve-l\u00e8s-Avignon','Villeneuve-les-Maguelone','Villevieille'],
+  '11 - Aude': ['Alaigne','Alzonne','Aragon','Argeliers','Arques','Axat','Azille','Bages','Belpech','Blomac','Boutenac','Bram','Brousses-et-Villaret','Cabrespine','Cailhau','Carcassonne','Castelnaudary','Cazilhac','Conilhac-Corbieres','Conques-sur-Orbiel','Couiza','Coursan','Cuxac-d\'Aude','Escales','Escouloubre','Fa','Fanjeaux','Felines-Minervois','Fitou','Ginestas','Greffeil','Gruissan','La Bezole','La Palme','Labecede-Lauragais','Laprade','Laure-Minervois','Leucate','Lezignan-Corbi\u00e8res','Limoux','Mas-Cabardes','Mas-des-Cours','Massac','Mirepoix','Montolieu','Montredon-Labessonnie','Moussan','Narbonne','Ornaisons','Palairac','Palaja','Paraza','Peyriac-de-Mer','Peyriac-Minervois','Pieusse','Plaigne','Port-la-Nouvelle','Puicheric','Quillan','Quintillan','Razilhac','Rouffiac-d\'Aude','Rouvenac','Rustiques','Saint-Andre-de-Roquelongue','Saint-Couat-d\'Aude','Saint-Denis','Saint-Gauderic','Saint-Hilaire','Saint-Marcel-sur-Aude','Saint-Martin-Lalande','Saint-Nazaire-d\'Aude','Saint-Pierre-des-Champs','Sainte-Colombe-sur-Guette','Saissac','Sigean','Tourouzelle','Trebes','Tuchan','Ventenac-en-Minervois','Verdun-en-Lauragais','Villarzel-Cabardes','Villerouge-Termenes'],
+  '66 - Pyr\u00e9n\u00e9es-Orientales': ['Agle','Alenya','Argeles-sur-Mer','Banyuls-dels-Aspres','Banyuls-sur-Mer','Baixas','Bompas','Bouleternere','Brouilla','Cabestany','Calce','Canet-en-Roussillon','Cases-de-Pene','Castelnou','Ceret','Claira','Clermont','Collioure','Corneilla-del-Vercol','Corneilla-la-Riviere','Elne','Estagel','Fourques','Ille-sur-Tet','Laroque-des-Alberes','Le Boulou','Le Soler','Llauro','Maureillas-las-Illas','Millas','Montescot','Montner','Neffiach','Opoul-Perillos','Ortaffa','Palau-del-Vidre','Passa','Perpignan','Peyrestortes','Pezilla-la-Riviere','Pia','Pollestres','Port-Vendres','Porteilles','Prades','Rivesaltes','Saint-Andre','Saint-Cyprien','Saint-Esteve','Saint-Feliu-d\'Amont','Saint-Feliu-d\'Avall','Saint-Genis-des-Fontaines','Saint-Hippolyte','Saint-Jean-la-Fontaine','Saint-Laurent-de-Cerdans','Saint-Nazaire','Saint-Paul-de-Fenouillet','Sainte-Marie','Salses-le-Chateau','Taxo-d\'Avall','Terrats','Thet','Thuir','Torderes','Toulouges','Trouillas','Valmy','Villelongue-de-la-Salanque','Villemolaque','Villeneuve-de-la-Raho','Villeneuve-la-Riviere'],
+  '13 - Bouches-du-Rh\u00f4ne': ['Aix-en-Provence','Alleins','Allauch','Arles','Aubagne','Auriol','Berre-l\'Etang','Bouc-Bel-Air','Cabries','Cassis','Chateauneuf-le-Rouge','Chateauneuf-les-Martigues','Cuges-les-Pins','Eguilles','Ensues-la-Redonne','Fos-sur-Mer','Gardanne','Gemenos','Gignac-la-Nerthe','Greasque','Istres','Jouques','La Bouilladisse','La Ciotat','La Fare-les-Oliviers','La Penne-sur-Huveaune','Lambesc','Lamanon','Lancon-Provence','Le Puy-Sainte-Reparade','Les Pennes-Mirabeau','Luynes','Mallemort','Marignane','Marseille','Martigues','Meyrargues','Meyreuil','Miramas','Mouries','Noves','Pelissanne','Peynier','Peypin','Plan-de-Cuques','Port-de-Bouc','Port-Saint-Louis-du-Rhone','Puyloubier','Rognac','Rognes','Rognonas','Roquevaire','Saint-Cannat','Saint-Chamas','Saint-Esteve-Janson','Saint-Marc-Jaumegarde','Saint-Martin-de-Crau','Saint-Mitre-les-Remparts','Saint-Paul-les-Durance','Saint-Remy-de-Provence','Saint-Savournin','Saint-Victoret','Saintes-Maries-de-la-Mer','Salon-de-Provence','Simiane-Collongue','Tarascon','Trets','Ventabren','Vernegues','Vitrolles'],
+  '84 - Vaucluse': ['Apt','Aubignan','Auribeau','Avignon','Beaumes-de-Venise','Bedoin','Bedarrides','Bollene','Bonnieux','Buoux','Cadenet','Caderousse','Caromb','Carpentras','Caseneuve','Castanet','Caumont-sur-Durance','Cavaillon','Chateauneuf-de-Gadagne','Chateauneuf-du-Pape','Cheval-Blanc','Coustellet','Crestet','Cucuron','Entraigues-sur-la-Sorgue','Entrechaux','Gargas','Gordes','Grignan','Joucas','L\'Isle-sur-la-Sorgue','La Bastide-des-Jourdans','La Roque-sur-Pernes','La Tour-d\'Aigues','Lacoste','Lagnes','Lamotte-du-Rhone','Lapalud','Lauris','Loriol-du-Comtat','Lourmarin','Malaucene','Mazan','Merindol','Methamis','Mirabeau','Mondragon','Monteux','Mormoiron','Mornas','Murs','Oppede','Orange','Pertuis','Piolenc','Puget','Puyvert','Richerenches','Robion','Roussillon','Rustrel','Saignon','Saint-Didier','Saint-Martin-de-Castillon','Saint-Pantaleon','Saint-Saturnin-les-Apt','Saint-Saturnin-les-Avignon','Sainte-Cecile-les-Vignes','Sarrians','Sault','Seguret','Senas','Serignan-du-Comtat','Sivergues','Sorgues','Suzette','Taillades','Thor','Uchaux','Vaison-la-Romaine','Valreas','Vedene','Venasque','Viens','Villedieu','Violes','Visan'],
+  '83 - Var': ['Aups','Bandol','Barjols','Bormes-les-Mimosas','Brignoles','Callas','Carces','Carnoules','Carqueiranne','Cogolin','Collobrieres','Cuers','Draguignan','Fayence','Flassans-sur-Issole','Flayosc','Frejus','Gaoupet','Gonfaron','Grimaud','Hyeres','La Crau','La Farlede','La Garde','La Londe-les-Maures','La Motte','La Rochette','La Seyne-sur-Mer','La Valette-du-Var','Le Beausset','Le Castellet','Le Lavandou','Le Luc','Le Muy','Le Pradet','Le Revest-les-Eaux','Les Arcs','Lorgues','Mazaugues','Montfort-sur-Argens','Nans-les-Pins','Neoules','Ollioules','Pierrefeu-du-Var','Plan-de-la-Tour','Pourrieres','Puget-sur-Argens','Pignans','Ramatuelle','Rians','Rocbaron','Roquebrune-sur-Argens','Sainte-Maxime','Saint-Cyr-sur-Mer','Saint-Maximin-la-Sainte-Baume','Saint-Raphael','Saint-Tropez','Saint-Zacharie','Sanary-sur-Mer','Signes','Six-Fours-les-Plages','Sollies-Pont','Sollies-Toucas','Sollies-Ville','Tavernes','Toulon','Trans-en-Provence','Varages','Vidauban'],
+  '12 - Aveyron': ['Baraqueville','Belmont-sur-Rance','Bozouls','Camarares','Cassagnes-Begonhes','Castanet','Comps-la-Grand-Ville','Decazeville','Espalion','Estaing','Firmi','Flavin','Flourens','Grand-Vabre','La Bastide-Pradines','La Cavalerie','La Loubiere','La Salvetat-Peyrales','Laguiole','Laissac-Severac-l\'Eglise','Luc-la-Primaube','Marcillac-Vallon','Marnhagues-et-Latour','Milhau','Montbazens','Mur-de-Barrez','Nant','Olemps','Pont-de-Salars','Requista','Rieupeyroux','Rignac','Rodez','Roquefort-sur-Soulzon','Saint-Affrique','Saint-Amans-des-Cots','Saint-Chely-d\'Aubrac','Saint-Geniez-d\'Olt','Saint-Just-sur-Viaur','Saint-Sernin-sur-Rance','Sainte-Radegonde','Salles-Curan','Salmiech','Sauclières','Sauveterre-de-Rouergue','Sebazac-Concourès','Sévérac-d\'Aveyron','Therondels','Trémouilles','Viala-du-Pas-de-Jaux','Vabres-l\'Abbaye','Villecomtal','Villefranche-de-Panat','Villefranche-de-Rouergue'],
+  '48 - Loz\u00e8re': ['Albaret-Sainte-Marie','Allegre-les-Fumades','Bagnols-les-Bains','Barre-des-Cevennes','Chanac','Chateauneuf-de-Randon','Chirac','Florac','Fournels','Grandrieu','Ispagnac','La Canourgue','La Malene','Langogne','Le Bleymard','Le Malzieu-Ville','Le Pont-de-Montvert','Les Bondons','Marvejols','Mas-Saint-Chely','Mende','Meyrueis','Nasbinals','Pierrefort','Pont-de-Montvert','Rieutort-de-Randon','Saint-Alban-sur-Limagnole','Saint-Bauzile','Saint-Chely-d\'Apcher','Saint-Etienne-du-Valdonnez','Saint-Germain-du-Teil','Saint-Jean-la-Fouillouse','Saint-Laurent-de-Muret','Saint-Pierre-de-Nogaret','Sainte-Enimie','Serverette','Villefort'],
+  '09 - Ari\u00e8ge': ['Aigues-Juntes','Aix-en-Oust','Ax-les-Thermes','Baulou','Belesta','Benaix','Besset','Biert','Bouan','Camon','Carla-Bayle','Carla-de-Roquefort','Castelnau-Durban','Foix','Gajan','Gaudiès','Gourbit','La Bastide-de-Serou','La Tour-du-Crieu','Lacourt','Lapege','Lavelanet','Le Fossat','Lescure','Leran','Lesparrou','Lordat','Luzenac','Mazeres','Mercus-Garrabet','Mirepoix','Montbel','Montgailhard','Montségur','Moulis','Niaux','Pamiers','Prayols','Rieux-de-Pelleport','Roquefixade','Roquefort-les-Cascades','Saint-Girons','Saint-Jean-du-Falga','Saint-Lizier','Saint-Martin-de-Caralp','Saint-Paul-de-Jarrat','Saverdun','Tarascon-sur-Ariege','Tignac','Unac','Varilhes','Verniolle'],
+  '31 - Haute-Garonne': ['Auterive','Avignonet-Lauragais','Azas','Baziege','Blagnac','Boussens','Caignac','Carbonne','Caraman','Carcadieres','Castanet-Tolosan','Cazeres','Cintegabelle','Collias','Colomiers','Couladere','Cugnaux','Escalquens','Fonsorbes','Fontenilles','Gaure','Grenade','L\'Isle-en-Dodon','La Salvetat-Saint-Gilles','Labastide-Beauvoir','Labarthe-sur-Leze','Lacroix-Falgarde','Lanta','Launac','Le Fousseret','Leguevin','Lherm','Mauzac','Montastruc-la-Conseillere','Montgiscard','Montjoire','Muret','Nailloux','Noueilles','Pinsaguel','Pins-Justaret','Portet-sur-Garonne','Ramonville-Saint-Agne','Revel','Saint-Gaudens','Saint-Jory','Saint-Lys','Saint-Orens-de-Gameville','Saint-Sulpice-sur-Leze','Toulouse','Tournefeuille','Verfeil','Villefranche-de-Lauragais','Villeneuve-les-Bouloc','Villeneuve-Tolosane'],
+  '81 - Tarn': ['Aiguefonde','Alban','Albi','Ambres','Anglès','Aussillon','Blan','Boissezon','Briatexte','Burlats','Cadalen','Cahuzac-sur-Vere','Cambounès','Carmaux','Castres','Caucalieres','Coufouleux','Curvalle','Dourgne','Fontrieu','Gaillac','Graulhet','Hautpoul','Jonquières','La Caune','La Salvetat-sur-Agout','Labruguière','Lacaune','Lacrouzette','Lagrave','Lautrec','Lavaur','Lempaut','Lombers','Lugan','Mailhoc','Mazamet','Milhars','Montdragon','Monestiés','Montels','Montredon-Labessonnie','Mouzieys-Teulet','Murat-sur-Vèbre','Palleville','Pampelonne','Rabastens','Réalmont','Roquecourbe','Rouffiac','Saint-Amancet','Saint-Benoît-de-Carmaux','Saint-Gauzens','Saint-Julien-du-Puy','Saint-Lieux-lès-Lavaur','Saint-Paul-Cap-de-Joux','Saint-Sulpice-la-Pointe','Saint-Urcisse','Salvagnac','Semalens','Senaux','Soual','Teillet','Valderies','Vaour','Vielmur-sur-Agout','Villardonnel','Villemur-sur-Tarn'],
 };
 
 let cars=[],members=[],sectors=[],history=[],dragId=null,selColor=0,histFilt='all',currentPage='board',isAdmin=false;
-let openDepts={};
+let openPicker=null;
 
 const ini=n=>n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
 const avS=m=>{const c=AV[(m.color_idx||0)%AV.length];return `background:${c.bg};color:${c.tx}`};
 const opTag=op=>{const o=OPS.find(x=>x.id===op);return o?`<span class="op-tag ${o.cls}">${o.label}</span>`:''};
-const roleClass=r=>r==="Chef d'équipe"?'role-chef':r==='Animateur réseau'?'role-anim':'role-com';
+const roleClass=i=>i===1?'role-1':i===2?'role-2':'role-0';
+
+// Trouver département d'une ville
+const findDept=name=>{
+  const e=Object.entries(SECTEURS_GEO).find(([,cities])=>cities.includes(name));
+  return e?e[0]:null;
+};
+const deptColor=dept=>{
+  const keys=Object.keys(SECTEURS_GEO);
+  const i=keys.indexOf(dept);
+  return i>=0?DEPT_COLORS[i%DEPT_COLORS.length]:{bg:'rgba(255,255,255,.06)',tx:'#888'};
+};
+
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 
 // ── AUTH ──
@@ -444,47 +426,48 @@ function matchSearch(text){
   return !q||text.toLowerCase().includes(q);
 }
 
-// ── SECTEUR PICKER ──
-function buildSecPicker(carId,carName,carSecs){
-  const secIds=new Set(carSecs.map(s=>s.name));
+// ── PICKER ──
+function buildPicker(carId,carSecs){
+  const secSet=new Set(carSecs.map(s=>s.name));
   return `<div class="sec-picker-wrap" id="sp-${carId}">
-    <button class="sec-picker-btn" onclick="togglePicker('${carId}')" ${isAdmin?'':'disabled'}>
-      <span>＋</span> Ajouter un secteur / ville
+    <button class="sec-picker-btn" onclick="togglePicker(event,'${carId}')" ${isAdmin?'':'disabled'}>
+      ＋ Ajouter ville / secteur
     </button>
     <div class="sec-dropdown" id="spd-${carId}">
       <div class="sec-drop-search">
-        <input type="text" placeholder="Rechercher une ville…" oninput="filterPicker('${carId}')" id="sps-${carId}"/>
+        <input type="text" id="sps-${carId}" placeholder="🔍 Rechercher une ville…" oninput="filterPicker('${carId}')"/>
       </div>
       <div class="sec-dept-list" id="spdl-${carId}">
-        ${Object.entries(SECTEURS_GEO).map(([dept,cities])=>`
-          <div class="sec-dept" id="sdept-${carId}-${dept.replace(/\s/g,'_')}">
-            <div class="sec-dept-header" onclick="toggleDept('${carId}','${dept.replace(/\s/g,'_')}')">
-              <span>${dept}</span><span id="dchev-${carId}-${dept.replace(/\s/g,'_')}">›</span>
+        ${Object.entries(SECTEURS_GEO).map(([dept,cities])=>{
+          const dkey=dept.replace(/[^a-zA-Z0-9]/g,'_');
+          return `<div class="sec-dept" id="sdept-${carId}-${dkey}">
+            <div class="sec-dept-header" onclick="toggleDept('${carId}','${dkey}')">
+              <span>${dept}</span><span id="dchev-${carId}-${dkey}">›</span>
             </div>
-            <div class="sec-dept-cities" id="dcities-${carId}-${dept.replace(/\s/g,'_')}">
-              ${cities.map(city=>`
-                <div class="sec-city-item${secIds.has(city)?' selected':''}" onclick="toggleCity('${carId}','${carName.replace(/'/g,"\\'")}','${city}')" id="sci-${carId}-${city.replace(/[^a-zA-Z0-9]/g,'_')}">
-                  <div class="chk">${secIds.has(city)?'✓':''}</div>
-                  <span>${city}</span>
-                </div>`).join('')}
+            <div class="sec-dept-cities" id="dcities-${carId}-${dkey}">
+              ${cities.map(city=>{
+                const ckey=city.replace(/[^a-zA-Z0-9]/g,'_');
+                const isSel=secSet.has(city);
+                return `<div class="sec-city-item${isSel?' sel':''}" id="sci-${carId}-${ckey}" onclick="toggleCity('${carId}','${city.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}')">
+                  <div class="chk">${isSel?'✓':''}</div><span>${city}</span>
+                </div>`;
+              }).join('')}
             </div>
-          </div>`).join('')}
+          </div>`;
+        }).join('')}
       </div>
-      <div style="padding:8px 10px;border-top:1px solid var(--border)">
-        <div class="sec-custom-row">
-          <input type="text" id="scc-${carId}" placeholder="Ville personnalisée…" onkeydown="if(event.key==='Enter')addCustomCity('${carId}','${carName.replace(/'/g,"\\'")}')"/>
-          <button onclick="addCustomCity('${carId}','${carName.replace(/'/g,"\\'")}')">+</button>
-        </div>
+      <div class="sec-custom-row">
+        <input type="text" id="scc-${carId}" placeholder="Ville personnalisée…" onkeydown="if(event.key==='Enter')addCustom('${carId}')"/>
+        <button onclick="addCustom('${carId}')">+</button>
       </div>
     </div>
   </div>`;
 }
 
-let openPicker=null;
-function togglePicker(carId){
+function togglePicker(e,carId){
+  e.stopPropagation();
   if(!isAdmin)return;
-  const el=document.getElementById('spd-'+carId);
-  if(!el)return;
+  const el=document.getElementById('spd-'+carId);if(!el)return;
   if(openPicker&&openPicker!==carId){
     const prev=document.getElementById('spd-'+openPicker);
     if(prev)prev.classList.remove('open');
@@ -493,19 +476,19 @@ function togglePicker(carId){
   openPicker=el.classList.contains('open')?carId:null;
   if(el.classList.contains('open')){
     const inp=document.getElementById('sps-'+carId);
-    if(inp)inp.focus();
+    if(inp)setTimeout(()=>inp.focus(),50);
   }
 }
-document.addEventListener('click',e=>{
-  if(openPicker&&!e.target.closest('.sec-picker-wrap')){
+document.addEventListener('click',()=>{
+  if(openPicker){
     const el=document.getElementById('spd-'+openPicker);
     if(el)el.classList.remove('open');
     openPicker=null;
   }
 });
-function toggleDept(carId,dept){
-  const el=document.getElementById('dcities-'+carId+'-'+dept);
-  const chev=document.getElementById('dchev-'+carId+'-'+dept);
+function toggleDept(carId,dkey){
+  const el=document.getElementById('dcities-'+carId+'-'+dkey);
+  const chev=document.getElementById('dchev-'+carId+'-'+dkey);
   if(!el)return;
   const open=el.classList.toggle('open');
   if(chev)chev.textContent=open?'↓':'›';
@@ -513,45 +496,94 @@ function toggleDept(carId,dept){
 function filterPicker(carId){
   const q=(document.getElementById('sps-'+carId)||{value:''}).value.toLowerCase().trim();
   Object.entries(SECTEURS_GEO).forEach(([dept,cities])=>{
-    const dkey=dept.replace(/\s/g,'_');
-    let anyVisible=false;
+    const dkey=dept.replace(/[^a-zA-Z0-9]/g,'_');
+    let any=false;
     cities.forEach(city=>{
-      const el=document.getElementById('sci-'+carId+'-'+city.replace(/[^a-zA-Z0-9]/g,'_'));
-      if(el){const show=!q||city.toLowerCase().includes(q);el.style.display=show?'flex':'none';if(show)anyVisible=true;}
+      const ckey=city.replace(/[^a-zA-Z0-9]/g,'_');
+      const el=document.getElementById('sci-'+carId+'-'+ckey);
+      if(el){const show=!q||city.toLowerCase().includes(q);el.style.display=show?'flex':'none';if(show)any=true;}
     });
-    const deptEl=document.getElementById('sdept-'+carId+'-'+dkey);
-    if(deptEl)deptEl.style.display=anyVisible||!q?'block':'none';
-    if(q&&anyVisible){
-      const cities_el=document.getElementById('dcities-'+carId+'-'+dkey);
-      if(cities_el)cities_el.classList.add('open');
-    }
+    const de=document.getElementById('sdept-'+carId+'-'+dkey);
+    if(de)de.style.display=(any||!q)?'block':'none';
+    if(q&&any){const ce=document.getElementById('dcities-'+carId+'-'+dkey);if(ce)ce.classList.add('open');}
   });
 }
-async function toggleCity(carId,carName,city){
+
+async function toggleCity(carId,city){
   if(!isAdmin)return;
+  const car=cars.find(c=>c.id===carId);if(!car)return;
   const existing=sectors.find(s=>s.car_id===carId&&s.name===city);
+  const ckey=city.replace(/[^a-zA-Z0-9]/g,'_');
+  const el=document.getElementById('sci-'+carId+'-'+ckey);
   if(existing){
-    await rmSec(existing.id,carId,city,carName);
+    // Retirer
+    sectors=sectors.filter(s=>s.id!==existing.id);
+    if(el){el.classList.remove('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='';}
+    renderCarSecs(carId);
+    await sb.from('sectors').delete().eq('id',existing.id);
+    const hRow={action:'retrait',sector_name:city,car_name:car.name};
+    await sb.from('sector_history').insert(hRow);
+    history.unshift({...hRow,created_at:new Date().toISOString()});
+    toast(`${city} retiré`);
   } else {
+    // Ajouter
     const {data,error}=await sb.from('sectors').insert({car_id:carId,name:city}).select().single();
     if(error){toast('Erreur Supabase');return;}
     sectors.push(data);
-    const hRow={action:'ajout',sector_name:city,car_name:carName};
+    if(el){el.classList.add('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='✓';}
+    renderCarSecs(carId);
+    const hRow={action:'ajout',sector_name:city,car_name:car.name};
     await sb.from('sector_history').insert(hRow);
     history.unshift({...hRow,created_at:new Date().toISOString()});
     toast(`${city} ajouté ✓`);
-    render();
-    // Mettre à jour le checkmark sans fermer le picker
-    const cityId='sci-'+carId+'-'+city.replace(/[^a-zA-Z0-9]/g,'_');
-    const el=document.getElementById(cityId);
-    if(el){el.classList.add('selected');const chk=el.querySelector('.chk');if(chk)chk.textContent='✓';}
   }
+  renderStats();
+  if(currentPage==='history')renderHist();
 }
-async function addCustomCity(carId,carName){
+
+async function addCustom(carId){
   if(!isAdmin)return;
   const inp=document.getElementById('scc-'+carId);if(!inp)return;
-  const v=inp.value.trim();if(!v)return;inp.value='';
-  await toggleCity(carId,carName,v);
+  const city=inp.value.trim();if(!city)return;inp.value='';
+  await toggleCity(carId,city);
+}
+
+// Mise à jour des chips sans reconstruire toute la carte
+function renderCarSecs(carId){
+  const ss=getSecs(carId);
+  const car=cars.find(c=>c.id===carId);if(!car)return;
+  const chipsEl=document.querySelector(`#zone-chips-${carId}`);
+  if(chipsEl)chipsEl.innerHTML=renderChips(ss,car);
+  const slblEl=document.querySelector(`#zone-slbl-${carId}`);
+  if(slblEl)slblEl.textContent=`Secteurs & villes (${ss.length})`;
+}
+function renderChips(ss,car){
+  if(!ss.length)return '<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>';
+  return ss.map(s=>{
+    const dept=findDept(s.name);
+    const dc=dept?deptColor(dept):{bg:'rgba(255,255,255,.06)',tx:'#888'};
+    return `<span class="chip-tag" style="background:${dc.bg};color:${dc.tx}">
+      ${s.name}
+      ${isAdmin?`<span class="x" onclick="rmSecById('${s.id}','${car.id}','${s.name.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}','${car.name.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}')">✕</span>`:''}
+    </span>`;
+  }).join('');
+}
+
+async function rmSecById(sid,carId,sname,cname){
+  if(!isAdmin)return;
+  sectors=sectors.filter(s=>s.id!==sid);
+  renderCarSecs(carId);
+  renderStats();
+  // Met à jour le checkmark dans le picker
+  const ckey=sname.replace(/[^a-zA-Z0-9]/g,'_');
+  const el=document.getElementById('sci-'+carId+'-'+ckey);
+  if(el){el.classList.remove('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='';}
+  await sb.from('sectors').delete().eq('id',sid);
+  const hRow={action:'retrait',sector_name:sname,car_name:cname};
+  await sb.from('sector_history').insert(hRow);
+  history.unshift({...hRow,created_at:new Date().toISOString()});
+  if(currentPage==='history')renderHist();
+  toast(`${sname} retiré`);
 }
 
 // ── RENDER ──
@@ -563,24 +595,15 @@ function boxes(car){
   return h+'</div>';
 }
 
-function chipColor(name){
-  // Colorer les chips par département
-  const dept=Object.entries(SECTEURS_GEO).find(([,cities])=>cities.includes(name));
-  if(!dept)return 'background:var(--surface3);color:var(--text2);border-color:var(--border)';
-  const colors=['rgba(59,130,246,.15)','rgba(34,197,94,.12)','rgba(245,158,11,.12)','rgba(239,68,68,.12)','rgba(167,139,250,.15)','rgba(251,191,36,.12)','rgba(236,72,153,.12)','rgba(14,165,233,.12)','rgba(168,85,247,.12)','rgba(34,197,94,.12)','rgba(249,115,22,.12)','rgba(20,184,166,.12)'];
-  const textColors=['#93c5fd','#86efac','#fcd34d','#fca5a5','#c4b5fd','#fde68a','#f9a8d4','#7dd3fc','#d8b4fe','#86efac','#fdba74','#5eead4'];
-  const idx=Object.keys(SECTEURS_GEO).indexOf(dept[0])%colors.length;
-  return `background:${colors[idx]};color:${textColors[idx]};border-color:transparent`;
-}
-
 function pill(m){
-  const show=matchSearch(m.name+' '+m.role);
+  const show=matchSearch(m.name+' '+ROLES[m.role_idx||0]);
+  const ri=m.role_idx!=null?m.role_idx:ROLES.findIndex(r=>r===m.role)||0;
   return `<div class="pill" id="mp-${m.id}" draggable="true" ondragstart="ds(event,'${m.id}')" ondragend="de(event)" style="display:${show?'flex':'none'}">
     <span class="dh">⠿</span>
     <div class="av" style="${avS(m)}">${ini(m.name)}</div>
     <div class="pi">
       <div class="pname">${m.name}</div>
-      <div class="prole ${roleClass(m.role)}">${m.role}</div>
+      <div class="prole ${roleClass(ri)}">${ROLES[ri]}</div>
     </div>
     <button class="ic-btn" onclick="openProfile('${m.id}');event.stopPropagation()">👤</button>
   </div>`;
@@ -594,24 +617,22 @@ function renderStats(){
   document.getElementById('s3').textContent=placed;
   document.getElementById('s4').textContent=tBox+' box';
 }
-
 function renderPool(){
   const pool=members.filter(m=>!m.car_id);
   const z=document.getElementById('pool-zone');if(!z)return;
-  const visible=pool.filter(m=>matchSearch(m.name+' '+m.role));
-  z.innerHTML=pool.map(pill).join('')+(visible.length===0?`<div class="hint">${pool.length===0?'Tous affectés ✓':'Aucun résultat'}</div>`:'');
+  const vis=pool.filter(m=>matchSearch(m.name));
+  z.innerHTML=pool.map(pill).join('')+(vis.length===0?`<div class="hint">${pool.length===0?'Tous affectés ✓':'Aucun résultat'}</div>`:'');
 }
-
 function renderCars(){
   const el=document.getElementById('carsCol');
   const q=(document.getElementById('searchInput')||{value:''}).value.toLowerCase().trim();
   el.innerHTML=cars.map(car=>{
     const ms=getMems(car.id),ss=getSecs(car.id);
     const col=OPCOL[car.operator]||'#888';
-    const carMatch=!q||(car.name.toLowerCase().includes(q)||ss.some(s=>s.name.toLowerCase().includes(q))||ms.some(m=>(m.name+' '+m.role).toLowerCase().includes(q)));
+    const cm=!q||(car.name.toLowerCase().includes(q)||ss.some(s=>s.name.toLowerCase().includes(q))||ms.some(m=>m.name.toLowerCase().includes(q)));
     const adminBtns=isAdmin?`<button class="ic-btn" onclick="openEditCar('${car.id}')">✎</button><button class="ic-btn" onclick="deleteCar('${car.id}')">🗑</button>`:
       `<span class="readonly-badge">👁</span>`;
-    return `<div class="car-card" style="display:${carMatch?'block':'none'}">
+    return `<div class="car-card" style="display:${cm?'block':'none'}">
       <div class="car-top">
         <div class="car-bar" style="background:${col}"></div>
         <div class="car-ico" style="background:${OPBG[car.operator]||'#222'}">${car.emoji}</div>
@@ -632,9 +653,9 @@ function renderCars(){
           ${boxes(car)}
         </div>
         <div class="sec-block">
-          <div class="slbl">Secteurs & villes (${ss.length})</div>
-          <div class="chips">${ss.map(s=>`<span class="chip-tag" style="${chipColor(s.name)}">${s.name}${isAdmin?`<span class="x" onclick="rmSec('${s.id}','${car.id}','${s.name.replace(/'/g,"\\'")}','${car.name.replace(/'/g,"\\'")}')">✕</span>`:''}  </span>`).join('')||'<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>'}</div>
-          ${buildSecPicker(car.id,car.name,ss)}
+          <div class="slbl" id="zone-slbl-${car.id}">Secteurs & villes (${ss.length})</div>
+          <div class="chips" id="zone-chips-${car.id}">${renderChips(ss,car)}</div>
+          ${buildPicker(car.id,ss)}
         </div>
         <div class="slbl">Équipe · ${ms.length} pers.</div>
         <div class="drop-zone" id="zone-${car.id}" ondragover="dov(event)" ondrop="ddr(event,'${car.id}')">
@@ -651,7 +672,6 @@ function setFilt(f){
   ['all','ajout','retrait'].forEach(x=>document.getElementById('filt-'+x).classList.toggle('on',x===f));
   renderHist();
 }
-
 function renderHist(){
   const el=document.getElementById('histList');if(!el)return;
   const q=(document.getElementById('histSearch')||{value:''}).value.toLowerCase().trim();
@@ -660,8 +680,6 @@ function renderHist(){
   if(q)rows=rows.filter(h=>(h.sector_name+' '+h.car_name).toLowerCase().includes(q));
   document.getElementById('histCount').textContent=rows.length?`${rows.length} entrée${rows.length>1?'s':''}`:' Aucun résultat';
   if(!rows.length){el.innerHTML=`<div class="empty-state"><div class="ei">🕐</div><p>Aucune entrée dans l'historique</p></div>`;return;}
-
-  // Grouper par jour
   const grouped={};
   rows.forEach(h=>{
     const d=new Date(h.created_at);
@@ -669,19 +687,23 @@ function renderHist(){
     if(!grouped[key])grouped[key]=[];
     grouped[key].push(h);
   });
-
   el.innerHTML=Object.entries(grouped).map(([day,items])=>`
     <div class="hist-day-header">${day}</div>
     ${items.map(h=>{
       const isA=h.action==='ajout';
       const d=new Date(h.created_at);
       const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-      const dept=Object.entries(SECTEURS_GEO).find(([,cities])=>cities.includes(h.sector_name));
+      const dept=findDept(h.sector_name);
+      const dc=dept?deptColor(dept):null;
       return `<div class="hist-row">
         <div class="hist-dot" style="background:${isA?'#22c55e':'#ef4444'}"></div>
         <div class="hist-body">
-          <div class="hist-txt"><strong>${h.sector_name}</strong><span class="hist-badge ${isA?'add':'rm'}">${isA?'+ Ajout':'− Retrait'}</span></div>
-          <div class="hist-car">${h.car_name}${dept?' · '+dept[0].split(' - ')[1]:''}</div>
+          <div class="hist-txt">
+            <strong>${h.sector_name}</strong>
+            <span class="hist-badge ${isA?'add':'rm'}">${isA?'+ Ajout':'− Retrait'}</span>
+            ${dc?`<span style="display:inline-flex;padding:1px 6px;border-radius:10px;font-size:10px;margin-left:4px;background:${dc.bg};color:${dc.tx}">${dept.split(' - ')[1]}</span>`:''}
+          </div>
+          <div class="hist-car">${h.car_name}</div>
         </div>
         <div class="hist-time">${time}</div>
       </div>`;
@@ -712,16 +734,6 @@ async function setObj(cid,val){
   car.objectif=v;render();
   await sb.from('cars').update({objectif:v}).eq('id',cid);
 }
-async function rmSec(sid,cid,sname,cname){
-  if(!isAdmin)return;
-  sectors=sectors.filter(s=>s.id!==sid);render();
-  await sb.from('sectors').delete().eq('id',sid);
-  const hRow={action:'retrait',sector_name:sname,car_name:cname};
-  await sb.from('sector_history').insert(hRow);
-  history.unshift({...hRow,created_at:new Date().toISOString()});
-  if(currentPage==='history')renderHist();
-  toast(`${sname} retiré`);
-}
 async function deleteCar(id){
   if(!isAdmin)return;
   const car=cars.find(c=>c.id===id);if(!car)return;
@@ -732,22 +744,27 @@ async function deleteCar(id){
   await sb.from('cars').delete().eq('id',id);toast('Voiture supprimée');
 }
 
-// ── MODALS ──
-function selE(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selE"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v}
-function selOp(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selOp"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v}
-function selRole(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selRole"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('pRole').value=v}
+// ── MODAL HELPERS ──
+let mRole=0;
+function selE(el,v){document.querySelectorAll('#modalBox .chip[data-type="emoji"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v}
+function selOp(el,v){document.querySelectorAll('#modalBox .chip[data-type="op"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v}
+function selRole(el,i){
+  document.querySelectorAll('#modalBox .chip[data-type="role"]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');mRole=i;
+}
 function pickColor(el,i){selColor=i;document.querySelectorAll('#modalBox .cdot').forEach(d=>d.classList.remove('on'));el.classList.add('on');const av=document.getElementById('profAv');if(av){av.style.background=AV[i].bg;av.style.color=AV[i].tx}}
 function showModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modalBg').classList.add('open')}
 function closeModal(){document.getElementById('modalBg').classList.remove('open')}
 
 function openAddCar(){
-  if(!isAdmin){toast('Accès réservé à l\'administrateur');return;}
+  if(!isAdmin)return;
   showModal(`<h2>Nouvelle voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" placeholder="Voiture Alpha"/></div>
-    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="🚗"/></div>
-    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="free"/></div>
+    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip" data-type="emoji" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="🚗"/></div>
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip" data-type="op" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="free"/></div>
     <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmAddCar()">Créer</button></div>`);
-  document.querySelector('#modalBox .chip').classList.add('on');
+  document.querySelector('#modalBox .chip[data-type="emoji"]').classList.add('on');
+  document.querySelector('#modalBox .chip[data-type="op"]').classList.add('on');
 }
 async function confirmAddCar(){
   if(!isAdmin)return;
@@ -761,8 +778,8 @@ function openEditCar(id){
   const car=cars.find(c=>c.id===id);if(!car)return;
   showModal(`<h2>Modifier la voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" value="${car.name}"/></div>
-    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e===car.emoji?' on':''}" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="${car.emoji}"/></div>
-    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="${car.operator}"/></div>
+    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e===car.emoji?' on':''}" data-type="emoji" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="${car.emoji}"/></div>
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" data-type="op" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="${car.operator}"/></div>
     <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmEditCar('${id}')">Enregistrer</button></div>`);
 }
 async function confirmEditCar(id){
@@ -777,30 +794,38 @@ async function confirmEditCar(id){
 }
 function openAddMember(){
   if(!isAdmin)return;
-  selColor=0;
+  selColor=0;mRole=0;
   showModal(`<h2>Nouveau commercial</h2>
     <div class="field"><label>Nom complet</label><input id="pName" placeholder="Jean Dupont"/></div>
-    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map(r=>`<span class="chip" onclick="selRole(this,'${r}')">${r}</span>`).join('')}</div><input type="hidden" id="pRole" value="${ROLES[0]}"/></div>
+    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map((r,i)=>`<span class="chip${i===0?' on':''}" data-type="role" onclick="selRole(this,${i})">${r}</span>`).join('')}</div></div>
     <div class="field"><label>Téléphone</label><input id="pPhone" placeholder="06 xx xx xx xx"/></div>
     <div class="field"><label>Note</label><input id="pNote" placeholder="Infos utiles…"/></div>
     <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((c,i)=>`<div class="cdot${i===0?' on':''}" style="background:${c.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
     <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmAddMember()">Ajouter</button></div>`);
-  document.querySelector('#modalBox .chip').classList.add('on');
 }
 async function confirmAddMember(){
   if(!isAdmin)return;
   const name=(document.getElementById('pName').value||'').trim();if(!name)return alert('Nom requis');
-  const {data,error}=await sb.from('members').insert({name,role:document.getElementById('pRole').value,phone:document.getElementById('pPhone').value.trim(),note:document.getElementById('pNote').value.trim(),color_idx:selColor,car_id:null}).select().single();
-  if(error){toast('Erreur Supabase');return;}
+  const ri=mRole;
+  const {data,error}=await sb.from('members').insert({
+    name,role:ROLES[ri],role_idx:ri,
+    phone:document.getElementById('pPhone').value.trim(),
+    note:document.getElementById('pNote').value.trim(),
+    color_idx:selColor,car_id:null
+  }).select().single();
+  if(error){toast('Erreur Supabase');console.error(error);return;}
   members.push(data);closeModal();render();toast(`${name} ajouté ✓`);
 }
 function openProfile(id){
   const m=members.find(x=>x.id===id);if(!m)return;
   const car=m.car_id?cars.find(c=>c.id===m.car_id):null;
-  const c=AV[(m.color_idx||0)%AV.length];selColor=m.color_idx||0;
+  const c=AV[(m.color_idx||0)%AV.length];
+  selColor=m.color_idx||0;
+  const ri=m.role_idx!=null?m.role_idx:Math.max(0,ROLES.findIndex(r=>r===m.role));
+  mRole=ri;
   const editFields=isAdmin?`
     <div class="field"><label>Nom</label><input id="pName" value="${m.name}"/></div>
-    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map(r=>`<span class="chip${r===m.role?' on':''}" onclick="selRole(this,'${r}')">${r}</span>`).join('')}</div><input type="hidden" id="pRole" value="${m.role}"/></div>
+    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map((r,i)=>`<span class="chip${i===ri?' on':''}" data-type="role" onclick="selRole(this,${i})">${r}</span>`).join('')}</div></div>
     <div class="field"><label>Téléphone</label><input id="pPhone" value="${m.phone||''}"/></div>
     <div class="field"><label>Note</label><input id="pNote" value="${m.note||''}"/></div>
     <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((ac,i)=>`<div class="cdot${i===selColor?' on':''}" style="background:${ac.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
@@ -815,7 +840,7 @@ function openProfile(id){
   showModal(`
     <div class="prof-head">
       <div class="prof-av" id="profAv" style="background:${c.bg};color:${c.tx}">${ini(m.name)}</div>
-      <div class="prof-info"><h3>${m.name}</h3><p class="${roleClass(m.role)}">${m.role} · ${car?car.name:'Non affecté'}</p></div>
+      <div class="prof-info"><h3>${m.name}</h3><p class="${roleClass(ri)}">${ROLES[ri]} · ${car?car.name:'Non affecté'}</p></div>
     </div>
     <div class="pstat-grid">
       <div class="pstat"><div class="pl">Voiture</div><div class="pv">${car?car.emoji+' '+car.name:'—'}</div></div>
@@ -827,11 +852,11 @@ async function saveProfile(id){
   if(!isAdmin)return;
   const m=members.find(x=>x.id===id);if(!m)return;
   m.name=(document.getElementById('pName').value||m.name).trim();
-  m.role=document.getElementById('pRole').value;
+  m.role=ROLES[mRole];m.role_idx=mRole;
   m.phone=document.getElementById('pPhone').value.trim();
   m.note=document.getElementById('pNote').value.trim();
   m.color_idx=selColor;closeModal();render();
-  await sb.from('members').update({name:m.name,role:m.role,phone:m.phone,note:m.note,color_idx:m.color_idx}).eq('id',id);
+  await sb.from('members').update({name:m.name,role:m.role,role_idx:mRole,phone:m.phone,note:m.note,color_idx:m.color_idx}).eq('id',id);
   toast('Profil mis à jour ✓');
 }
 async function deleteMember(id){
