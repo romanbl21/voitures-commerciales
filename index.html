@@ -5,330 +5,443 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Voitures Commerciales</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0f0f0f;--surface:#1a1a1a;--surface2:#222;--surface3:#2a2a2a;
-  --border:#2e2e2e;--border2:#3a3a3a;--text:#f0f0f0;--text2:#a0a0a0;--text3:#606060;
-  --free:#3b82f6;--free-bg:rgba(59,130,246,.15);
-  --sfr:#ef4444;--sfr-bg:rgba(239,68,68,.15);
-  --bouygues:#f59e0b;--bouygues-bg:rgba(245,158,11,.15);
-  --green:#22c55e;--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,.4);
+  --bg:#080808;--surface:#111;--surface2:#181818;--surface3:#202020;--surface4:#282828;
+  --border:#222;--border2:#333;--border3:#444;
+  --text:#f2f2f2;--text2:#888;--text3:#444;
+  --blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa;
+  --free:#3b82f6;--sfr:#ef4444;--bouygues:#f59e0b;
+  --r:12px;--r-sm:8px;--r-lg:16px;--r-xl:20px;
+  --shadow:0 8px 32px rgba(0,0,0,.6);
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
-/* LOGIN */
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.login-box{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:36px 32px;width:100%;max-width:380px;box-shadow:var(--shadow)}
-.login-box h1{font-size:22px;font-weight:700;margin-bottom:6px;text-align:center}
-.login-box p{font-size:13px;color:var(--text3);text-align:center;margin-bottom:28px}
-.login-logo{text-align:center;font-size:40px;margin-bottom:16px}
-.lfield{margin-bottom:14px}
-.lfield label{display:block;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
-.lfield input{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .15s}
-.lfield input:focus{outline:none;border-color:var(--border2);background:var(--surface3)}
-.lfield input::placeholder{color:var(--text3)}
-.login-btn{width:100%;padding:12px;background:var(--text);color:var(--bg);border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:6px;transition:background .15s}
-.login-btn:hover{background:#d0d0d0}
-.login-error{font-size:12px;color:#ef4444;text-align:center;margin-top:10px;min-height:18px}
+/* ─── LOGIN ─── */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:var(--bg)}
+.login-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:40px 36px;width:100%;max-width:400px;box-shadow:var(--shadow)}
+.login-logo{text-align:center;font-size:48px;margin-bottom:20px}
+.login-card h1{font-size:22px;font-weight:800;text-align:center;letter-spacing:-.5px;margin-bottom:6px}
+.login-card p{font-size:13px;color:var(--text2);text-align:center;margin-bottom:32px}
+.lf{margin-bottom:14px}
+.lf label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.lf input{width:100%;padding:12px 14px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:14px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .15s}
+.lf input:focus{outline:none;border-color:var(--border3);background:var(--surface3)}
+.lf input::placeholder{color:var(--text3)}
+.login-btn{width:100%;padding:13px;background:var(--text);color:var(--bg);border:none;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;transition:opacity .15s}
+.login-btn:hover{opacity:.88}
+.login-err{font-size:12px;color:var(--red);text-align:center;margin-top:10px;min-height:16px}
 
-/* APP */
-#appScreen{display:none}
-.app{max-width:1200px;margin:0 auto;padding:2rem 1.5rem}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:12px}
-.header-left h1{font-size:22px;font-weight:700;letter-spacing:-.5px}
-.header-left p{font-size:12px;color:var(--text3);margin-top:4px}
-.header-right{display:flex;gap:8px;align-items:center}
-.user-badge{font-size:11px;color:var(--text3);background:var(--surface2);border:1px solid var(--border);padding:5px 10px;border-radius:20px}
+/* ─── SHELL ─── */
+#appScreen{display:none;min-height:100vh}
+.shell{display:flex;min-height:100vh}
 
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:2rem}
-@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;position:relative;overflow:hidden}
-.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.stat.s-blue::before{background:var(--free)}
-.stat.s-green::before{background:var(--green)}
-.stat.s-orange::before{background:var(--bouygues)}
-.stat.s-red::before{background:var(--sfr)}
-.stat .lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
-.stat .val{font-size:28px;font-weight:700}
+/* ─── SIDEBAR ─── */
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 12px;flex-shrink:0;position:sticky;top:0;height:100vh}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:4px 8px;margin-bottom:28px}
+.sb-logo span{font-size:22px}
+.sb-logo h2{font-size:14px;font-weight:800;letter-spacing:-.3px}
+.sb-logo small{font-size:10px;color:var(--text3);display:block;margin-top:1px}
+.sb-nav{display:flex;flex-direction:column;gap:3px;flex:1}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%;text-align:left}
+.sb-item:hover{background:var(--surface2);color:var(--text)}
+.sb-item.active{background:var(--surface3);color:var(--text);font-weight:600}
+.sb-item .ic{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sb-bottom{display:flex;flex-direction:column;gap:4px;padding-top:12px;border-top:1px solid var(--border)}
+.sb-user{font-size:11px;color:var(--text3);padding:4px 8px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-logout{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--red);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%}
+.sb-logout:hover{background:rgba(239,68,68,.1)}
 
-.layout{display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start}
-@media(max-width:900px){.layout{grid-template-columns:1fr}}
+/* ─── MAIN ─── */
+.main{flex:1;min-width:0;padding:28px 32px;overflow-y:auto}
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding:16px}
+}
 
-.pool-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:sticky;top:1.5rem}
-.panel-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.panel-head h2{font-size:14px;font-weight:700}
-.panel-head .sub{font-size:11px;color:var(--text3);margin-top:3px}
-.panel-body{padding:14px}
+/* ─── PAGE HEADER ─── */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.page-title h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.page-title p{font-size:12px;color:var(--text2);margin-top:4px}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap}
 
-.cars-col{display:flex;flex-direction:column;gap:14px}
-.car-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s}
+/* ─── SEARCH BAR ─── */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;transition:border-color .15s}
+.search-bar:focus-within{border-color:var(--border3)}
+.search-bar span{font-size:16px;flex-shrink:0}
+.search-bar input{flex:1;background:transparent;border:none;font-size:13px;color:var(--text);font-family:inherit}
+.search-bar input:focus{outline:none}
+.search-bar input::placeholder{color:var(--text3)}
+.search-count{font-size:11px;color:var(--text3);white-space:nowrap}
+
+/* ─── STATS ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.stat-card.c-blue::after{background:var(--blue)}
+.stat-card.c-green::after{background:var(--green)}
+.stat-card.c-amber::after{background:var(--amber)}
+.stat-card.c-red::after{background:var(--red)}
+.stat-card .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.stat-card .val{font-size:30px;font-weight:800;letter-spacing:-1px}
+
+/* ─── LAYOUT ─── */
+.board{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.board{grid-template-columns:1fr}}
+
+/* ─── POOL ─── */
+.pool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;position:sticky;top:0}
+.card-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-head h3{font-size:13px;font-weight:700}
+.card-head .sub{font-size:10px;color:var(--text3);margin-top:2px}
+.card-body{padding:12px}
+
+/* ─── CARS ─── */
+.cars-list{display:flex;flex-direction:column;gap:12px}
+.car-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s}
 .car-card:hover{border-color:var(--border2)}
-.car-header{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
-.car-stripe{width:4px;height:38px;border-radius:4px;flex-shrink:0}
-.car-emoji{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.car-meta{flex:1;min-width:0}
-.car-meta h3{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.car-meta .sub{display:flex;align-items:center;gap:6px;margin-top:3px}
-.op-pill{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.03em}
+.car-top{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.car-bar{width:3px;height:40px;border-radius:3px;flex-shrink:0}
+.car-ico{width:40px;height:40px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.car-info{flex:1;min-width:0}
+.car-info h3{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.car-info .sub{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
+.op-tag{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.02em}
 .op-free{background:rgba(59,130,246,.2);color:#93c5fd}
 .op-sfr{background:rgba(239,68,68,.2);color:#fca5a5}
 .op-bouygues{background:rgba(245,158,11,.2);color:#fcd34d}
-.car-count{font-size:11px;color:var(--text3)}
-.car-acts{display:flex;gap:6px}
-
+.car-sub-txt{font-size:11px;color:var(--text3)}
+.car-btns{display:flex;gap:5px}
 .car-body{padding:14px 16px}
-.sec-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
 
-.obj-wrap{background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;border:1px solid var(--border)}
-.obj-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.obj-top span{font-size:12px;color:var(--text2);font-weight:500}
-.obj-input-row{display:flex;align-items:center;gap:6px}
-.obj-input-row input{width:58px;font-size:14px;font-weight:700;padding:4px 8px;text-align:center;border:1px solid var(--border2);border-radius:6px;background:var(--surface3);color:var(--text);font-family:inherit}
+/* ─── OBJ ─── */
+.obj-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px}
+.obj-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.obj-row span{font-size:12px;color:var(--text2);font-weight:500}
+.obj-inp-row{display:flex;align-items:center;gap:6px}
+.obj-inp-row input{width:56px;font-size:14px;font-weight:700;padding:4px 8px;text-align:center;border:1px solid var(--border2);border-radius:6px;background:var(--surface3);color:var(--text);font-family:inherit}
 .obj-unit{font-size:11px;color:var(--text3)}
-.boxes-row{display:flex;gap:3px;flex-wrap:wrap}
-.box-pip{width:16px;height:16px;border-radius:4px;transition:background .2s}
-.box-pip.empty{background:var(--surface3)}
+.boxes{display:flex;gap:3px;flex-wrap:wrap}
+.box{width:16px;height:16px;border-radius:4px;transition:background .2s}
+.box.empty{background:var(--surface3)}
 
-.sectors-wrap{margin-bottom:14px}
-.sector-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:16px}
-.schip{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;background:var(--surface3);color:var(--text2);border:1px solid var(--border);font-weight:500}
-.schip .rm{cursor:pointer;opacity:.4;font-size:10px;margin-left:2px;transition:opacity .12s}
-.schip .rm:hover{opacity:1;color:#ef4444}
-.add-sec-row{display:flex;gap:6px}
-.add-sec-row input{flex:1;font-size:12px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-family:inherit}
-.add-sec-row input::placeholder{color:var(--text3)}
-.add-sec-row input:focus{outline:none;border-color:var(--border2)}
-.add-sec-row button{padding:6px 12px;font-size:13px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--radius-sm);cursor:pointer;font-weight:700;color:var(--text2);transition:all .12s}
-.add-sec-row button:hover{color:var(--text)}
+/* ─── SECTORS ─── */
+.sec-block{margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:14px}
+.chip-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;background:var(--surface3);color:var(--text2);border:1px solid var(--border);font-weight:500}
+.chip-tag .x{cursor:pointer;opacity:.35;font-size:10px;margin-left:2px;transition:opacity .12s}
+.chip-tag .x:hover{opacity:1;color:var(--red)}
+.add-sec{display:flex;gap:6px}
+.add-sec input{flex:1;font-size:12px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface2);color:var(--text);font-family:inherit}
+.add-sec input::placeholder{color:var(--text3)}
+.add-sec input:focus{outline:none;border-color:var(--border2)}
+.add-sec button{padding:6px 12px;font-size:13px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;font-weight:700;color:var(--text2);transition:all .12s;font-family:inherit}
+.add-sec button:hover{color:var(--text)}
 
-.drop-zone{min-height:64px;border:1.5px dashed var(--border);border-radius:var(--radius-sm);padding:6px;display:flex;flex-direction:column;gap:5px;transition:all .15s}
-.drop-zone.drag-over{background:rgba(34,197,94,.08);border-color:var(--green)}
-.drop-hint{font-size:11px;color:var(--text3);text-align:center;padding:18px 0;pointer-events:none;font-weight:500}
+/* ─── DROP ─── */
+.drop-zone{min-height:62px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:6px;display:flex;flex-direction:column;gap:4px;transition:all .15s}
+.drop-zone.over{background:rgba(34,197,94,.07);border-color:var(--green)}
+.hint{font-size:11px;color:var(--text3);text-align:center;padding:18px 0;pointer-events:none;font-weight:500}
 
-.member-pill{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--radius-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s}
-.member-pill:hover{border-color:var(--border2);background:var(--surface3)}
-.member-pill.dragging{opacity:.2;cursor:grabbing}
-.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.mem-info{flex:1;min-width:0}
-.mem-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mem-role{font-size:10px;color:var(--text3);margin-top:2px;font-weight:500}
-.drag-handle{font-size:14px;color:var(--border2);flex-shrink:0}
+/* ─── PILL ─── */
+.pill{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--r-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s}
+.pill:hover{border-color:var(--border2);background:var(--surface3)}
+.pill.dragging{opacity:.18;cursor:grabbing}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;letter-spacing:.02em}
+.pi{flex:1;min-width:0}
+.pname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prole{font-size:10px;color:var(--text3);margin-top:1px;font-weight:500}
+.dh{font-size:13px;color:var(--border2);flex-shrink:0}
 
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .12s;border:1px solid var(--border)}
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s;border:1px solid var(--border2)}
 .btn-ghost{background:var(--surface2);color:var(--text2)}
-.btn-ghost:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
-.btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}
-.btn-primary:hover{background:#d0d0d0}
-.btn-danger{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
-.btn-danger:hover{background:rgba(239,68,68,.2)}
-.btn-red{background:rgba(239,68,68,.15);color:#fca5a5;border-color:rgba(239,68,68,.2);padding:6px 10px;font-size:11px}
-.btn-red:hover{background:rgba(239,68,68,.25)}
-.btn-icon{width:30px;height:30px;padding:0;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .12s}
-.btn-icon:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
-.add-car-btn{width:100%;padding:12px;border:1.5px dashed var(--border);background:transparent;border-radius:var(--radius);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;transition:all .15s}
-.add-car-btn:hover{border-color:var(--border2);color:var(--text2);background:var(--surface)}
+.btn-ghost:hover{background:var(--surface3);color:var(--text);border-color:var(--border3)}
+.btn-solid{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn-solid:hover{opacity:.85}
+.btn-danger{background:rgba(239,68,68,.1);color:var(--red);border-color:rgba(239,68,68,.25)}
+.btn-danger:hover{background:rgba(239,68,68,.18)}
+.btn-sm{padding:6px 10px;font-size:11px}
+.ic-btn{width:30px;height:30px;padding:0;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .12s;font-family:inherit}
+.ic-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
+.add-car-btn{width:100%;padding:12px;border:1.5px dashed var(--border2);background:transparent;border-radius:var(--r-lg);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;transition:all .15s}
+.add-car-btn:hover{border-color:var(--border3);color:var(--text2);background:var(--surface)}
 
-.hist-section{margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
-.hist-section h2{font-size:14px;font-weight:700;margin-bottom:14px}
-.hist-list{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto}
-.hist-row{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border)}
-.hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+/* ─── SEC LABEL ─── */
+.slbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* ─── HISTORY PAGE ─── */
+.hist-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filt-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
+.filt-btn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.hist-list{display:flex;flex-direction:column;gap:6px}
+.hist-row{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--border);transition:border-color .15s}
+.hist-row:hover{border-color:var(--border2)}
+.hist-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
 .hist-body{flex:1}
-.hist-text{font-size:12px;font-weight:500}
-.hist-sub{font-size:10px;color:var(--text3);margin-top:3px}
+.hist-txt{font-size:13px;font-weight:500}
+.hist-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.hist-badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-left:8px}
+.hist-badge.add{background:rgba(34,197,94,.15);color:#86efac}
+.hist-badge.rm{background:rgba(239,68,68,.15);color:#fca5a5}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
+.empty-state .ei{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:13px}
 
-.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)}
-.modal-backdrop.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:100%;max-width:440px;padding:24px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
-.modal h2{font-size:18px;font-weight:700;margin-bottom:18px}
+/* ─── MODAL ─── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-xl);width:100%;max-width:440px;padding:26px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
+.modal h2{font-size:18px;font-weight:800;margin-bottom:20px;letter-spacing:-.3px}
 .field{margin-bottom:14px}
-.field label{display:block;font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
-.field input,.field select{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
-.field input:focus,.field select:focus{outline:none;border-color:var(--border2)}
+.field label{display:block;font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.field input,.field select{width:100%;padding:10px 13px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--border3)}
 .field input::placeholder{color:var(--text3)}
 .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
-.chip{padding:6px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .12s;font-weight:500}
+.chip{padding:6px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .12s;font-weight:500;font-family:inherit}
 .chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 .m-acts{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
-
-.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
-.profile-avatar-lg{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0}
-.profile-info h3{font-size:17px;font-weight:700}
-.profile-info p{font-size:12px;color:var(--text3);margin-top:4px}
-.pstat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.pstat{background:var(--surface2);border-radius:var(--radius-sm);padding:10px 14px;border:1px solid var(--border)}
-.pstat .pl{font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-.pstat .pv{font-size:13px;font-weight:700}
 .color-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.color-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .12s}
-.color-dot:hover{transform:scale(1.1)}
-.color-dot.on{border-color:var(--text)}
+.cdot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
+.cdot:hover{transform:scale(1.1)}
+.cdot.on{border-color:var(--text)}
+.prof-head{display:flex;align-items:center;gap:16px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.prof-av{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0}
+.prof-info h3{font-size:17px;font-weight:700}
+.prof-info p{font-size:12px;color:var(--text3);margin-top:3px}
+.pstat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.pstat{background:var(--surface2);border-radius:var(--r-sm);padding:10px 14px;border:1px solid var(--border)}
+.pstat .pl{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.pstat .pv{font-size:13px;font-weight:700}
 
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:12px 22px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:12px 22px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
 .toast.show{opacity:1}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+.no-result{font-size:12px;color:var(--text3);padding:12px;text-align:center}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-box">
+  <div class="login-card">
     <div class="login-logo">🚗</div>
     <h1>Voitures commerciales</h1>
     <p>Connectez-vous pour accéder à l'application</p>
-    <div class="lfield">
-      <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="votre@email.com" value="roman.blanchot21@gmail.com"/>
-    </div>
-    <div class="lfield">
-      <label>Mot de passe</label>
-      <input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
-    </div>
+    <div class="lf"><label>Email</label><input type="email" id="lEmail" value="roman.blanchot21@gmail.com"/></div>
+    <div class="lf"><label>Mot de passe</label><input type="password" id="lPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <button class="login-btn" onclick="doLogin()">Se connecter</button>
-    <div class="login-error" id="loginError"></div>
+    <div class="login-err" id="lErr"></div>
   </div>
 </div>
 
 <!-- APP -->
 <div id="appScreen">
-  <div class="app">
-    <div class="header">
-      <div class="header-left">
-        <h1>Voitures commerciales</h1>
-        <p>Glissez les commerciaux vers leur voiture · 👤 pour modifier un profil</p>
+  <div class="shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sb-logo">
+        <span>🚗</span>
+        <div><h2>Voitures</h2><small>Commerciales</small></div>
       </div>
-      <div class="header-right">
-        <span class="user-badge" id="userEmail"></span>
-        <button class="btn btn-ghost" onclick="openAddMember()">+ Commercial</button>
-        <button class="btn btn-primary" onclick="openAddCar()">+ Voiture</button>
-        <button class="btn btn-red" onclick="doLogout()">Déconnexion</button>
+      <nav class="sb-nav">
+        <button class="sb-item active" id="nav-board" onclick="goPage('board')"><span class="ic">📋</span>Tableau de bord</button>
+        <button class="sb-item" id="nav-history" onclick="goPage('history')"><span class="ic">🕐</span>Historique</button>
+      </nav>
+      <div class="sb-bottom">
+        <div class="sb-user" id="sbUser"></div>
+        <button class="sb-logout" onclick="doLogout()"><span>↩</span> Déconnexion</button>
       </div>
-    </div>
+    </aside>
 
-    <div class="stats">
-      <div class="stat s-blue"><div class="lbl">Voitures</div><div class="val" id="s1">—</div></div>
-      <div class="stat s-green"><div class="lbl">Commerciaux</div><div class="val" id="s2">—</div></div>
-      <div class="stat s-orange"><div class="lbl">Affectés</div><div class="val" id="s3">—</div></div>
-      <div class="stat s-red"><div class="lbl">Objectif total</div><div class="val" id="s4">—</div></div>
-    </div>
+    <!-- MAIN -->
+    <main class="main">
 
-    <div class="layout">
-      <div class="pool-panel">
-        <div class="panel-head">
-          <div><h2>Pool</h2><div class="sub">Sans voiture assignée</div></div>
-        </div>
-        <div class="panel-body">
-          <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')">
-            <div class="drop-hint">Chargement…</div>
+      <!-- BOARD PAGE -->
+      <div id="pageboard">
+        <div class="page-header">
+          <div class="page-title"><h1>Tableau de bord</h1><p>Glissez les commerciaux vers leur voiture</p></div>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="openAddMember()">+ Commercial</button>
+            <button class="btn btn-solid" onclick="openAddCar()">+ Voiture</button>
           </div>
         </div>
-      </div>
-      <div class="cars-col" id="carsCol"><div class="drop-hint">Chargement…</div></div>
-    </div>
 
-    <div class="hist-section">
-      <h2>Historique des secteurs</h2>
-      <div class="hist-list" id="histList"></div>
-    </div>
+        <!-- SEARCH -->
+        <div class="search-bar">
+          <span>🔍</span>
+          <input type="text" id="searchInput" placeholder="Rechercher un commercial, une voiture, un secteur…" oninput="onSearch()"/>
+          <span class="search-count" id="searchCount"></span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card c-blue"><div class="lbl">Voitures</div><div class="val" id="s1">—</div></div>
+          <div class="stat-card c-green"><div class="lbl">Commerciaux</div><div class="val" id="s2">—</div></div>
+          <div class="stat-card c-amber"><div class="lbl">Affectés</div><div class="val" id="s3">—</div></div>
+          <div class="stat-card c-red"><div class="lbl">Objectif total</div><div class="val" id="s4">—</div></div>
+        </div>
+
+        <div class="board">
+          <div class="pool-card">
+            <div class="card-head"><div><h3>Pool</h3><div class="sub">Sans voiture</div></div></div>
+            <div class="card-body">
+              <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')">
+                <div class="hint">Chargement…</div>
+              </div>
+            </div>
+          </div>
+          <div class="cars-list" id="carsCol"><div class="hint">Chargement…</div></div>
+        </div>
+      </div>
+
+      <!-- HISTORY PAGE -->
+      <div id="pagehistory" style="display:none">
+        <div class="page-header">
+          <div class="page-title"><h1>Historique des secteurs</h1><p>Toutes les modifications de secteurs datées</p></div>
+          <button class="btn btn-ghost btn-sm" onclick="loadAll()">↺ Actualiser</button>
+        </div>
+
+        <!-- SEARCH HIST -->
+        <div class="search-bar">
+          <span>🔍</span>
+          <input type="text" id="histSearch" placeholder="Rechercher un secteur ou une voiture…" oninput="renderHist()"/>
+          <span class="search-count" id="histCount"></span>
+        </div>
+
+        <div class="hist-filters">
+          <button class="filt-btn on" id="filt-all" onclick="setFilt('all')">Tout</button>
+          <button class="filt-btn" id="filt-ajout" onclick="setFilt('ajout')">Ajouts ●</button>
+          <button class="filt-btn" id="filt-retrait" onclick="setFilt('retrait')">Retraits ●</button>
+        </div>
+
+        <div class="hist-list" id="histList"></div>
+      </div>
+
+    </main>
   </div>
 </div>
 
-<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()">
-  <div class="modal" id="modalContent"></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalBox"></div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL='https://xtelveaprkhaccqevpjl.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0ZWx2ZWFwcmtoYWNjcWV2cGpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MDAwNjIsImV4cCI6MjA5MDk3NjA2Mn0.-eM6xfJlaaAALa5UAaIbWZ6efN9UFKJLzW1bUgYg0FI';
-const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const SURL='https://xtelveaprkhaccqevpjl.supabase.co';
+const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0ZWx2ZWFwcmtoYWNjcWV2cGpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MDAwNjIsImV4cCI6MjA5MDk3NjA2Mn0.-eM6xfJlaaAALa5UAaIbWZ6efN9UFKJLzW1bUgYg0FI';
+const sb=supabase.createClient(SURL,SKEY);
 
 const EMOJIS=['🚗','🚙','🚕','🚐','🏎️','🚌'];
-const OPERATORS=[{id:'free',label:'Free',cls:'op-free',color:'#3b82f6'},{id:'bouygues',label:'Bouygues',cls:'op-bouygues',color:'#f59e0b'},{id:'sfr',label:'SFR',cls:'op-sfr',color:'#ef4444'}];
+const OPS=[{id:'free',label:'Free',cls:'op-free',color:'#3b82f6'},{id:'bouygues',label:'Bouygues',cls:'op-bouygues',color:'#f59e0b'},{id:'sfr',label:'SFR',cls:'op-sfr',color:'#ef4444'}];
 const ROLES=["Commercial","Commerciale","Chef d'équipe","Animateur réseau"];
-const OPCOLOR={free:'#3b82f6',bouygues:'#f59e0b',sfr:'#ef4444'};
 const OPBG={free:'rgba(59,130,246,.15)',bouygues:'rgba(245,158,11,.15)',sfr:'rgba(239,68,68,.15)'};
+const OPCOL={free:'#3b82f6',bouygues:'#f59e0b',sfr:'#ef4444'};
 const AV=[
   {bg:'#1e3a5f',tx:'#93c5fd'},{bg:'#14532d',tx:'#86efac'},{bg:'#5f3e1e',tx:'#fcd34d'},
   {bg:'#3b1e5f',tx:'#c4b5fd'},{bg:'#5f1e1e',tx:'#fca5a5'},{bg:'#1e4a5f',tx:'#7dd3fc'},
   {bg:'#4a1e5f',tx:'#e9d5ff'},{bg:'#1e5f3a',tx:'#6ee7b7'},{bg:'#2a2a2a',tx:'#d1d5db'}
 ];
 
-let cars=[],members=[],sectors=[],history=[],dragId=null,selColor=0;
+let cars=[],members=[],sectors=[],history=[],dragId=null,selColor=0,histFilt='all',currentPage='board';
 
-function ini(n){return n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase()}
-function avS(m){const c=AV[(m.color_idx||0)%AV.length];return `background:${c.bg};color:${c.tx}`}
-function opB(op){const o=OPERATORS.find(x=>x.id===op);return o?`<span class="op-pill ${o.cls}">${o.label}</span>`:''}
+const ini=n=>n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+const avS=m=>{const c=AV[(m.color_idx||0)%AV.length];return `background:${c.bg};color:${c.tx}`};
+const opTag=op=>{const o=OPS.find(x=>x.id===op);return o?`<span class="op-tag ${o.cls}">${o.label}</span>`:''};
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 
-// AUTH
+// ── AUTH ──
 async function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim();
-  const password=document.getElementById('loginPassword').value;
-  const err=document.getElementById('loginError');
-  err.textContent='Connexion en cours…';
-  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  const email=document.getElementById('lEmail').value.trim();
+  const pass=document.getElementById('lPass').value;
+  const err=document.getElementById('lErr');
+  err.textContent='Connexion…';
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
   if(error){err.textContent='Email ou mot de passe incorrect';return;}
-  err.textContent='';
-  showApp(data.user);
+  err.textContent='';showApp(data.user);
 }
-
 async function doLogout(){
   await sb.auth.signOut();
   document.getElementById('appScreen').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('loginPassword').value='';
+  document.getElementById('lPass').value='';
 }
-
 function showApp(user){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appScreen').style.display='block';
-  document.getElementById('userEmail').textContent=user.email;
+  document.getElementById('sbUser').textContent=user.email;
   loadAll();
 }
+sb.auth.getSession().then(({data:{session}})=>{if(session)showApp(session.user)});
 
-// Check session on load
-sb.auth.getSession().then(({data:{session}})=>{
-  if(session)showApp(session.user);
-});
+// ── PAGES ──
+function goPage(page){
+  currentPage=page;
+  document.getElementById('pageboard').style.display=page==='board'?'block':'none';
+  document.getElementById('pagehistory').style.display=page==='history'?'block':'none';
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
+  document.getElementById('nav-'+page).classList.add('active');
+  if(page==='history')renderHist();
+}
 
-// DATA
+// ── DATA ──
 async function loadAll(){
   const [cR,mR,sR,hR]=await Promise.all([
     sb.from('cars').select('*').order('created_at'),
     sb.from('members').select('*').order('created_at'),
     sb.from('sectors').select('*').order('created_at'),
-    sb.from('sector_history').select('*').order('created_at',{ascending:false}).limit(60)
+    sb.from('sector_history').select('*').order('created_at',{ascending:false}).limit(200)
   ]);
   cars=cR.data||[];members=mR.data||[];sectors=sR.data||[];history=hR.data||[];
   render();
 }
 
-function getSecs(cid){return sectors.filter(s=>s.car_id===cid)}
-function getMems(cid){return members.filter(m=>m.car_id===cid)}
+const getSecs=cid=>sectors.filter(s=>s.car_id===cid);
+const getMems=cid=>members.filter(m=>m.car_id===cid);
 
+// ── SEARCH ──
+function onSearch(){
+  renderPool();renderCars();
+  const q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  if(!q){document.getElementById('searchCount').textContent='';return;}
+  let n=0;
+  document.querySelectorAll('.pill').forEach(p=>{if(p.style.display!=='none')n++});
+  document.querySelectorAll('.car-card').forEach(p=>{if(p.style.display!=='none')n++});
+  document.getElementById('searchCount').textContent=n?`${n} résultat${n>1?'s':''}`:' Aucun résultat';
+}
+
+function matchSearch(text){
+  const q=(document.getElementById('searchInput')||{value:''}).value.toLowerCase().trim();
+  return !q||text.toLowerCase().includes(q);
+}
+
+// ── BOXES ──
 function boxes(car){
   const obj=car.objectif||0;if(!obj)return '';
-  const n=getMems(car.id).length,col=OPCOLOR[car.operator]||'#888';
-  let h='<div class="boxes-row">';
-  for(let i=0;i<obj;i++)h+=`<div class="box-pip${i<n?'':' empty'}" style="${i<n?'background:'+col:''}"></div>`;
+  const n=getMems(car.id).length,col=OPCOL[car.operator]||'#888';
+  let h='<div class="boxes">';
+  for(let i=0;i<obj;i++)h+=`<div class="box${i<n?'':' empty'}" style="${i<n?'background:'+col:''}"></div>`;
   return h+'</div>';
 }
 
+// ── PILL ──
 function pill(m){
-  return `<div class="member-pill" id="mp-${m.id}" draggable="true" ondragstart="ds(event,'${m.id}')" ondragend="de(event)">
-    <span class="drag-handle">⠿</span>
-    <div class="avatar" style="${avS(m)}">${ini(m.name)}</div>
-    <div class="mem-info"><div class="mem-name">${m.name}</div><div class="mem-role">${m.role}</div></div>
-    <button class="btn-icon" onclick="openProfile('${m.id}');event.stopPropagation()">👤</button>
+  const show=matchSearch(m.name+' '+m.role);
+  return `<div class="pill" id="mp-${m.id}" draggable="true" ondragstart="ds(event,'${m.id}')" ondragend="de(event)" style="display:${show?'flex':'none'}">
+    <span class="dh">⠿</span>
+    <div class="av" style="${avS(m)}">${ini(m.name)}</div>
+    <div class="pi"><div class="pname">${m.name}</div><div class="prole">${m.role}</div></div>
+    <button class="ic-btn" onclick="openProfile('${m.id}');event.stopPropagation()">👤</button>
   </div>`;
 }
 
+// ── RENDER ──
 function renderStats(){
   const placed=members.filter(m=>m.car_id).length;
   const tBox=cars.reduce((a,c)=>a+(c.objectif||0),0);
@@ -341,79 +454,99 @@ function renderStats(){
 function renderPool(){
   const pool=members.filter(m=>!m.car_id);
   const z=document.getElementById('pool-zone');if(!z)return;
-  z.innerHTML=pool.map(pill).join('')+(pool.length===0?'<div class="drop-hint">Tous affectés ✓</div>':'');
+  const html=pool.map(pill).join('');
+  const visible=pool.filter(m=>matchSearch(m.name+' '+m.role));
+  z.innerHTML=html+(visible.length===0?`<div class="hint">${pool.length===0?'Tous affectés ✓':'Aucun résultat'}</div>`:'');
 }
 
 function renderCars(){
   const el=document.getElementById('carsCol');
+  const q=(document.getElementById('searchInput')||{value:''}).value.toLowerCase().trim();
   el.innerHTML=cars.map(car=>{
-    const ms=getMems(car.id),ss=getSecs(car.id),col=OPCOLOR[car.operator]||'#888';
-    return `<div class="car-card">
-      <div class="car-header">
-        <div class="car-stripe" style="background:${col}"></div>
-        <div class="car-emoji" style="background:${OPBG[car.operator]||'#222'}">${car.emoji}</div>
-        <div class="car-meta">
+    const ms=getMems(car.id),ss=getSecs(car.id);
+    const col=OPCOL[car.operator]||'#888';
+    const carMatch=!q||(car.name.toLowerCase().includes(q)||ss.some(s=>s.name.toLowerCase().includes(q))||ms.some(m=>m.name.toLowerCase().includes(q)||m.role.toLowerCase().includes(q)));
+    return `<div class="car-card" style="display:${carMatch?'block':'none'}">
+      <div class="car-top">
+        <div class="car-bar" style="background:${col}"></div>
+        <div class="car-ico" style="background:${OPBG[car.operator]||'#222'}">${car.emoji}</div>
+        <div class="car-info">
           <h3>${car.name}</h3>
-          <div class="sub">${opB(car.operator)}<span class="car-count">${ms.length} commercial${ms.length>1?'s':''}</span></div>
+          <div class="sub">${opTag(car.operator)}<span class="car-sub-txt">${ms.length} commercial${ms.length>1?'s':''}</span></div>
         </div>
-        <div class="car-acts">
-          <button class="btn-icon" onclick="openEditCar('${car.id}')">✎</button>
-          <button class="btn-icon" onclick="deleteCar('${car.id}')">🗑</button>
+        <div class="car-btns">
+          <button class="ic-btn" onclick="openEditCar('${car.id}')">✎</button>
+          <button class="ic-btn" onclick="deleteCar('${car.id}')">🗑</button>
         </div>
       </div>
       <div class="car-body">
-        <div class="obj-wrap">
-          <div class="obj-top">
-            <span>Objectif journalier</span>
-            <div class="obj-input-row">
-              <input type="number" min="0" max="99" value="${car.objectif||0}" onchange="setObj('${car.id}',this.value)">
-              <span class="obj-unit">box</span>
-            </div>
+        <div class="obj-block">
+          <div class="obj-row"><span>Objectif journalier</span>
+            <div class="obj-inp-row"><input type="number" min="0" max="99" value="${car.objectif||0}" onchange="setObj('${car.id}',this.value)"><span class="obj-unit">box</span></div>
           </div>
           ${boxes(car)}
         </div>
-        <div class="sectors-wrap">
-          <div class="sec-lbl">Secteurs</div>
-          <div class="sector-chips">${ss.map(s=>`<span class="schip">${s.name}<span class="rm" onclick="rmSec('${s.id}','${car.id}','${s.name.replace(/'/g,"\\'")}','${car.name.replace(/'/g,"\\'")}')">✕</span></span>`).join('')||'<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>'}</div>
-          <div class="add-sec-row">
+        <div class="sec-block">
+          <div class="slbl">Secteurs</div>
+          <div class="chips">${ss.map(s=>`<span class="chip-tag">${s.name}<span class="x" onclick="rmSec('${s.id}','${car.id}','${s.name.replace(/'/g,"\\'")}','${car.name.replace(/'/g,"\\'")}')">✕</span></span>`).join('')||'<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>'}</div>
+          <div class="add-sec">
             <input type="text" id="si-${car.id}" placeholder="Ajouter un secteur…" onkeydown="if(event.key==='Enter')addSec('${car.id}','${car.name.replace(/'/g,"\\'")}')">
             <button onclick="addSec('${car.id}','${car.name.replace(/'/g,"\\'")}')">+</button>
           </div>
         </div>
-        <div class="sec-lbl">Équipe · ${ms.length} pers.</div>
+        <div class="slbl">Équipe · ${ms.length} pers.</div>
         <div class="drop-zone" id="zone-${car.id}" ondragover="dov(event)" ondrop="ddr(event,'${car.id}')">
           ${ms.map(pill).join('')}
-          ${ms.length===0?'<div class="drop-hint">Déposez un commercial ici</div>':''}
+          ${ms.length===0?'<div class="hint">Déposez un commercial ici</div>':''}
         </div>
       </div>
     </div>`;
   }).join('')+`<button class="add-car-btn" onclick="openAddCar()">+ Nouvelle voiture</button>`;
 }
 
+function setFilt(f){
+  histFilt=f;
+  ['all','ajout','retrait'].forEach(x=>{document.getElementById('filt-'+x).classList.toggle('on',x===f)});
+  renderHist();
+}
+
 function renderHist(){
   const el=document.getElementById('histList');if(!el)return;
-  if(!history.length){el.innerHTML='<div style="font-size:12px;color:var(--text3);padding:4px">Aucune modification de secteur</div>';return;}
-  el.innerHTML=history.map(h=>{
+  const q=(document.getElementById('histSearch')||{value:''}).value.toLowerCase().trim();
+  let rows=history;
+  if(histFilt!=='all')rows=rows.filter(h=>h.action===histFilt);
+  if(q)rows=rows.filter(h=>(h.sector_name+' '+h.car_name).toLowerCase().includes(q));
+  document.getElementById('histCount').textContent=rows.length?`${rows.length} entrée${rows.length>1?'s':''}`:' Aucun résultat';
+  if(!rows.length){
+    el.innerHTML=`<div class="empty-state"><div class="ei">🕐</div><p>Aucune entrée dans l'historique</p></div>`;return;
+  }
+  el.innerHTML=rows.map(h=>{
     const isA=h.action==='ajout';
     const d=new Date(h.created_at);
-    const fmt=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' · '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    const date=d.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+    const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
     return `<div class="hist-row">
       <div class="hist-dot" style="background:${isA?'#22c55e':'#ef4444'}"></div>
       <div class="hist-body">
-        <div class="hist-text">Secteur <strong>${h.sector_name}</strong> — ${isA?'ajouté à':'retiré de'} ${h.car_name}</div>
-        <div class="hist-sub">${fmt}</div>
+        <div class="hist-txt">
+          Secteur <strong>${h.sector_name}</strong>
+          <span class="hist-badge ${isA?'add':'rm'}">${isA?'Ajout':'Retrait'}</span>
+          — ${h.car_name}
+        </div>
+        <div class="hist-sub">${date} à ${time}</div>
       </div>
     </div>`;
   }).join('');
 }
 
-function render(){renderStats();renderPool();renderCars();renderHist();}
+function render(){renderStats();renderPool();renderCars();if(currentPage==='history')renderHist();}
 
+// ── DRAG ──
 function ds(e,id){dragId=id;e.dataTransfer.effectAllowed='move';setTimeout(()=>{const el=document.getElementById('mp-'+id);if(el)el.classList.add('dragging');},0)}
-function de(){const el=document.getElementById('mp-'+dragId);if(el)el.classList.remove('dragging');document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));dragId=null}
-function dov(e){e.preventDefault();document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));e.currentTarget.classList.add('drag-over')}
+function de(){const el=document.getElementById('mp-'+dragId);if(el)el.classList.remove('dragging');document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('over'));dragId=null}
+function dov(e){e.preventDefault();document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('over'));e.currentTarget.classList.add('over')}
 async function ddr(e,target){
-  e.preventDefault();document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));
+  e.preventDefault();document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('over'));
   if(!dragId)return;
   const m=members.find(x=>x.id===dragId);if(!m)return;
   if((target==='pool'&&!m.car_id)||(m.car_id===target))return;
@@ -422,34 +555,33 @@ async function ddr(e,target){
   toast('Commercial déplacé ✓');
 }
 
+// ── ACTIONS ──
 async function setObj(cid,val){
   const v=Math.max(0,Math.min(99,parseInt(val)||0));
   const car=cars.find(c=>c.id===cid);if(!car)return;
   car.objectif=v;render();
   await sb.from('cars').update({objectif:v}).eq('id',cid);
 }
-
 async function addSec(cid,cname){
   const inp=document.getElementById('si-'+cid);if(!inp)return;
   const v=inp.value.trim();if(!v)return;inp.value='';
   const {data,error}=await sb.from('sectors').insert({car_id:cid,name:v}).select().single();
-  if(error){toast('Erreur — vérifiez les permissions Supabase');console.error(error);return;}
+  if(error){toast('Erreur Supabase');console.error(error);return;}
   sectors.push(data);
   const hRow={action:'ajout',sector_name:v,car_name:cname};
   await sb.from('sector_history').insert(hRow);
   history.unshift({...hRow,created_at:new Date().toISOString()});
   render();toast(`Secteur "${v}" ajouté ✓`);
 }
-
 async function rmSec(sid,cid,sname,cname){
   sectors=sectors.filter(s=>s.id!==sid);render();
   await sb.from('sectors').delete().eq('id',sid);
   const hRow={action:'retrait',sector_name:sname,car_name:cname};
   await sb.from('sector_history').insert(hRow);
   history.unshift({...hRow,created_at:new Date().toISOString()});
-  renderHist();toast(`Secteur "${sname}" retiré`);
+  if(currentPage==='history')renderHist();
+  toast(`Secteur "${sname}" retiré`);
 }
-
 async function deleteCar(id){
   const car=cars.find(c=>c.id===id);if(!car)return;
   if(!confirm(`Supprimer "${car.name}" ?`))return;
@@ -459,18 +591,22 @@ async function deleteCar(id){
   await sb.from('cars').delete().eq('id',id);toast('Voiture supprimée');
 }
 
-function selE(el,v){document.querySelectorAll('#modalContent .chip[onclick*="selE"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v}
-function selOp(el,v){document.querySelectorAll('#modalContent .chip[onclick*="selOp"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v}
-function selRole(el,v){document.querySelectorAll('#modalContent .chip[onclick*="selRole"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('pRole').value=v}
-function pickColor(el,i){selColor=i;document.querySelectorAll('#modalContent .color-dot').forEach(d=>d.classList.remove('on'));el.classList.add('on');const av=document.getElementById('profAv');if(av){av.style.background=AV[i].bg;av.style.color=AV[i].tx}}
+// ── MODAL HELPERS ──
+function selE(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selE"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v}
+function selOp(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selOp"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v}
+function selRole(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selRole"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('pRole').value=v}
+function pickColor(el,i){selColor=i;document.querySelectorAll('#modalBox .cdot').forEach(d=>d.classList.remove('on'));el.classList.add('on');const av=document.getElementById('profAv');if(av){av.style.background=AV[i].bg;av.style.color=AV[i].tx}}
+function showModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modalBg').classList.add('open')}
+function closeModal(){document.getElementById('modalBg').classList.remove('open')}
 
+// ── MODALS ──
 function openAddCar(){
   showModal(`<h2>Nouvelle voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" placeholder="Voiture Alpha"/></div>
     <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="🚗"/></div>
-    <div class="field"><label>Opérateur</label><div class="chip-row">${OPERATORS.map(o=>`<span class="chip" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="free"/></div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-primary" onclick="confirmAddCar()">Créer</button></div>`);
-  document.querySelector('#modalContent .chip').classList.add('on');
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="free"/></div>
+    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmAddCar()">Créer</button></div>`);
+  document.querySelector('#modalBox .chip').classList.add('on');
 }
 async function confirmAddCar(){
   const name=(document.getElementById('mName').value||'').trim()||'Nouvelle voiture';
@@ -478,14 +614,13 @@ async function confirmAddCar(){
   if(error){toast('Erreur Supabase');return;}
   cars.push(data);closeModal();render();toast(`"${name}" créée ✓`);
 }
-
 function openEditCar(id){
   const car=cars.find(c=>c.id===id);if(!car)return;
   showModal(`<h2>Modifier la voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" value="${car.name}"/></div>
     <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e===car.emoji?' on':''}" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="${car.emoji}"/></div>
-    <div class="field"><label>Opérateur</label><div class="chip-row">${OPERATORS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="${car.operator}"/></div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-primary" onclick="confirmEditCar('${id}')">Enregistrer</button></div>`);
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="${car.operator}"/></div>
+    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmEditCar('${id}')">Enregistrer</button></div>`);
 }
 async function confirmEditCar(id){
   const car=cars.find(c=>c.id===id);if(!car)return;
@@ -496,7 +631,6 @@ async function confirmEditCar(id){
   await sb.from('cars').update({name:car.name,emoji:car.emoji,operator:car.operator}).eq('id',id);
   toast('Voiture mise à jour ✓');
 }
-
 function openAddMember(){
   selColor=0;
   showModal(`<h2>Nouveau commercial</h2>
@@ -504,9 +638,9 @@ function openAddMember(){
     <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map(r=>`<span class="chip" onclick="selRole(this,'${r}')">${r}</span>`).join('')}</div><input type="hidden" id="pRole" value="${ROLES[0]}"/></div>
     <div class="field"><label>Téléphone</label><input id="pPhone" placeholder="06 xx xx xx xx"/></div>
     <div class="field"><label>Note</label><input id="pNote" placeholder="Infos utiles…"/></div>
-    <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((c,i)=>`<div class="color-dot${i===0?' on':''}" style="background:${c.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-primary" onclick="confirmAddMember()">Ajouter</button></div>`);
-  document.querySelector('#modalContent .chip').classList.add('on');
+    <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((c,i)=>`<div class="cdot${i===0?' on':''}" style="background:${c.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
+    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmAddMember()">Ajouter</button></div>`);
+  document.querySelector('#modalBox .chip').classList.add('on');
 }
 async function confirmAddMember(){
   const name=(document.getElementById('pName').value||'').trim();if(!name)return alert('Nom requis');
@@ -514,29 +648,28 @@ async function confirmAddMember(){
   if(error){toast('Erreur Supabase');return;}
   members.push(data);closeModal();render();toast(`${name} ajouté ✓`);
 }
-
 function openProfile(id){
   const m=members.find(x=>x.id===id);if(!m)return;
   const car=m.car_id?cars.find(c=>c.id===m.car_id):null;
   const c=AV[(m.color_idx||0)%AV.length];selColor=m.color_idx||0;
   showModal(`
-    <div class="profile-header">
-      <div class="profile-avatar-lg" id="profAv" style="background:${c.bg};color:${c.tx}">${ini(m.name)}</div>
-      <div class="profile-info"><h3>${m.name}</h3><p>${m.role} · ${car?car.name:'Non affecté'}</p></div>
+    <div class="prof-head">
+      <div class="prof-av" id="profAv" style="background:${c.bg};color:${c.tx}">${ini(m.name)}</div>
+      <div class="prof-info"><h3>${m.name}</h3><p>${m.role} · ${car?car.name:'Non affecté'}</p></div>
     </div>
-    <div class="pstat-row">
+    <div class="pstat-grid">
       <div class="pstat"><div class="pl">Voiture</div><div class="pv">${car?car.emoji+' '+car.name:'—'}</div></div>
-      <div class="pstat"><div class="pl">Opérateur</div><div class="pv">${car?OPERATORS.find(o=>o.id===car.operator)?.label||'—':'—'}</div></div>
+      <div class="pstat"><div class="pl">Opérateur</div><div class="pv">${car?OPS.find(o=>o.id===car.operator)?.label||'—':'—'}</div></div>
     </div>
     <div class="field"><label>Nom</label><input id="pName" value="${m.name}"/></div>
     <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map(r=>`<span class="chip${r===m.role?' on':''}" onclick="selRole(this,'${r}')">${r}</span>`).join('')}</div><input type="hidden" id="pRole" value="${m.role}"/></div>
     <div class="field"><label>Téléphone</label><input id="pPhone" value="${m.phone||''}"/></div>
     <div class="field"><label>Note</label><input id="pNote" value="${m.note||''}"/></div>
-    <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((ac,i)=>`<div class="color-dot${i===selColor?' on':''}" style="background:${ac.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
+    <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((ac,i)=>`<div class="cdot${i===selColor?' on':''}" style="background:${ac.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
     <div class="m-acts">
       <button class="btn btn-danger" onclick="deleteMember('${id}')">Supprimer</button>
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-primary" onclick="saveProfile('${id}')">Enregistrer</button>
+      <button class="btn btn-solid" onclick="saveProfile('${id}')">Enregistrer</button>
     </div>`);
 }
 async function saveProfile(id){
@@ -554,9 +687,6 @@ async function deleteMember(id){
   members=members.filter(x=>x.id!==id);closeModal();render();
   await sb.from('members').delete().eq('id',id);toast('Commercial supprimé');
 }
-
-function showModal(html){document.getElementById('modalContent').innerHTML=html;document.getElementById('modalBackdrop').classList.add('open')}
-function closeModal(){document.getElementById('modalBackdrop').classList.remove('open')}
 </script>
 </body>
 </html>
