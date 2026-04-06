@@ -12,13 +12,14 @@
   --bg:#080808;--surface:#111;--surface2:#181818;--surface3:#202020;--surface4:#282828;
   --border:#222;--border2:#333;--border3:#444;
   --text:#f2f2f2;--text2:#888;--text3:#444;
-  --blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;
+  --blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa;
   --free:#3b82f6;--sfr:#ef4444;--bouygues:#f59e0b;
   --r:12px;--r-sm:8px;--r-lg:16px;--r-xl:20px;
   --shadow:0 8px 32px rgba(0,0,0,.6);
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
+/* LOGIN */
 #loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .login-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:40px 36px;width:100%;max-width:400px;box-shadow:var(--shadow)}
 .login-logo{text-align:center;font-size:48px;margin-bottom:20px}
@@ -33,9 +34,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .login-btn:hover{opacity:.88}
 .login-err{font-size:12px;color:var(--red);text-align:center;margin-top:10px;min-height:16px}
 
+/* SHELL */
 #appScreen{display:none;min-height:100vh}
 .shell{display:flex;min-height:100vh}
-.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 12px;flex-shrink:0;position:sticky;top:0;height:100vh}
+.sidebar{width:230px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 12px;flex-shrink:0;position:sticky;top:0;height:100vh}
 .sb-logo{display:flex;align-items:center;gap:10px;padding:4px 8px;margin-bottom:28px}
 .sb-logo span{font-size:22px}
 .sb-logo h2{font-size:14px;font-weight:800;letter-spacing:-.3px}
@@ -44,165 +46,202 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%;text-align:left}
 .sb-item:hover{background:var(--surface2);color:var(--text)}
 .sb-item.active{background:var(--surface3);color:var(--text);font-weight:600}
-.sb-item .ic{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sb-item .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.sb-section{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;padding:4px 12px;margin-top:10px;margin-bottom:2px}
 .sb-bottom{display:flex;flex-direction:column;gap:4px;padding-top:12px;border-top:1px solid var(--border)}
-.sb-user{font-size:11px;color:var(--text3);padding:4px 8px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.admin-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(245,158,11,.15);color:#fcd34d;margin:0 8px 6px;width:fit-content}
+.sb-user{font-size:11px;color:var(--text3);padding:4px 8px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(245,158,11,.15);color:#fcd34d;margin:0 8px 6px}
 .sb-logout{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--red);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%}
 .sb-logout:hover{background:rgba(239,68,68,.1)}
-
 .main{flex:1;min-width:0;padding:28px 32px;overflow-y:auto}
-@media(max-width:768px){.sidebar{display:none}.main{padding:16px}}
+@media(max-width:860px){.sidebar{display:none}.main{padding:16px}}
 
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+/* HEADERS */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
 .page-title h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .page-title p{font-size:12px;color:var(--text2);margin-top:4px}
-.page-actions{display:flex;gap:8px;flex-wrap:wrap}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 
-.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:20px;transition:border-color .15s}
+/* SEARCH */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:18px;transition:border-color .15s}
 .search-bar:focus-within{border-color:var(--border3)}
-.search-bar span{font-size:16px;flex-shrink:0}
 .search-bar input{flex:1;background:transparent;border:none;font-size:13px;color:var(--text);font-family:inherit}
 .search-bar input:focus{outline:none}
 .search-bar input::placeholder{color:var(--text3)}
 .search-count{font-size:11px;color:var(--text3);white-space:nowrap}
 
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
 @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .stat-card.c-blue::after{background:var(--blue)}
 .stat-card.c-green::after{background:var(--green)}
 .stat-card.c-amber::after{background:var(--amber)}
 .stat-card.c-red::after{background:var(--red)}
-.stat-card .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
-.stat-card .val{font-size:30px;font-weight:800;letter-spacing:-1px}
+.stat-card .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.stat-card .val{font-size:28px;font-weight:800;letter-spacing:-1px}
 
-.board{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+/* BOARD */
+.board{display:grid;grid-template-columns:290px 1fr;gap:14px;align-items:start}
 @media(max-width:860px){.board{grid-template-columns:1fr}}
-
 .pool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;position:sticky;top:0}
-.card-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-head{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .card-head h3{font-size:13px;font-weight:700}
 .card-head .sub{font-size:10px;color:var(--text3);margin-top:2px}
-.card-body{padding:12px}
+.card-body{padding:10px}
 
-.cars-list{display:flex;flex-direction:column;gap:12px}
+/* CARS */
+.cars-list{display:flex;flex-direction:column;gap:10px}
 .car-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s}
 .car-card:hover{border-color:var(--border2)}
-.car-top{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
-.car-bar{width:3px;height:40px;border-radius:3px;flex-shrink:0}
-.car-ico{width:40px;height:40px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.car-top{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.car-bar{width:3px;height:38px;border-radius:3px;flex-shrink:0}
+.car-ico{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
 .car-info{flex:1;min-width:0}
 .car-info h3{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.car-info .sub{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
-.op-tag{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.02em}
+.car-info .sub{display:flex;align-items:center;gap:5px;margin-top:3px;flex-wrap:wrap}
+.op-tag{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
 .op-free{background:rgba(59,130,246,.2);color:#93c5fd}
 .op-sfr{background:rgba(239,68,68,.2);color:#fca5a5}
 .op-bouygues{background:rgba(245,158,11,.2);color:#fcd34d}
 .car-sub-txt{font-size:11px;color:var(--text3)}
-.car-btns{display:flex;gap:5px}
-.car-body{padding:14px 16px}
+.car-btns{display:flex;gap:4px}
+.car-body{padding:12px 14px}
 
-/* Lecture seule badge */
-.readonly-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(255,255,255,.05);color:var(--text3);border:1px solid var(--border)}
-
-.obj-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px}
-.obj-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+/* OBJ */
+.obj-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;margin-bottom:12px}
+.obj-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .obj-row span{font-size:12px;color:var(--text2);font-weight:500}
-.obj-inp-row{display:flex;align-items:center;gap:6px}
-.obj-inp-row input{width:56px;font-size:14px;font-weight:700;padding:4px 8px;text-align:center;border:1px solid var(--border2);border-radius:6px;background:var(--surface3);color:var(--text);font-family:inherit}
+.obj-inp-row{display:flex;align-items:center;gap:5px}
+.obj-inp-row input{width:54px;font-size:14px;font-weight:700;padding:3px 7px;text-align:center;border:1px solid var(--border2);border-radius:6px;background:var(--surface3);color:var(--text);font-family:inherit}
 .obj-inp-row input:disabled{opacity:.4;cursor:not-allowed}
 .obj-unit{font-size:11px;color:var(--text3)}
 .boxes{display:flex;gap:3px;flex-wrap:wrap}
-.box{width:16px;height:16px;border-radius:4px;transition:background .2s}
+.box{width:14px;height:14px;border-radius:3px}
 .box.empty{background:var(--surface3)}
 
-.sec-block{margin-bottom:14px}
-.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:14px}
-.chip-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;background:var(--surface3);color:var(--text2);border:1px solid var(--border);font-weight:500}
+/* SECTEURS */
+.sec-block{margin-bottom:12px}
+.slbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;min-height:12px}
+.chip-tag{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border)}
 .chip-tag .x{cursor:pointer;opacity:.35;font-size:10px;margin-left:2px;transition:opacity .12s}
 .chip-tag .x:hover{opacity:1;color:var(--red)}
-.add-sec{display:flex;gap:6px}
-.add-sec input{flex:1;font-size:12px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface2);color:var(--text);font-family:inherit}
-.add-sec input::placeholder{color:var(--text3)}
-.add-sec input:focus{outline:none;border-color:var(--border2)}
-.add-sec input:disabled{opacity:.4;cursor:not-allowed}
-.add-sec button{padding:6px 12px;font-size:13px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;font-weight:700;color:var(--text2);transition:all .12s;font-family:inherit}
-.add-sec button:hover{color:var(--text)}
-.add-sec button:disabled{opacity:.4;cursor:not-allowed}
 
-.drop-zone{min-height:62px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:6px;display:flex;flex-direction:column;gap:4px;transition:all .15s}
+/* SECTEUR PICKER */
+.sec-picker-wrap{position:relative}
+.sec-picker-btn{display:flex;align-items:center;gap:6px;padding:6px 11px;font-size:12px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface2);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .12s;width:100%}
+.sec-picker-btn:hover{background:var(--surface3);color:var(--text)}
+.sec-picker-btn:disabled{opacity:.4;cursor:not-allowed}
+.sec-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);z-index:50;max-height:300px;overflow:hidden;display:none;flex-direction:column;box-shadow:var(--shadow)}
+.sec-dropdown.open{display:flex}
+.sec-drop-search{padding:8px 10px;border-bottom:1px solid var(--border)}
+.sec-drop-search input{width:100%;background:transparent;border:none;font-size:12px;color:var(--text);font-family:inherit}
+.sec-drop-search input:focus{outline:none}
+.sec-drop-search input::placeholder{color:var(--text3)}
+.sec-dept-list{overflow-y:auto;flex:1}
+.sec-dept{border-bottom:1px solid var(--border)}
+.sec-dept-header{padding:6px 12px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;background:var(--surface3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.sec-dept-header:hover{color:var(--text2)}
+.sec-dept-cities{display:none;flex-direction:column}
+.sec-dept-cities.open{display:flex}
+.sec-city-item{padding:7px 16px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.sec-city-item:hover{background:var(--surface3);color:var(--text)}
+.sec-city-item.selected{color:var(--green)}
+.sec-city-item .chk{width:14px;height:14px;border-radius:3px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
+.sec-city-item.selected .chk{background:var(--green);border-color:var(--green);color:#000}
+.sec-custom-row{display:flex;gap:5px;margin-top:6px}
+.sec-custom-row input{flex:1;font-size:12px;padding:5px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface2);color:var(--text);font-family:inherit}
+.sec-custom-row input::placeholder{color:var(--text3)}
+.sec-custom-row input:focus{outline:none;border-color:var(--border2)}
+.sec-custom-row button{padding:5px 10px;font-size:12px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;font-weight:700;color:var(--text2);font-family:inherit}
+.sec-custom-row button:hover{color:var(--text)}
+
+/* DROP */
+.drop-zone{min-height:58px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:5px;display:flex;flex-direction:column;gap:4px;transition:all .15s}
 .drop-zone.over{background:rgba(34,197,94,.07);border-color:var(--green)}
-.hint{font-size:11px;color:var(--text3);text-align:center;padding:18px 0;pointer-events:none;font-weight:500}
+.hint{font-size:11px;color:var(--text3);text-align:center;padding:16px 0;pointer-events:none;font-weight:500}
 
-.pill{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--r-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s}
+/* PILL */
+.pill{display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--surface2);border-radius:var(--r-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s}
 .pill:hover{border-color:var(--border2);background:var(--surface3)}
 .pill.dragging{opacity:.18;cursor:grabbing}
-.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 .pi{flex:1;min-width:0}
 .pname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prole{font-size:10px;color:var(--text3);margin-top:1px;font-weight:500}
-.dh{font-size:13px;color:var(--border2);flex-shrink:0}
+.dh{font-size:12px;color:var(--border2);flex-shrink:0}
 
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s;border:1px solid var(--border2)}
+/* ROLE COLORS */
+.role-chef{color:#fcd34d}
+.role-anim{color:#86efac}
+.role-com{color:var(--text3)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s;border:1px solid var(--border2)}
 .btn-ghost{background:var(--surface2);color:var(--text2)}
 .btn-ghost:hover{background:var(--surface3);color:var(--text);border-color:var(--border3)}
 .btn-solid{background:var(--text);color:var(--bg);border-color:var(--text)}
 .btn-solid:hover{opacity:.85}
 .btn-danger{background:rgba(239,68,68,.1);color:var(--red);border-color:rgba(239,68,68,.25)}
 .btn-danger:hover{background:rgba(239,68,68,.18)}
-.btn-sm{padding:6px 10px;font-size:11px}
-.ic-btn{width:30px;height:30px;padding:0;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .12s;font-family:inherit}
+.btn-sm{padding:5px 10px;font-size:11px}
+.ic-btn{width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .12s;font-family:inherit}
 .ic-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
-.add-car-btn{width:100%;padding:12px;border:1.5px dashed var(--border2);background:transparent;border-radius:var(--r-lg);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;transition:all .15s}
+.add-car-btn{width:100%;padding:11px;border:1.5px dashed var(--border2);background:transparent;border-radius:var(--r-lg);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;transition:all .15s}
 .add-car-btn:hover{border-color:var(--border3);color:var(--text2);background:var(--surface)}
-.slbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.readonly-badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
 
-.hist-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.filt-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
+/* HISTORY */
+.hist-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filt-btn{padding:6px 13px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
 .filt-btn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
-.hist-list{display:flex;flex-direction:column;gap:6px}
-.hist-row{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--border);transition:border-color .15s}
+.hist-list{display:flex;flex-direction:column;gap:5px}
+.hist-day-header{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 4px 5px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.hist-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);background:var(--surface);border:1px solid var(--border);transition:border-color .15s}
 .hist-row:hover{border-color:var(--border2)}
-.hist-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.hist-body{flex:1}
+.hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hist-body{flex:1;min-width:0}
 .hist-txt{font-size:13px;font-weight:500}
-.hist-sub{font-size:11px;color:var(--text3);margin-top:3px}
-.hist-badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-left:8px}
+.hist-car{font-size:11px;color:var(--text3);margin-top:2px}
+.hist-time{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0}
+.hist-badge{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;margin-left:7px}
 .hist-badge.add{background:rgba(34,197,94,.15);color:#86efac}
 .hist-badge.rm{background:rgba(239,68,68,.15);color:#fca5a5}
 .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
 .empty-state .ei{font-size:40px;margin-bottom:12px}
 .empty-state p{font-size:13px}
 
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
 .modal-bg.open{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-xl);width:100%;max-width:440px;padding:26px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
 .modal h2{font-size:18px;font-weight:800;margin-bottom:20px;letter-spacing:-.3px}
-.field{margin-bottom:14px}
+.field{margin-bottom:13px}
 .field label{display:block;font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-.field input,.field select{width:100%;padding:10px 13px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
-.field input:focus,.field select:focus{outline:none;border-color:var(--border3)}
+.field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
+.field input:focus{outline:none;border-color:var(--border3)}
 .field input::placeholder{color:var(--text3)}
-.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
-.chip{padding:6px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .12s;font-weight:500;font-family:inherit}
+.chip-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{padding:6px 13px;border-radius:20px;font-size:12px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .12s;font-weight:500;font-family:inherit}
 .chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 .m-acts{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
 .color-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.cdot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
+.cdot{width:24px;height:24px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
 .cdot:hover{transform:scale(1.1)}
 .cdot.on{border-color:var(--text)}
-.prof-head{display:flex;align-items:center;gap:16px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
-.prof-av{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0}
-.prof-info h3{font-size:17px;font-weight:700}
+.prof-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.prof-av{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
+.prof-info h3{font-size:16px;font-weight:700}
 .prof-info p{font-size:12px;color:var(--text3);margin-top:3px}
-.pstat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.pstat{background:var(--surface2);border-radius:var(--r-sm);padding:10px 14px;border:1px solid var(--border)}
+.pstat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.pstat{background:var(--surface2);border-radius:var(--r-sm);padding:9px 12px;border:1px solid var(--border)}
 .pstat .pl{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 .pstat .pv{font-size:13px;font-weight:700}
 
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:12px 22px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:11px 20px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
 .toast.show{opacity:1}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -216,7 +255,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <div class="login-card">
     <div class="login-logo">🚗</div>
     <h1>Voitures commerciales</h1>
-    <p>Connectez-vous pour accéder à l'application</p>
+    <p>Région Occitanie · Autour de Montpellier</p>
     <div class="lf"><label>Email</label><input type="email" id="lEmail" placeholder="votre@email.com"/></div>
     <div class="lf"><label>Mot de passe</label><input type="password" id="lPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <button class="login-btn" onclick="doLogin()">Se connecter</button>
@@ -230,11 +269,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <aside class="sidebar">
       <div class="sb-logo">
         <span>🚗</span>
-        <div><h2>Voitures</h2><small>Commerciales</small></div>
+        <div><h2>Voitures</h2><small>Montpellier & alentours</small></div>
       </div>
       <nav class="sb-nav">
+        <div class="sb-section">Navigation</div>
         <button class="sb-item active" id="nav-board" onclick="goPage('board')"><span class="ic">📋</span>Tableau de bord</button>
-        <button class="sb-item" id="nav-history" onclick="goPage('history')"><span class="ic">🕐</span>Historique</button>
+        <button class="sb-item" id="nav-history" onclick="goPage('history')"><span class="ic">🕐</span>Historique secteurs</button>
       </nav>
       <div class="sb-bottom">
         <div class="sb-user" id="sbUser"></div>
@@ -249,24 +289,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class="page-header">
           <div class="page-title"><h1>Tableau de bord</h1><p>Glissez les commerciaux vers leur voiture</p></div>
           <div class="page-actions" id="adminActions" style="display:none">
-            <button class="btn btn-ghost" onclick="openAddMember()">+ Commercial</button>
-            <button class="btn btn-solid" onclick="openAddCar()">+ Voiture</button>
+            <button class="btn btn-ghost btn-sm" onclick="openAddMember()">+ Commercial</button>
+            <button class="btn btn-solid btn-sm" onclick="openAddCar()">+ Voiture</button>
           </div>
         </div>
-
         <div class="search-bar">
-          <span>🔍</span>
+          <span style="font-size:15px">🔍</span>
           <input type="text" id="searchInput" placeholder="Rechercher un commercial, une voiture, un secteur…" oninput="onSearch()"/>
           <span class="search-count" id="searchCount"></span>
         </div>
-
         <div class="stats-grid">
           <div class="stat-card c-blue"><div class="lbl">Voitures</div><div class="val" id="s1">—</div></div>
           <div class="stat-card c-green"><div class="lbl">Commerciaux</div><div class="val" id="s2">—</div></div>
           <div class="stat-card c-amber"><div class="lbl">Affectés</div><div class="val" id="s3">—</div></div>
           <div class="stat-card c-red"><div class="lbl">Objectif total</div><div class="val" id="s4">—</div></div>
         </div>
-
         <div class="board">
           <div class="pool-card">
             <div class="card-head"><div><h3>Pool</h3><div class="sub">Sans voiture assignée</div></div></div>
@@ -283,18 +320,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <!-- HISTORY -->
       <div id="pagehistory" style="display:none">
         <div class="page-header">
-          <div class="page-title"><h1>Historique des secteurs</h1><p>Toutes les modifications datées</p></div>
+          <div class="page-title"><h1>Historique des secteurs</h1><p>Toutes les modifications avec date et heure</p></div>
           <button class="btn btn-ghost btn-sm" onclick="loadAll()">↺ Actualiser</button>
         </div>
         <div class="search-bar">
-          <span>🔍</span>
-          <input type="text" id="histSearch" placeholder="Rechercher un secteur ou une voiture…" oninput="renderHist()"/>
+          <span style="font-size:15px">🔍</span>
+          <input type="text" id="histSearch" placeholder="Rechercher un secteur, une ville, une voiture…" oninput="renderHist()"/>
           <span class="search-count" id="histCount"></span>
         </div>
-        <div class="hist-filters">
+        <div class="hist-toolbar">
           <button class="filt-btn on" id="filt-all" onclick="setFilt('all')">Tout</button>
-          <button class="filt-btn" id="filt-ajout" onclick="setFilt('ajout')">● Ajouts</button>
-          <button class="filt-btn" id="filt-retrait" onclick="setFilt('retrait')">● Retraits</button>
+          <button class="filt-btn" id="filt-ajout" onclick="setFilt('ajout')">🟢 Ajouts</button>
+          <button class="filt-btn" id="filt-retrait" onclick="setFilt('retrait')">🔴 Retraits</button>
         </div>
         <div class="hist-list" id="histList"></div>
       </div>
@@ -311,13 +348,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 const SURL='https://xtelveaprkhaccqevpjl.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0ZWx2ZWFwcmtoYWNjcWV2cGpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MDAwNjIsImV4cCI6MjA5MDk3NjA2Mn0.-eM6xfJlaaAALa5UAaIbWZ6efN9UFKJLzW1bUgYg0FI';
 const sb=supabase.createClient(SURL,SKEY);
-
-// Admin email — seul cet utilisateur peut modifier les voitures
 const ADMIN_EMAIL='roman.blanchot21@gmail.com';
 
 const EMOJIS=['🚗','🚙','🚕','🚐','🏎️','🚌'];
 const OPS=[{id:'free',label:'Free',cls:'op-free',color:'#3b82f6'},{id:'bouygues',label:'Bouygues',cls:'op-bouygues',color:'#f59e0b'},{id:'sfr',label:'SFR',cls:'op-sfr',color:'#ef4444'}];
-const ROLES=['Commercial','Chef d\'équipe','Animateur réseau','Formateur'];
+const ROLES=['Commercial','Chef d\'équipe','Animateur réseau'];
 const OPBG={free:'rgba(59,130,246,.15)',bouygues:'rgba(245,158,11,.15)',sfr:'rgba(239,68,68,.15)'};
 const OPCOL={free:'#3b82f6',bouygues:'#f59e0b',sfr:'#ef4444'};
 const AV=[
@@ -326,11 +361,29 @@ const AV=[
   {bg:'#4a1e5f',tx:'#e9d5ff'},{bg:'#1e5f3a',tx:'#6ee7b7'},{bg:'#2a2a2a',tx:'#d1d5db'}
 ];
 
+// VILLES dans un rayon ~2h20 autour de Montpellier, classées par département
+const SECTEURS_GEO = {
+  '34 - Hérault': ['Montpellier','Béziers','Sète','Agde','Palavas-les-Flots','Frontignan','Lodève','Clermont-l\'Hérault','Mèze','Pézenas','Lunel','Mauguio','Lattes','Castelnau-le-Lez','Vendargues','Saint-Jean-de-Védas','Gigean','Mireval','Montagnac','Florensac','Marseillan','Cap-d\'Agde','Vias','Nézignan-l\'Évêque','Gignac','Aniane','Saint-Guilhem-le-Désert','Ganges','Le Vigan','Montpeyroux','Olargues','Saint-Pons-de-Thomières','Bédarieux','La Salvetat-sur-Agout','Murviel-lès-Béziers','Maraussan','Servian','Alignan-du-Vent'],
+  '30 - Gard': ['Nîmes','Alès','Bagnols-sur-Cèze','Beaucaire','Tarascon','Villeneuve-lès-Avignon','Saint-Gilles','Vauvert','Lunel-Viel','Sommières','Quissac','Le Vigan','Uzès','Pont-du-Gard','Remoulins','Aigues-Mortes','Le Grau-du-Roi','Grande-Motte','Gallargues-le-Montueux','Milhaud','Marguerittes','Manduel','Saint-Christol-lès-Alès','Génolhac','Valleraugue','Saint-Jean-du-Gard','Anduze','Saint-Ambroix','Barjac'],
+  '11 - Aude': ['Carcassonne','Narbonne','Castelnaudary','Limoux','Lézignan-Corbières','Coursan','Leucate','Port-la-Nouvelle','Sigean','Gruissan','La Nouvelle','Axat','Quillan','Alaigne','Bram','Alzonne','Trèbes','Rustiques','Conques-sur-Orbiel','Villalbe','Pezens'],
+  '66 - Pyrénées-Orientales': ['Perpignan','Canet-en-Roussillon','Argelès-sur-Mer','Collioure','Port-Vendres','Banyuls-sur-Mer','Céret','Le Boulou','Saint-Estève','Rivesaltes','Thuir','Ille-sur-Têt','Prades','Vinça','Millas','Elne','Saint-Cyprien','Leucate-Plage'],
+  '13 - Bouches-du-Rhône': ['Marseille','Aix-en-Provence','Arles','Istres','Martigues','Salon-de-Provence','Aubagne','La Ciotat','Vitrolles','Marignane','Berre-l\'Étang','Port-de-Bouc','Miramas','Fos-sur-Mer','Saint-Martin-de-Crau','Châteaurenard','Tarascon'],
+  '84 - Vaucluse': ['Avignon','Carpentras','Apt','Orange','Cavaillon','L\'Isle-sur-la-Sorgue','Pertuis','Bollène','Valréas','Sorgues','Le Pontet','Morières-lès-Avignon','Montfavet','Vedène','Cheval-Blanc'],
+  '83 - Var': ['Toulon','Fréjus','Draguignan','Brignoles','Hyères','La Seyne-sur-Mer','Six-Fours-les-Plages','Sanary-sur-Mer','Bandol','Saint-Raphaël','Sainte-Maxime'],
+  '12 - Aveyron': ['Millau','Rodez','Saint-Affrique','Villefranche-de-Rouergue','Decazeville','Espalion','Laguiole','Severac-le-Château','Roquefort-sur-Soulzon'],
+  '48 - Lozère': ['Mende','Florac','Marvejols','Saint-Chély-d\'Apcher','La Canourgue','Langogne','Châteauneuf-de-Randon'],
+  '09 - Ariège': ['Foix','Pamiers','Saint-Girons','Ax-les-Thermes','Lavelanet','Tarascon-sur-Ariège','Saverdun'],
+  '31 - Haute-Garonne': ['Toulouse','Colomiers','Tournefeuille','Blagnac','Muret','Saint-Gaudens','Cazères','Auterive','Caraman','Revel'],
+  '81 - Tarn': ['Albi','Castres','Gaillac','Mazamet','Graulhet','Carmaux','Lavaur','Saint-Sulpice-la-Pointe'],
+};
+
 let cars=[],members=[],sectors=[],history=[],dragId=null,selColor=0,histFilt='all',currentPage='board',isAdmin=false;
+let openDepts={};
 
 const ini=n=>n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
 const avS=m=>{const c=AV[(m.color_idx||0)%AV.length];return `background:${c.bg};color:${c.tx}`};
 const opTag=op=>{const o=OPS.find(x=>x.id===op);return o?`<span class="op-tag ${o.cls}">${o.label}</span>`:''};
+const roleClass=r=>r==="Chef d'équipe"?'role-chef':r==='Animateur réseau'?'role-anim':'role-com';
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 
 // ── AUTH ──
@@ -341,16 +394,13 @@ async function doLogin(){
   err.textContent='Connexion…';
   const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
   if(error){err.textContent='Email ou mot de passe incorrect';return;}
-  err.textContent='';
-  showApp(data.user);
+  err.textContent='';showApp(data.user);
 }
 async function doLogout(){
-  await sb.auth.signOut();
-  isAdmin=false;
+  await sb.auth.signOut();isAdmin=false;
   document.getElementById('appScreen').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('lPass').value='';
-  document.getElementById('lEmail').value='';
+  document.getElementById('lPass').value='';document.getElementById('lEmail').value='';
 }
 function showApp(user){
   isAdmin=user.email===ADMIN_EMAIL;
@@ -379,27 +429,129 @@ async function loadAll(){
     sb.from('cars').select('*').order('created_at'),
     sb.from('members').select('*').order('created_at'),
     sb.from('sectors').select('*').order('created_at'),
-    sb.from('sector_history').select('*').order('created_at',{ascending:false}).limit(200)
+    sb.from('sector_history').select('*').order('created_at',{ascending:false}).limit(500)
   ]);
   cars=cR.data||[];members=mR.data||[];sectors=sR.data||[];history=hR.data||[];
   render();
 }
-
 const getSecs=cid=>sectors.filter(s=>s.car_id===cid);
 const getMems=cid=>members.filter(m=>m.car_id===cid);
 
 // ── SEARCH ──
-function onSearch(){
-  renderPool();renderCars();
-  const q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
-  if(!q){document.getElementById('searchCount').textContent='';return;}
-  let n=0;
-  document.querySelectorAll('.pill[style*="flex"],.car-card[style*="block"]').forEach(()=>n++);
-  document.getElementById('searchCount').textContent=`${n} résultat${n>1?'s':''}`;
-}
+function onSearch(){renderPool();renderCars();}
 function matchSearch(text){
   const q=(document.getElementById('searchInput')||{value:''}).value.toLowerCase().trim();
   return !q||text.toLowerCase().includes(q);
+}
+
+// ── SECTEUR PICKER ──
+function buildSecPicker(carId,carName,carSecs){
+  const secIds=new Set(carSecs.map(s=>s.name));
+  return `<div class="sec-picker-wrap" id="sp-${carId}">
+    <button class="sec-picker-btn" onclick="togglePicker('${carId}')" ${isAdmin?'':'disabled'}>
+      <span>＋</span> Ajouter un secteur / ville
+    </button>
+    <div class="sec-dropdown" id="spd-${carId}">
+      <div class="sec-drop-search">
+        <input type="text" placeholder="Rechercher une ville…" oninput="filterPicker('${carId}')" id="sps-${carId}"/>
+      </div>
+      <div class="sec-dept-list" id="spdl-${carId}">
+        ${Object.entries(SECTEURS_GEO).map(([dept,cities])=>`
+          <div class="sec-dept" id="sdept-${carId}-${dept.replace(/\s/g,'_')}">
+            <div class="sec-dept-header" onclick="toggleDept('${carId}','${dept.replace(/\s/g,'_')}')">
+              <span>${dept}</span><span id="dchev-${carId}-${dept.replace(/\s/g,'_')}">›</span>
+            </div>
+            <div class="sec-dept-cities" id="dcities-${carId}-${dept.replace(/\s/g,'_')}">
+              ${cities.map(city=>`
+                <div class="sec-city-item${secIds.has(city)?' selected':''}" onclick="toggleCity('${carId}','${carName.replace(/'/g,"\\'")}','${city}')" id="sci-${carId}-${city.replace(/[^a-zA-Z0-9]/g,'_')}">
+                  <div class="chk">${secIds.has(city)?'✓':''}</div>
+                  <span>${city}</span>
+                </div>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+      <div style="padding:8px 10px;border-top:1px solid var(--border)">
+        <div class="sec-custom-row">
+          <input type="text" id="scc-${carId}" placeholder="Ville personnalisée…" onkeydown="if(event.key==='Enter')addCustomCity('${carId}','${carName.replace(/'/g,"\\'")}')"/>
+          <button onclick="addCustomCity('${carId}','${carName.replace(/'/g,"\\'")}')">+</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+let openPicker=null;
+function togglePicker(carId){
+  if(!isAdmin)return;
+  const el=document.getElementById('spd-'+carId);
+  if(!el)return;
+  if(openPicker&&openPicker!==carId){
+    const prev=document.getElementById('spd-'+openPicker);
+    if(prev)prev.classList.remove('open');
+  }
+  el.classList.toggle('open');
+  openPicker=el.classList.contains('open')?carId:null;
+  if(el.classList.contains('open')){
+    const inp=document.getElementById('sps-'+carId);
+    if(inp)inp.focus();
+  }
+}
+document.addEventListener('click',e=>{
+  if(openPicker&&!e.target.closest('.sec-picker-wrap')){
+    const el=document.getElementById('spd-'+openPicker);
+    if(el)el.classList.remove('open');
+    openPicker=null;
+  }
+});
+function toggleDept(carId,dept){
+  const el=document.getElementById('dcities-'+carId+'-'+dept);
+  const chev=document.getElementById('dchev-'+carId+'-'+dept);
+  if(!el)return;
+  const open=el.classList.toggle('open');
+  if(chev)chev.textContent=open?'↓':'›';
+}
+function filterPicker(carId){
+  const q=(document.getElementById('sps-'+carId)||{value:''}).value.toLowerCase().trim();
+  Object.entries(SECTEURS_GEO).forEach(([dept,cities])=>{
+    const dkey=dept.replace(/\s/g,'_');
+    let anyVisible=false;
+    cities.forEach(city=>{
+      const el=document.getElementById('sci-'+carId+'-'+city.replace(/[^a-zA-Z0-9]/g,'_'));
+      if(el){const show=!q||city.toLowerCase().includes(q);el.style.display=show?'flex':'none';if(show)anyVisible=true;}
+    });
+    const deptEl=document.getElementById('sdept-'+carId+'-'+dkey);
+    if(deptEl)deptEl.style.display=anyVisible||!q?'block':'none';
+    if(q&&anyVisible){
+      const cities_el=document.getElementById('dcities-'+carId+'-'+dkey);
+      if(cities_el)cities_el.classList.add('open');
+    }
+  });
+}
+async function toggleCity(carId,carName,city){
+  if(!isAdmin)return;
+  const existing=sectors.find(s=>s.car_id===carId&&s.name===city);
+  if(existing){
+    await rmSec(existing.id,carId,city,carName);
+  } else {
+    const {data,error}=await sb.from('sectors').insert({car_id:carId,name:city}).select().single();
+    if(error){toast('Erreur Supabase');return;}
+    sectors.push(data);
+    const hRow={action:'ajout',sector_name:city,car_name:carName};
+    await sb.from('sector_history').insert(hRow);
+    history.unshift({...hRow,created_at:new Date().toISOString()});
+    toast(`${city} ajouté ✓`);
+    render();
+    // Mettre à jour le checkmark sans fermer le picker
+    const cityId='sci-'+carId+'-'+city.replace(/[^a-zA-Z0-9]/g,'_');
+    const el=document.getElementById(cityId);
+    if(el){el.classList.add('selected');const chk=el.querySelector('.chk');if(chk)chk.textContent='✓';}
+  }
+}
+async function addCustomCity(carId,carName){
+  if(!isAdmin)return;
+  const inp=document.getElementById('scc-'+carId);if(!inp)return;
+  const v=inp.value.trim();if(!v)return;inp.value='';
+  await toggleCity(carId,carName,v);
 }
 
 // ── RENDER ──
@@ -411,12 +563,25 @@ function boxes(car){
   return h+'</div>';
 }
 
+function chipColor(name){
+  // Colorer les chips par département
+  const dept=Object.entries(SECTEURS_GEO).find(([,cities])=>cities.includes(name));
+  if(!dept)return 'background:var(--surface3);color:var(--text2);border-color:var(--border)';
+  const colors=['rgba(59,130,246,.15)','rgba(34,197,94,.12)','rgba(245,158,11,.12)','rgba(239,68,68,.12)','rgba(167,139,250,.15)','rgba(251,191,36,.12)','rgba(236,72,153,.12)','rgba(14,165,233,.12)','rgba(168,85,247,.12)','rgba(34,197,94,.12)','rgba(249,115,22,.12)','rgba(20,184,166,.12)'];
+  const textColors=['#93c5fd','#86efac','#fcd34d','#fca5a5','#c4b5fd','#fde68a','#f9a8d4','#7dd3fc','#d8b4fe','#86efac','#fdba74','#5eead4'];
+  const idx=Object.keys(SECTEURS_GEO).indexOf(dept[0])%colors.length;
+  return `background:${colors[idx]};color:${textColors[idx]};border-color:transparent`;
+}
+
 function pill(m){
   const show=matchSearch(m.name+' '+m.role);
   return `<div class="pill" id="mp-${m.id}" draggable="true" ondragstart="ds(event,'${m.id}')" ondragend="de(event)" style="display:${show?'flex':'none'}">
     <span class="dh">⠿</span>
     <div class="av" style="${avS(m)}">${ini(m.name)}</div>
-    <div class="pi"><div class="pname">${m.name}</div><div class="prole">${m.role}</div></div>
+    <div class="pi">
+      <div class="pname">${m.name}</div>
+      <div class="prole ${roleClass(m.role)}">${m.role}</div>
+    </div>
     <button class="ic-btn" onclick="openProfile('${m.id}');event.stopPropagation()">👤</button>
   </div>`;
 }
@@ -444,30 +609,17 @@ function renderCars(){
     const ms=getMems(car.id),ss=getSecs(car.id);
     const col=OPCOL[car.operator]||'#888';
     const carMatch=!q||(car.name.toLowerCase().includes(q)||ss.some(s=>s.name.toLowerCase().includes(q))||ms.some(m=>(m.name+' '+m.role).toLowerCase().includes(q)));
-
-    // Boutons admin seulement
-    const adminCarBtns=isAdmin?`
-      <button class="ic-btn" onclick="openEditCar('${car.id}')">✎</button>
-      <button class="ic-btn" onclick="deleteCar('${car.id}')">🗑</button>`
-      :`<span class="readonly-badge">👁 Lecture</span>`;
-
-    const secInputAdmin=isAdmin?`
-      <div class="add-sec">
-        <input type="text" id="si-${car.id}" placeholder="Ajouter un secteur…" onkeydown="if(event.key==='Enter')addSec('${car.id}','${car.name.replace(/'/g,"\\'")}')">
-        <button onclick="addSec('${car.id}','${car.name.replace(/'/g,"\\'")}')">+</button>
-      </div>`:'';
-
-    const chipRm=s=>isAdmin?`<span class="x" onclick="rmSec('${s.id}','${car.id}','${s.name.replace(/'/g,"\\'")}','${car.name.replace(/'/g,"\\'")}')">✕</span>`:'';
-
+    const adminBtns=isAdmin?`<button class="ic-btn" onclick="openEditCar('${car.id}')">✎</button><button class="ic-btn" onclick="deleteCar('${car.id}')">🗑</button>`:
+      `<span class="readonly-badge">👁</span>`;
     return `<div class="car-card" style="display:${carMatch?'block':'none'}">
       <div class="car-top">
         <div class="car-bar" style="background:${col}"></div>
         <div class="car-ico" style="background:${OPBG[car.operator]||'#222'}">${car.emoji}</div>
         <div class="car-info">
           <h3>${car.name}</h3>
-          <div class="sub">${opTag(car.operator)}<span class="car-sub-txt">${ms.length} commercial${ms.length>1?'s':''}</span></div>
+          <div class="sub">${opTag(car.operator)}<span class="car-sub-txt">${ms.length} pers.</span></div>
         </div>
-        <div class="car-btns">${adminCarBtns}</div>
+        <div class="car-btns">${adminBtns}</div>
       </div>
       <div class="car-body">
         <div class="obj-block">
@@ -480,9 +632,9 @@ function renderCars(){
           ${boxes(car)}
         </div>
         <div class="sec-block">
-          <div class="slbl">Secteurs</div>
-          <div class="chips">${ss.map(s=>`<span class="chip-tag">${s.name}${chipRm(s)}</span>`).join('')||'<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>'}</div>
-          ${secInputAdmin}
+          <div class="slbl">Secteurs & villes (${ss.length})</div>
+          <div class="chips">${ss.map(s=>`<span class="chip-tag" style="${chipColor(s.name)}">${s.name}${isAdmin?`<span class="x" onclick="rmSec('${s.id}','${car.id}','${s.name.replace(/'/g,"\\'")}','${car.name.replace(/'/g,"\\'")}')">✕</span>`:''}  </span>`).join('')||'<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>'}</div>
+          ${buildSecPicker(car.id,car.name,ss)}
         </div>
         <div class="slbl">Équipe · ${ms.length} pers.</div>
         <div class="drop-zone" id="zone-${car.id}" ondragover="dov(event)" ondrop="ddr(event,'${car.id}')">
@@ -508,19 +660,32 @@ function renderHist(){
   if(q)rows=rows.filter(h=>(h.sector_name+' '+h.car_name).toLowerCase().includes(q));
   document.getElementById('histCount').textContent=rows.length?`${rows.length} entrée${rows.length>1?'s':''}`:' Aucun résultat';
   if(!rows.length){el.innerHTML=`<div class="empty-state"><div class="ei">🕐</div><p>Aucune entrée dans l'historique</p></div>`;return;}
-  el.innerHTML=rows.map(h=>{
-    const isA=h.action==='ajout';
+
+  // Grouper par jour
+  const grouped={};
+  rows.forEach(h=>{
     const d=new Date(h.created_at);
-    const date=d.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
-    const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    return `<div class="hist-row">
-      <div class="hist-dot" style="background:${isA?'#22c55e':'#ef4444'}"></div>
-      <div class="hist-body">
-        <div class="hist-txt">Secteur <strong>${h.sector_name}</strong><span class="hist-badge ${isA?'add':'rm'}">${isA?'Ajout':'Retrait'}</span> — ${h.car_name}</div>
-        <div class="hist-sub">${date} à ${time}</div>
-      </div>
-    </div>`;
-  }).join('');
+    const key=d.toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+    if(!grouped[key])grouped[key]=[];
+    grouped[key].push(h);
+  });
+
+  el.innerHTML=Object.entries(grouped).map(([day,items])=>`
+    <div class="hist-day-header">${day}</div>
+    ${items.map(h=>{
+      const isA=h.action==='ajout';
+      const d=new Date(h.created_at);
+      const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      const dept=Object.entries(SECTEURS_GEO).find(([,cities])=>cities.includes(h.sector_name));
+      return `<div class="hist-row">
+        <div class="hist-dot" style="background:${isA?'#22c55e':'#ef4444'}"></div>
+        <div class="hist-body">
+          <div class="hist-txt"><strong>${h.sector_name}</strong><span class="hist-badge ${isA?'add':'rm'}">${isA?'+ Ajout':'− Retrait'}</span></div>
+          <div class="hist-car">${h.car_name}${dept?' · '+dept[0].split(' - ')[1]:''}</div>
+        </div>
+        <div class="hist-time">${time}</div>
+      </div>`;
+    }).join('')}`).join('');
 }
 
 function render(){renderStats();renderPool();renderCars();if(currentPage==='history')renderHist();}
@@ -539,25 +704,13 @@ async function ddr(e,target){
   toast('Commercial déplacé ✓');
 }
 
-// ── ACTIONS ADMIN ──
+// ── ACTIONS ──
 async function setObj(cid,val){
   if(!isAdmin)return;
   const v=Math.max(0,Math.min(99,parseInt(val)||0));
   const car=cars.find(c=>c.id===cid);if(!car)return;
   car.objectif=v;render();
   await sb.from('cars').update({objectif:v}).eq('id',cid);
-}
-async function addSec(cid,cname){
-  if(!isAdmin)return;
-  const inp=document.getElementById('si-'+cid);if(!inp)return;
-  const v=inp.value.trim();if(!v)return;inp.value='';
-  const {data,error}=await sb.from('sectors').insert({car_id:cid,name:v}).select().single();
-  if(error){toast('Erreur Supabase');console.error(error);return;}
-  sectors.push(data);
-  const hRow={action:'ajout',sector_name:v,car_name:cname};
-  await sb.from('sector_history').insert(hRow);
-  history.unshift({...hRow,created_at:new Date().toISOString()});
-  render();toast(`Secteur "${v}" ajouté ✓`);
 }
 async function rmSec(sid,cid,sname,cname){
   if(!isAdmin)return;
@@ -567,7 +720,7 @@ async function rmSec(sid,cid,sname,cname){
   await sb.from('sector_history').insert(hRow);
   history.unshift({...hRow,created_at:new Date().toISOString()});
   if(currentPage==='history')renderHist();
-  toast(`Secteur "${sname}" retiré`);
+  toast(`${sname} retiré`);
 }
 async function deleteCar(id){
   if(!isAdmin)return;
@@ -579,7 +732,7 @@ async function deleteCar(id){
   await sb.from('cars').delete().eq('id',id);toast('Voiture supprimée');
 }
 
-// ── MODAL HELPERS ──
+// ── MODALS ──
 function selE(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selE"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v}
 function selOp(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selOp"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v}
 function selRole(el,v){document.querySelectorAll('#modalBox .chip[onclick*="selRole"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('pRole').value=v}
@@ -587,7 +740,6 @@ function pickColor(el,i){selColor=i;document.querySelectorAll('#modalBox .cdot')
 function showModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modalBg').classList.add('open')}
 function closeModal(){document.getElementById('modalBg').classList.remove('open')}
 
-// ── MODALS ──
 function openAddCar(){
   if(!isAdmin){toast('Accès réservé à l\'administrateur');return;}
   showModal(`<h2>Nouvelle voiture</h2>
@@ -605,7 +757,7 @@ async function confirmAddCar(){
   cars.push(data);closeModal();render();toast(`"${name}" créée ✓`);
 }
 function openEditCar(id){
-  if(!isAdmin){toast('Accès réservé à l\'administrateur');return;}
+  if(!isAdmin)return;
   const car=cars.find(c=>c.id===id);if(!car)return;
   showModal(`<h2>Modifier la voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" value="${car.name}"/></div>
@@ -624,7 +776,7 @@ async function confirmEditCar(id){
   toast('Voiture mise à jour ✓');
 }
 function openAddMember(){
-  if(!isAdmin){toast('Accès réservé à l\'administrateur');return;}
+  if(!isAdmin)return;
   selColor=0;
   showModal(`<h2>Nouveau commercial</h2>
     <div class="field"><label>Nom complet</label><input id="pName" placeholder="Jean Dupont"/></div>
@@ -657,13 +809,13 @@ function openProfile(id){
       <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
       <button class="btn btn-solid" onclick="saveProfile('${id}')">Enregistrer</button>
     </div>`:`
-    <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Téléphone : ${m.phone||'—'}</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:16px">Note : ${m.note||'—'}</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:6px">📞 ${m.phone||'Non renseigné'}</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:18px">📝 ${m.note||'Aucune note'}</div>
     <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Fermer</button></div>`;
   showModal(`
     <div class="prof-head">
       <div class="prof-av" id="profAv" style="background:${c.bg};color:${c.tx}">${ini(m.name)}</div>
-      <div class="prof-info"><h3>${m.name}</h3><p>${m.role} · ${car?car.name:'Non affecté'}</p></div>
+      <div class="prof-info"><h3>${m.name}</h3><p class="${roleClass(m.role)}">${m.role} · ${car?car.name:'Non affecté'}</p></div>
     </div>
     <div class="pstat-grid">
       <div class="pstat"><div class="pl">Voiture</div><div class="pv">${car?car.emoji+' '+car.name:'—'}</div></div>
