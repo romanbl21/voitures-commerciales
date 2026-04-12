@@ -2,75 +2,102 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Voitures Commerciales</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#080808;--surface:#111;--surface2:#181818;--surface3:#202020;--surface4:#282828;
+  --bg:#080808;--surface:#111;--surface2:#181818;--surface3:#202020;
   --border:#222;--border2:#333;--border3:#444;
   --text:#f2f2f2;--text2:#888;--text3:#444;
   --blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;
   --r:12px;--r-sm:8px;--r-lg:16px;--r-xl:20px;
   --shadow:0 8px 32px rgba(0,0,0,.6);
+  --nav-h:60px;
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.login-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:40px 36px;width:100%;max-width:400px;box-shadow:var(--shadow)}
-.login-logo{text-align:center;font-size:48px;margin-bottom:20px}
-.login-card h1{font-size:22px;font-weight:800;text-align:center;letter-spacing:-.5px;margin-bottom:6px}
-.login-card p{font-size:13px;color:var(--text2);text-align:center;margin-bottom:32px}
-.lf{margin-bottom:14px}
-.lf label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
-.lf input{width:100%;padding:12px 14px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:14px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .15s}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
+
+/* ─── LOGIN ─── */
+#loginScreen{display:flex;align-items:center;justify-content:center;height:100vh;padding:20px;overflow-y:auto}
+.login-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:36px 28px;width:100%;max-width:380px}
+.login-logo{text-align:center;font-size:44px;margin-bottom:16px}
+.login-card h1{font-size:20px;font-weight:800;text-align:center;letter-spacing:-.5px;margin-bottom:4px}
+.login-card p{font-size:12px;color:var(--text2);text-align:center;margin-bottom:28px}
+.lf{margin-bottom:12px}
+.lf label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.lf input{width:100%;padding:12px 14px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:16px;background:var(--surface2);color:var(--text);font-family:inherit}
 .lf input:focus{outline:none;border-color:var(--border3)}
-.lf input::placeholder{color:var(--text3)}
-.login-btn{width:100%;padding:13px;background:var(--text);color:var(--bg);border:none;border-radius:var(--r-sm);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;transition:opacity .15s}
-.login-btn:hover{opacity:.88}
+.login-btn{width:100%;padding:14px;background:var(--text);color:var(--bg);border:none;border-radius:var(--r-sm);font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px}
 .login-err{font-size:12px;color:var(--red);text-align:center;margin-top:10px;min-height:16px}
-#appScreen{display:none;min-height:100vh}
-.shell{display:flex;min-height:100vh}
-.sidebar{width:230px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 12px;flex-shrink:0;position:sticky;top:0;height:100vh}
-.sb-logo{display:flex;align-items:center;gap:10px;padding:4px 8px;margin-bottom:28px}
-.sb-logo span{font-size:22px}
+
+/* ─── APP SHELL ─── */
+#appScreen{display:none;height:100vh;flex-direction:column}
+#appScreen.visible{display:flex}
+
+/* ─── TOP BAR (mobile) ─── */
+.topbar{display:none;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;position:sticky;top:0;z-index:10}
+.topbar h2{font-size:15px;font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.tb-btn{width:36px;height:36px;border:1px solid var(--border2);background:var(--surface2);border-radius:var(--r-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text2);font-family:inherit}
+
+/* ─── DESKTOP LAYOUT ─── */
+.desktop-shell{display:flex;height:100%;overflow:hidden}
+.sidebar{width:230px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 12px;flex-shrink:0;overflow-y:auto}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:4px 8px;margin-bottom:24px}
+.sb-logo span{font-size:20px}
 .sb-logo h2{font-size:14px;font-weight:800;letter-spacing:-.3px}
 .sb-logo small{font-size:10px;color:var(--text3);display:block;margin-top:1px}
 .sb-nav{display:flex;flex-direction:column;gap:3px;flex:1}
-.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%;text-align:left}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%;text-align:left;min-height:44px}
 .sb-item:hover{background:var(--surface2);color:var(--text)}
 .sb-item.active{background:var(--surface3);color:var(--text);font-weight:600}
-.sb-item .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.sb-item .ic{font-size:16px;width:22px;text-align:center;flex-shrink:0}
 .sb-bottom{display:flex;flex-direction:column;gap:4px;padding-top:12px;border-top:1px solid var(--border)}
 .sb-user{font-size:11px;color:var(--text3);padding:4px 8px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .admin-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(245,158,11,.15);color:#fcd34d;margin:0 8px 6px}
-.sb-logout{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--red);transition:all .15s;border:none;background:transparent;font-family:inherit;width:100%}
+.sb-logout{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--red);border:none;background:transparent;font-family:inherit;width:100%;min-height:44px}
 .sb-logout:hover{background:rgba(239,68,68,.1)}
-.main{flex:1;min-width:0;padding:28px 32px;overflow-y:auto}
-@media(max-width:860px){.sidebar{display:none}.main{padding:16px}}
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
-.page-title h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
-.page-title p{font-size:12px;color:var(--text2);margin-top:4px}
+
+/* ─── MAIN CONTENT ─── */
+.main-wrap{flex:1;overflow-y:auto;min-width:0}
+.main{padding:24px 28px;max-width:1200px;margin:0 auto}
+
+/* ─── BOTTOM NAV (mobile) ─── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--surface);border-top:1px solid var(--border);z-index:20;flex-shrink:0}
+.bnav-inner{display:flex;height:100%}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:transparent;color:var(--text3);font-family:inherit;font-size:10px;font-weight:600;padding-bottom:4px;transition:color .15s}
+.bnav-item.active{color:var(--text)}
+.bnav-item .bic{font-size:20px}
+
+/* ─── PAGE HEADER ─── */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.page-title h1{font-size:20px;font-weight:800;letter-spacing:-.5px}
+.page-title p{font-size:12px;color:var(--text2);margin-top:3px}
 .page-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:18px;transition:border-color .15s}
-.search-bar:focus-within{border-color:var(--border3)}
-.search-bar input{flex:1;background:transparent;border:none;font-size:13px;color:var(--text);font-family:inherit}
+
+/* ─── SEARCH ─── */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:16px}
+.search-bar input{flex:1;background:transparent;border:none;font-size:14px;color:var(--text);font-family:inherit;min-width:0}
 .search-bar input:focus{outline:none}
 .search-bar input::placeholder{color:var(--text3)}
 .search-count{font-size:11px;color:var(--text3);white-space:nowrap}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
-@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+
+/* ─── STATS ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .stat-card.c-blue::after{background:var(--blue)}
 .stat-card.c-green::after{background:var(--green)}
 .stat-card.c-amber::after{background:var(--amber)}
 .stat-card.c-red::after{background:var(--red)}
-.stat-card .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.stat-card .val{font-size:28px;font-weight:800;letter-spacing:-1px}
-.board{display:grid;grid-template-columns:280px 1fr;gap:14px;align-items:start}
-@media(max-width:860px){.board{grid-template-columns:1fr}}
+.stat-card .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.stat-card .val{font-size:24px;font-weight:800;letter-spacing:-1px}
+
+/* ─── BOARD ─── */
+.board{display:grid;grid-template-columns:270px 1fr;gap:14px;align-items:start}
 .pool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;position:sticky;top:0}
 .card-head{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .card-head h3{font-size:13px;font-weight:700}
@@ -78,10 +105,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .card-body{padding:10px}
 .cars-list{display:flex;flex-direction:column;gap:10px}
 .car-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s}
-.car-card:hover{border-color:var(--border2)}
 .car-top{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
 .car-bar{width:3px;height:38px;border-radius:3px;flex-shrink:0}
-.car-ico{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.car-ico{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .car-info{flex:1;min-width:0}
 .car-info h3{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .car-info .sub{display:flex;align-items:center;gap:5px;margin-top:3px;flex-wrap:wrap}
@@ -92,120 +118,166 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .car-sub-txt{font-size:11px;color:var(--text3)}
 .car-btns{display:flex;gap:4px}
 .car-body{padding:12px 14px}
+
+/* ─── OBJ ─── */
 .obj-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;margin-bottom:12px}
 .obj-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .obj-row span{font-size:12px;color:var(--text2);font-weight:500}
 .obj-inp-row{display:flex;align-items:center;gap:5px}
-.obj-inp-row input{width:54px;font-size:14px;font-weight:700;padding:3px 7px;text-align:center;border:1px solid var(--border2);border-radius:6px;background:var(--surface3);color:var(--text);font-family:inherit}
+.obj-inp-row input{width:54px;font-size:14px;font-weight:700;padding:4px 7px;text-align:center;border:1px solid var(--border2);border-radius:6px;background:var(--surface3);color:var(--text);font-family:inherit}
 .obj-inp-row input:disabled{opacity:.4;cursor:not-allowed}
 .obj-unit{font-size:11px;color:var(--text3)}
 .boxes{display:flex;gap:3px;flex-wrap:wrap}
 .box{width:14px;height:14px;border-radius:3px}
 .box.empty{background:var(--surface3)}
+
+/* ─── SECTEURS ─── */
 .sec-block{margin-bottom:12px}
 .slbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
-.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;min-height:12px}
-.chip-tag{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid transparent}
-.chip-tag .x{cursor:pointer;opacity:.35;font-size:10px;margin-left:2px;transition:opacity .12s}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:12px}
+.chip-tag{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid transparent}
+.chip-tag .x{cursor:pointer;opacity:.4;font-size:10px;margin-left:2px;padding:2px;min-width:18px;min-height:18px;display:flex;align-items:center;justify-content:center}
 .chip-tag .x:hover{opacity:1;color:var(--red)}
+
+/* ─── PICKER ─── */
 .sec-picker-wrap{position:relative}
-.sec-picker-btn{display:flex;align-items:center;gap:6px;padding:6px 11px;font-size:12px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface2);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .12s;width:100%}
-.sec-picker-btn:hover{background:var(--surface3);color:var(--text)}
+.sec-picker-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 11px;font-size:12px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface2);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;width:100%;min-height:40px}
+.sec-picker-btn:active{background:var(--surface3)}
 .sec-picker-btn:disabled{opacity:.4;cursor:not-allowed}
-.sec-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);z-index:50;max-height:320px;overflow:hidden;display:none;flex-direction:column;box-shadow:var(--shadow)}
+.sec-dropdown{position:fixed;left:16px;right:16px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r-lg);z-index:80;height:70vh;overflow:hidden;display:none;flex-direction:column;box-shadow:var(--shadow)}
 .sec-dropdown.open{display:flex}
-.sec-drop-search{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
-.sec-drop-search input{width:100%;background:transparent;border:none;font-size:12px;color:var(--text);font-family:inherit}
-.sec-drop-search input:focus{outline:none}
+.sec-drop-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sec-drop-header span{font-size:14px;font-weight:700}
+.sec-drop-header button{width:30px;height:30px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;color:var(--text2);font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.sec-drop-search{padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sec-drop-search input{width:100%;background:var(--surface3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;font-size:14px;color:var(--text);font-family:inherit}
+.sec-drop-search input:focus{outline:none;border-color:var(--border2)}
 .sec-drop-search input::placeholder{color:var(--text3)}
-.sec-dept-list{overflow-y:auto;flex:1}
+.sec-dept-list{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
 .sec-dept{border-bottom:1px solid var(--border)}
-.sec-dept-header{padding:6px 12px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;background:var(--surface3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-shrink:0}
-.sec-dept-header:hover{color:var(--text2)}
+.sec-dept-header{padding:10px 14px;font-size:12px;font-weight:700;color:var(--text2);background:var(--surface3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;min-height:44px}
+.sec-dept-header:active{background:var(--surface4)}
 .sec-dept-cities{display:none;flex-direction:column}
 .sec-dept-cities.open{display:flex}
-.sec-city-item{padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;user-select:none}
-.sec-city-item:hover{background:var(--surface3);color:var(--text)}
+.sec-city-item{padding:10px 20px;font-size:13px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:10px;min-height:44px;border-bottom:1px solid var(--border)}
+.sec-city-item:active{background:var(--surface3)}
 .sec-city-item.sel{color:var(--green)}
-.sec-city-item .chk{width:14px;height:14px;border-radius:3px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
+.chk{width:18px;height:18px;border-radius:4px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
 .sec-city-item.sel .chk{background:var(--green);border-color:var(--green);color:#000}
-.sec-custom-row{display:flex;gap:5px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
-.sec-custom-row input{flex:1;font-size:12px;padding:5px 9px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface3);color:var(--text);font-family:inherit}
-.sec-custom-row input::placeholder{color:var(--text3)}
+.sec-custom-row{display:flex;gap:6px;padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0}
+.sec-custom-row input{flex:1;background:var(--surface3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-size:14px;color:var(--text);font-family:inherit}
 .sec-custom-row input:focus{outline:none;border-color:var(--border2)}
-.sec-custom-row button{padding:5px 10px;font-size:12px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;font-weight:700;color:var(--text2);font-family:inherit}
-.sec-custom-row button:hover{color:var(--text)}
-.drop-zone{min-height:58px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:5px;display:flex;flex-direction:column;gap:4px;transition:all .15s}
+.sec-custom-row button{padding:10px 14px;font-size:14px;border:1px solid var(--border2);background:var(--surface3);border-radius:var(--r-sm);cursor:pointer;font-weight:700;color:var(--text);font-family:inherit;min-height:44px}
+
+/* ─── DROP ZONE ─── */
+.drop-zone{min-height:60px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:5px;display:flex;flex-direction:column;gap:4px;transition:all .15s}
 .drop-zone.over{background:rgba(34,197,94,.07);border-color:var(--green)}
-.hint{font-size:11px;color:var(--text3);text-align:center;padding:16px 0;pointer-events:none;font-weight:500}
-.pill{display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--surface2);border-radius:var(--r-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s}
+.hint{font-size:12px;color:var(--text3);text-align:center;padding:16px 0;pointer-events:none;font-weight:500}
+
+/* ─── PILL ─── */
+.pill{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--r-sm);cursor:grab;border:1px solid var(--border);user-select:none;transition:all .15s;min-height:48px}
 .pill:hover{border-color:var(--border2);background:var(--surface3)}
-.pill.dragging{opacity:.18;cursor:grabbing}
-.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.pill.dragging{opacity:.18}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
 .pi{flex:1;min-width:0}
-.pname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prole{font-size:10px;margin-top:1px;font-weight:500}
+.pname{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prole{font-size:11px;margin-top:2px;font-weight:500}
 .role-0{color:var(--text3)}
 .role-1{color:#fcd34d}
 .role-2{color:#86efac}
-.dh{font-size:12px;color:var(--border2);flex-shrink:0}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .15s;border:1px solid var(--border2)}
+.dh{font-size:14px;color:var(--border2);flex-shrink:0}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;transition:all .15s;border:1px solid var(--border2);min-height:44px}
 .btn-ghost{background:var(--surface2);color:var(--text2)}
-.btn-ghost:hover{background:var(--surface3);color:var(--text);border-color:var(--border3)}
+.btn-ghost:hover{background:var(--surface3);color:var(--text)}
 .btn-solid{background:var(--text);color:var(--bg);border-color:var(--text)}
 .btn-solid:hover{opacity:.85}
 .btn-danger{background:rgba(239,68,68,.1);color:var(--red);border-color:rgba(239,68,68,.25)}
-.btn-danger:hover{background:rgba(239,68,68,.18)}
-.btn-sm{padding:5px 10px;font-size:11px}
-.ic-btn{width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .12s;font-family:inherit}
-.ic-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
-.add-car-btn{width:100%;padding:11px;border:1.5px dashed var(--border2);background:transparent;border-radius:var(--r-lg);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;transition:all .15s}
+.btn-sm{padding:8px 12px;font-size:12px;min-height:38px}
+.ic-btn{width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--surface2);color:var(--text3);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-family:inherit}
+.ic-btn:hover{background:var(--surface3);color:var(--text)}
+.add-car-btn{width:100%;padding:14px;border:1.5px dashed var(--border2);background:transparent;border-radius:var(--r-lg);cursor:pointer;font-size:13px;color:var(--text3);font-weight:600;font-family:inherit;min-height:52px}
 .add-car-btn:hover{border-color:var(--border3);color:var(--text2);background:var(--surface)}
-.readonly-badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
-.hist-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.filt-btn{padding:6px 13px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
+.readonly-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
+
+/* ─── HISTORY ─── */
+.hist-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filt-btn{padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;font-family:inherit;min-height:38px}
 .filt-btn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 .hist-list{display:flex;flex-direction:column;gap:5px}
-.hist-day-header{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 4px 5px;border-bottom:1px solid var(--border);margin-bottom:4px}
-.hist-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);background:var(--surface);border:1px solid var(--border);transition:border-color .15s}
-.hist-row:hover{border-color:var(--border2)}
+.hist-day-header{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:12px 4px 5px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.hist-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);background:var(--surface);border:1px solid var(--border)}
 .hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .hist-body{flex:1;min-width:0}
 .hist-txt{font-size:13px;font-weight:500}
 .hist-car{font-size:11px;color:var(--text3);margin-top:2px}
 .hist-time{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0}
-.hist-badge{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;margin-left:7px}
+.hist-badge{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;margin-left:6px}
 .hist-badge.add{background:rgba(34,197,94,.15);color:#86efac}
 .hist-badge.rm{background:rgba(239,68,68,.15);color:#fca5a5}
 .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
 .empty-state .ei{font-size:40px;margin-bottom:12px}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
+
+/* ─── MODAL ─── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:flex-end;justify-content:center;padding:0}
 .modal-bg.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-xl);width:100%;max-width:440px;padding:26px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow)}
-.modal h2{font-size:18px;font-weight:800;margin-bottom:20px;letter-spacing:-.3px}
-.field{margin-bottom:13px}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:24px 24px 0 0;width:100%;max-width:600px;padding:20px 20px 32px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal-handle{width:40px;height:4px;background:var(--border2);border-radius:4px;margin:0 auto 16px}
+.modal h2{font-size:18px;font-weight:800;margin-bottom:18px;letter-spacing:-.3px}
+.field{margin-bottom:14px}
 .field label{display:block;font-size:10px;color:var(--text3);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-.field input{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:13px;background:var(--surface2);color:var(--text);font-family:inherit;transition:border-color .12s}
+.field input{width:100%;padding:12px 13px;border:1px solid var(--border2);border-radius:var(--r-sm);font-size:16px;background:var(--surface2);color:var(--text);font-family:inherit}
 .field input:focus{outline:none;border-color:var(--border3)}
 .field input::placeholder{color:var(--text3)}
-.chip-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
-.chip{padding:6px 13px;border-radius:20px;font-size:12px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .12s;font-weight:500;font-family:inherit}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{padding:8px 14px;border-radius:20px;font-size:13px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;font-weight:500;font-family:inherit;min-height:40px}
 .chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
-.m-acts{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.m-acts{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.m-acts .btn{width:100%;justify-content:center}
+.m-acts-row{display:flex;gap:8px}
+.m-acts-row .btn{flex:1;justify-content:center}
 .color-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.cdot{width:24px;height:24px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
-.cdot:hover{transform:scale(1.1)}
+.cdot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent}
 .cdot.on{border-color:var(--text)}
 .prof-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 .prof-av{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
 .prof-info h3{font-size:16px;font-weight:700}
 .prof-info p{font-size:12px;color:var(--text3);margin-top:3px}
 .pstat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.pstat{background:var(--surface2);border-radius:var(--r-sm);padding:9px 12px;border:1px solid var(--border)}
-.pstat .pl{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.pstat{background:var(--surface2);border-radius:var(--r-sm);padding:10px 12px;border:1px solid var(--border)}
+.pstat .pl{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase}
 .pstat .pv{font-size:13px;font-weight:700}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:11px 20px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--text);padding:12px 20px;border-radius:24px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;font-weight:500;white-space:nowrap;border:1px solid var(--border2);box-shadow:var(--shadow)}
 .toast.show{opacity:1}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  .topbar{display:flex}
+  .desktop-shell{display:block;height:calc(100% - 52px);overflow-y:auto}
+  .sidebar{display:none}
+  .main-wrap{height:auto;overflow:visible}
+  .main{padding:16px 14px;padding-bottom:calc(var(--nav-h) + 20px)}
+  .bottom-nav{display:flex}
+  .toast{bottom:calc(var(--nav-h) + 16px)}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .stat-card .val{font-size:22px}
+  .board{grid-template-columns:1fr}
+  .pool-card{position:relative}
+  .sec-dropdown{bottom:0;top:auto;left:0;right:0;border-radius:20px 20px 0 0;height:80vh}
+}
+@media(min-width:769px){
+  .desktop-shell{height:100%}
+  .main-wrap{height:100%;overflow-y:auto}
+  .modal-bg{align-items:center;padding:16px}
+  .modal{border-radius:24px;max-height:88vh}
+  .modal-handle{display:none}
+  .m-acts{flex-direction:row;justify-content:flex-end}
+  .m-acts .btn{width:auto}
+  .m-acts-row{display:contents}
+}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
@@ -213,20 +285,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">🚗</div>
     <h1>Voitures commerciales</h1>
-    <p>Région Occitanie · Autour de Montpellier</p>
-    <div class="lf"><label>Email</label><input type="email" id="lEmail" placeholder="votre@email.com"/></div>
-    <div class="lf"><label>Mot de passe</label><input type="password" id="lPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <p>Région Occitanie · Montpellier</p>
+    <div class="lf"><label>Email</label><input type="email" id="lEmail" placeholder="votre@email.com" autocomplete="email"/></div>
+    <div class="lf"><label>Mot de passe</label><input type="password" id="lPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
     <button class="login-btn" onclick="doLogin()">Se connecter</button>
     <div class="login-err" id="lErr"></div>
   </div>
 </div>
 
+<!-- APP -->
 <div id="appScreen">
-  <div class="shell">
+  <!-- MOBILE TOPBAR -->
+  <div class="topbar">
+    <h2>🚗 Voitures</h2>
+    <div class="topbar-right">
+      <div class="admin-badge" id="adminBadgeTop" style="display:none">⭐ Admin</div>
+      <button class="tb-btn" onclick="doLogout()">↩</button>
+    </div>
+  </div>
+
+  <div class="desktop-shell">
+    <!-- SIDEBAR (desktop) -->
     <aside class="sidebar">
       <div class="sb-logo"><span>🚗</span><div><h2>Voitures</h2><small>Montpellier & alentours</small></div></div>
       <nav class="sb-nav">
@@ -239,57 +323,78 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <button class="sb-logout" onclick="doLogout()"><span>↩</span> Déconnexion</button>
       </div>
     </aside>
-    <main class="main">
-      <div id="pageboard">
-        <div class="page-header">
-          <div class="page-title"><h1>Tableau de bord</h1><p>Glissez les commerciaux vers leur voiture</p></div>
-          <div class="page-actions" id="adminActions" style="display:none">
-            <button class="btn btn-ghost btn-sm" onclick="openAddMember()">+ Commercial</button>
-            <button class="btn btn-solid btn-sm" onclick="openAddCar()">+ Voiture</button>
-          </div>
-        </div>
-        <div class="search-bar">
-          <span style="font-size:15px">🔍</span>
-          <input type="text" id="searchInput" placeholder="Rechercher un commercial, une voiture, un secteur…" oninput="onSearch()"/>
-          <span class="search-count" id="searchCount"></span>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-card c-blue"><div class="lbl">Voitures</div><div class="val" id="s1">—</div></div>
-          <div class="stat-card c-green"><div class="lbl">Commerciaux</div><div class="val" id="s2">—</div></div>
-          <div class="stat-card c-amber"><div class="lbl">Affectés</div><div class="val" id="s3">—</div></div>
-          <div class="stat-card c-red"><div class="lbl">Objectif total</div><div class="val" id="s4">—</div></div>
-        </div>
-        <div class="board">
-          <div class="pool-card">
-            <div class="card-head"><div><h3>Pool</h3><div class="sub">Sans voiture assignée</div></div></div>
-            <div class="card-body">
-              <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')"><div class="hint">Chargement…</div></div>
+
+    <!-- MAIN -->
+    <div class="main-wrap">
+      <div class="main">
+        <!-- BOARD -->
+        <div id="pageboard">
+          <div class="page-header">
+            <div class="page-title"><h1>Tableau de bord</h1><p>Glissez les commerciaux vers leur voiture</p></div>
+            <div class="page-actions" id="adminActions" style="display:none">
+              <button class="btn btn-ghost btn-sm" onclick="openAddMember()">+ Commercial</button>
+              <button class="btn btn-solid btn-sm" onclick="openAddCar()">+ Voiture</button>
             </div>
           </div>
-          <div class="cars-list" id="carsCol"><div class="hint">Chargement…</div></div>
+          <div class="search-bar">
+            <span style="font-size:16px">🔍</span>
+            <input type="text" id="searchInput" placeholder="Rechercher…" oninput="onSearch()"/>
+            <span class="search-count" id="searchCount"></span>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card c-blue"><div class="lbl">Voitures</div><div class="val" id="s1">—</div></div>
+            <div class="stat-card c-green"><div class="lbl">Commerciaux</div><div class="val" id="s2">—</div></div>
+            <div class="stat-card c-amber"><div class="lbl">Affectés</div><div class="val" id="s3">—</div></div>
+            <div class="stat-card c-red"><div class="lbl">Objectif</div><div class="val" id="s4">—</div></div>
+          </div>
+          <div class="board">
+            <div class="pool-card">
+              <div class="card-head"><div><h3>Pool</h3><div class="sub">Sans voiture assignée</div></div></div>
+              <div class="card-body">
+                <div class="drop-zone" id="pool-zone" ondragover="dov(event)" ondrop="ddr(event,'pool')"><div class="hint">Chargement…</div></div>
+              </div>
+            </div>
+            <div class="cars-list" id="carsCol"><div class="hint">Chargement…</div></div>
+          </div>
+        </div>
+
+        <!-- HISTORY -->
+        <div id="pagehistory" style="display:none">
+          <div class="page-header">
+            <div class="page-title"><h1>Historique</h1><p>Toutes les modifications de secteurs</p></div>
+            <button class="btn btn-ghost btn-sm" onclick="loadAll()">↺</button>
+          </div>
+          <div class="search-bar">
+            <span style="font-size:16px">🔍</span>
+            <input type="text" id="histSearch" placeholder="Rechercher une ville, une voiture…" oninput="renderHist()"/>
+            <span class="search-count" id="histCount"></span>
+          </div>
+          <div class="hist-toolbar">
+            <button class="filt-btn on" id="filt-all" onclick="setFilt('all')">Tout</button>
+            <button class="filt-btn" id="filt-ajout" onclick="setFilt('ajout')">🟢 Ajouts</button>
+            <button class="filt-btn" id="filt-retrait" onclick="setFilt('retrait')">🔴 Retraits</button>
+          </div>
+          <div class="hist-list" id="histList"></div>
         </div>
       </div>
-      <div id="pagehistory" style="display:none">
-        <div class="page-header">
-          <div class="page-title"><h1>Historique des secteurs</h1><p>Toutes les modifications avec date et heure</p></div>
-          <button class="btn btn-ghost btn-sm" onclick="loadAll()">↺ Actualiser</button>
-        </div>
-        <div class="search-bar">
-          <span style="font-size:15px">🔍</span>
-          <input type="text" id="histSearch" placeholder="Rechercher une ville, un secteur, une voiture…" oninput="renderHist()"/>
-          <span class="search-count" id="histCount"></span>
-        </div>
-        <div class="hist-toolbar">
-          <button class="filt-btn on" id="filt-all" onclick="setFilt('all')">Tout</button>
-          <button class="filt-btn" id="filt-ajout" onclick="setFilt('ajout')">🟢 Ajouts</button>
-          <button class="filt-btn" id="filt-retrait" onclick="setFilt('retrait')">🔴 Retraits</button>
-        </div>
-        <div class="hist-list" id="histList"></div>
-      </div>
-    </main>
+    </div>
   </div>
+
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav">
+    <div class="bnav-inner">
+      <button class="bnav-item active" id="bnav-board" onclick="goPage('board')"><span class="bic">📋</span>Tableau</button>
+      <button class="bnav-item" id="bnav-history" onclick="goPage('history')"><span class="bic">🕐</span>Historique</button>
+      <button class="bnav-item" id="bnav-add" onclick="openAddMember()" style="display:none"><span class="bic">👤</span>+ Commercial</button>
+      <button class="bnav-item" id="bnav-car" onclick="openAddCar()" style="display:none"><span class="bic">🚗</span>+ Voiture</button>
+    </div>
+  </nav>
 </div>
 
+<!-- PICKER OVERLAY -->
+<div id="pickerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:70" onclick="closePicker()"></div>
+
+<!-- MODAL -->
 <div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modalBox"></div>
 </div>
@@ -303,10 +408,7 @@ const ADMIN_EMAIL='roman.blanchot21@gmail.com';
 
 const EMOJIS=['🚗','🚙','🚕','🚐','🏎️','🚌'];
 const OPS=[{id:'free',label:'Free',cls:'op-free',color:'#3b82f6'},{id:'bouygues',label:'Bouygues',cls:'op-bouygues',color:'#f59e0b'},{id:'sfr',label:'SFR',cls:'op-sfr',color:'#ef4444'}];
-
-// ROLES : utiliser index pour éviter problèmes apostrophe
 const ROLES=['Commercial','Chef d\u2019\u00e9quipe','Animateur r\u00e9seau'];
-
 const OPBG={free:'rgba(59,130,246,.15)',bouygues:'rgba(245,158,11,.15)',sfr:'rgba(239,68,68,.15)'};
 const OPCOL={free:'#3b82f6',bouygues:'#f59e0b',sfr:'#ef4444'};
 const AV=[
@@ -314,57 +416,39 @@ const AV=[
   {bg:'#3b1e5f',tx:'#c4b5fd'},{bg:'#5f1e1e',tx:'#fca5a5'},{bg:'#1e4a5f',tx:'#7dd3fc'},
   {bg:'#4a1e5f',tx:'#e9d5ff'},{bg:'#1e5f3a',tx:'#6ee7b7'},{bg:'#2a2a2a',tx:'#d1d5db'}
 ];
-
-// Couleurs par département pour les chips
 const DEPT_COLORS=[
-  {bg:'rgba(59,130,246,.18)',tx:'#93c5fd'},
-  {bg:'rgba(34,197,94,.15)',tx:'#86efac'},
-  {bg:'rgba(245,158,11,.15)',tx:'#fcd34d'},
-  {bg:'rgba(239,68,68,.15)',tx:'#fca5a5'},
-  {bg:'rgba(167,139,250,.18)',tx:'#c4b5fd'},
-  {bg:'rgba(14,165,233,.15)',tx:'#7dd3fc'},
-  {bg:'rgba(236,72,153,.15)',tx:'#f9a8d4'},
-  {bg:'rgba(249,115,22,.15)',tx:'#fdba74'},
-  {bg:'rgba(20,184,166,.15)',tx:'#5eead4'},
-  {bg:'rgba(168,85,247,.15)',tx:'#d8b4fe'},
-  {bg:'rgba(251,191,36,.15)',tx:'#fde68a'},
-  {bg:'rgba(244,63,94,.15)',tx:'#fda4af'},
+  {bg:'rgba(59,130,246,.18)',tx:'#93c5fd'},{bg:'rgba(34,197,94,.15)',tx:'#86efac'},
+  {bg:'rgba(245,158,11,.15)',tx:'#fcd34d'},{bg:'rgba(239,68,68,.15)',tx:'#fca5a5'},
+  {bg:'rgba(167,139,250,.18)',tx:'#c4b5fd'},{bg:'rgba(14,165,233,.15)',tx:'#7dd3fc'},
+  {bg:'rgba(236,72,153,.15)',tx:'#f9a8d4'},{bg:'rgba(249,115,22,.15)',tx:'#fdba74'},
+  {bg:'rgba(20,184,166,.15)',tx:'#5eead4'},{bg:'rgba(168,85,247,.15)',tx:'#d8b4fe'},
+  {bg:'rgba(251,191,36,.15)',tx:'#fde68a'},{bg:'rgba(244,63,94,.15)',tx:'#fda4af'},
 ];
 
-// TOUTES LES COMMUNES - rayon ~2h20 autour de Montpellier
-const SECTEURS_GEO = {
-  '34 - H\u00e9rault': ['Abeilhan','Adissan','Agde','Ag\u00e8ne','Agones','Aigne','Aimargues','Alignan-du-Vent','Aniane','Argell\u00e8s','Aspiran','Assas','Aubais','Auriol','B\u00e9darieux','Bel-Air-de-Laval','B\u00e9larga','B\u00e9lesta','Bessan','Bouzigues','Brignac','Cabri\u00e8res','Campagnan','Cap-d\'Agde','Castelnau-de-Guers','Castelnau-le-Lez','Cazouls-d\'H\u00e9rault','Cazouls-l\u00e8s-B\u00e9ziers','C\u00e9bazan','Cers','Cessenon-sur-Orb','C\u00e9zerano','Cl\u00e9rmont-l\'H\u00e9rault','Corneilhan','Cournonsec','Cournonterral','Cruzy','Espondeilhan','Faugeres','F\u00e9rals-l\u00e8s-Mortagne','Florensac','Fonc\u00e9s','Fontes','Frontignan','Gabian','Ganges','Gigean','Gignac','Grabels','H\u00e9rault-d\u00e9pt','H\u00e9rouville','Joncels','La Boissiere','La Grande-Motte','La Mosson','Lattes','Launac','Lauret','Laverune','Le Caylar','Le Cr\u00e8s','Les Matelles','Liausson','Lieuran-l\u00e8s-B\u00e9ziers','Lodeve','Loupian','Lunel','Lunel-Viel','Magalas','M\u00e9z\u00e8','Marseillan','Maraussan','Mas-de-Londres','Mauguio','Maureilhan','Maurin','Mireval','Montagnac','Montbazin','Montferrier-sur-Lez','Montpellier','Morsang','Mudaison','Murviel-l\u00e8s-B\u00e9ziers','Murviel-l\u00e8s-Montpellier','N\u00e9ffiez','N\u00e9zignac-l\'Ev\u00eaque','Nis san-lez-Enserune','Nissan-lez-Ens\u00e9rune','Olargues','Oloron','Oupia','Palavas-les-Flots','Paulhan','P\u00e9zenas','Pianos','Pierrerue','Plaissan','Portiragnes','Poussan','Prades-le-Lez','Puimisson','Puilacher','Quarante','R\u00e9gusse','Roujan','Saint-And\u00e9ol-de-Clermont','Saint-Bauzille-de-Montmel','Saint-Br\u00e8s','Saint-Cl\u00e9ment-de-Rivi\u00e8re','Saint-Drezi','Saint-G\u00e9ly-du-Fesc','Saint-Georges-d\'Orques','Saint-Gilles','Saint-Guilhem-le-D\u00e9sert','Saint-Jean-de-F\u00e8s','Saint-Jean-de-V\u00e9das','Saint-Martin-de-Londres','Saint-Martin-de-l\'Arcon','Saint-Mathieu-de-Tr\u00e8viers','Saint-Nazaire-de-P\u00e9z\u00e8nes','Saint-Pargoire','Saint-Pons-de-Thomi\u00e8res','Saint-Saturnin-de-Lucian','Saint-S\u00e9ries','Saint-Thibery','Saint-Vincent-d\'Olargues','Salelles','Sauvian','S\u00e8te','Servian','Serignan','Teyran','Tourbes','Tournemire','Usclas-d\'H\u00e9rault','Valras-Plage','Valros','V\u00e9ndemian','Vendargues','Vias','Vic-la-Gardiole','Villeneuve-l\u00e8s-Maguelone','Villeneuve-l\u00e8s-B\u00e9ziers','Villev\u00e9yrac','Violes'],
-  '30 - Gard': ['Aigues-Mortes','Aigues-Vives','Aigueze','Al\u00e8s','Anduze','Arge','Arpaillargues-et-Aureillac','Arphy','Asperes','Aubais','Aubord','Aubussargues','Auriac','Aveze','Bagnols-sur-C\u00e8ze','Bagard','Baron','Barjac','Beaucaire','Beauvoisin','Bernis','Bez-et-Esparon','Boissi\u00e8res','Boucoiran-et-Nareci','Bouquemaison','Brouzet-l\u00e8s-Ales','Caissargues','Calvisson','Cannes-et-Clairan','Cardet','Caveirac','Codognan','Combas','Concoules','Corbes','Couty','Cres','Crespian','Dions','D\u00f6me','Dourbies','Estezargues','Fons','Fontanes','Gallargues-le-Montueux','Gajan','G\u00e9nolhac','Goudargues','Grande-Motte','Jonquieres-et-Saint-Vincent','La Cadiere-et-Cambo','La Capelle-et-Masmolene','La Roque-sur-Ceze','Langlade','Lanuejols','Laval-Saint-Roman','Le Grau-du-Roi','Les Mages','Lezan','Lignan-sur-Orb','Lussan','Lunel','Manduel','Marguerittes','Massanes','Milhaud','Meyrannes','Molesmes','Monoblet','Montaren-et-Saint-M\u00e9diers','Montpezat','Nages-et-Solorgues','Navacelles','Ners','N\u00eemes','Orsan','Parignargues','Pont-du-Gard','Pont-Saint-Esprit','Pougnadoresse','Poulx','Quissac','Remoulins','Ribaute-les-Tavernes','Rochefort-du-Gard','Rodilhan','Roque-sur-Pernes','Saint-Alexandre','Saint-Ambroix','Saint-Bonnet-du-Gard','Saint-Ch\u00e9ly-d\'Apcher','Saint-Christol-l\u00e8s-Al\u00e8s','Saint-Dionisy','Saint-Gilles','Saint-Gilles-du-Gard','Saint-Hippolyte-du-Fort','Saint-Jean-de-C\u00e9yrie','Saint-Jean-du-Gard','Saint-Julien-de-Cassagnas','Saint-Laurent-d\'Aigouze','Saint-M\u00e9diers','Saint-Privat-de-Champclos','Saint-Quentin-la-Poterie','Saint-S\u00e9bastien-d\'Aigrefeuille','Saint-Victor-des-Oules','Saint-Victor-la-Coste','Sainte-Anastasie','Saissac','Salazac','Sauv\u00e9','Sauzet','Saze','Serviers-et-Labaume','Sommier','Sommi\u00e8res','Souvignargues','Tavel','Theziers','Uchaud','Uzes','Valleraugue','Vauvert','Verfeuil','Vergeze','Vers-Pont-du-Gard','Vestric-et-Candiac','Villeneuve-l\u00e8s-Avignon','Villeneuve-les-Maguelone','Villevieille'],
-  '11 - Aude': ['Alaigne','Alzonne','Aragon','Argeliers','Arques','Axat','Azille','Bages','Belpech','Blomac','Boutenac','Bram','Brousses-et-Villaret','Cabrespine','Cailhau','Carcassonne','Castelnaudary','Cazilhac','Conilhac-Corbieres','Conques-sur-Orbiel','Couiza','Coursan','Cuxac-d\'Aude','Escales','Escouloubre','Fa','Fanjeaux','Felines-Minervois','Fitou','Ginestas','Greffeil','Gruissan','La Bezole','La Palme','Labecede-Lauragais','Laprade','Laure-Minervois','Leucate','Lezignan-Corbi\u00e8res','Limoux','Mas-Cabardes','Mas-des-Cours','Massac','Mirepoix','Montolieu','Montredon-Labessonnie','Moussan','Narbonne','Ornaisons','Palairac','Palaja','Paraza','Peyriac-de-Mer','Peyriac-Minervois','Pieusse','Plaigne','Port-la-Nouvelle','Puicheric','Quillan','Quintillan','Razilhac','Rouffiac-d\'Aude','Rouvenac','Rustiques','Saint-Andre-de-Roquelongue','Saint-Couat-d\'Aude','Saint-Denis','Saint-Gauderic','Saint-Hilaire','Saint-Marcel-sur-Aude','Saint-Martin-Lalande','Saint-Nazaire-d\'Aude','Saint-Pierre-des-Champs','Sainte-Colombe-sur-Guette','Saissac','Sigean','Tourouzelle','Trebes','Tuchan','Ventenac-en-Minervois','Verdun-en-Lauragais','Villarzel-Cabardes','Villerouge-Termenes'],
-  '66 - Pyr\u00e9n\u00e9es-Orientales': ['Agle','Alenya','Argeles-sur-Mer','Banyuls-dels-Aspres','Banyuls-sur-Mer','Baixas','Bompas','Bouleternere','Brouilla','Cabestany','Calce','Canet-en-Roussillon','Cases-de-Pene','Castelnou','Ceret','Claira','Clermont','Collioure','Corneilla-del-Vercol','Corneilla-la-Riviere','Elne','Estagel','Fourques','Ille-sur-Tet','Laroque-des-Alberes','Le Boulou','Le Soler','Llauro','Maureillas-las-Illas','Millas','Montescot','Montner','Neffiach','Opoul-Perillos','Ortaffa','Palau-del-Vidre','Passa','Perpignan','Peyrestortes','Pezilla-la-Riviere','Pia','Pollestres','Port-Vendres','Porteilles','Prades','Rivesaltes','Saint-Andre','Saint-Cyprien','Saint-Esteve','Saint-Feliu-d\'Amont','Saint-Feliu-d\'Avall','Saint-Genis-des-Fontaines','Saint-Hippolyte','Saint-Jean-la-Fontaine','Saint-Laurent-de-Cerdans','Saint-Nazaire','Saint-Paul-de-Fenouillet','Sainte-Marie','Salses-le-Chateau','Taxo-d\'Avall','Terrats','Thet','Thuir','Torderes','Toulouges','Trouillas','Valmy','Villelongue-de-la-Salanque','Villemolaque','Villeneuve-de-la-Raho','Villeneuve-la-Riviere'],
-  '13 - Bouches-du-Rh\u00f4ne': ['Aix-en-Provence','Alleins','Allauch','Arles','Aubagne','Auriol','Berre-l\'Etang','Bouc-Bel-Air','Cabries','Cassis','Chateauneuf-le-Rouge','Chateauneuf-les-Martigues','Cuges-les-Pins','Eguilles','Ensues-la-Redonne','Fos-sur-Mer','Gardanne','Gemenos','Gignac-la-Nerthe','Greasque','Istres','Jouques','La Bouilladisse','La Ciotat','La Fare-les-Oliviers','La Penne-sur-Huveaune','Lambesc','Lamanon','Lancon-Provence','Le Puy-Sainte-Reparade','Les Pennes-Mirabeau','Luynes','Mallemort','Marignane','Marseille','Martigues','Meyrargues','Meyreuil','Miramas','Mouries','Noves','Pelissanne','Peynier','Peypin','Plan-de-Cuques','Port-de-Bouc','Port-Saint-Louis-du-Rhone','Puyloubier','Rognac','Rognes','Rognonas','Roquevaire','Saint-Cannat','Saint-Chamas','Saint-Esteve-Janson','Saint-Marc-Jaumegarde','Saint-Martin-de-Crau','Saint-Mitre-les-Remparts','Saint-Paul-les-Durance','Saint-Remy-de-Provence','Saint-Savournin','Saint-Victoret','Saintes-Maries-de-la-Mer','Salon-de-Provence','Simiane-Collongue','Tarascon','Trets','Ventabren','Vernegues','Vitrolles'],
-  '84 - Vaucluse': ['Apt','Aubignan','Auribeau','Avignon','Beaumes-de-Venise','Bedoin','Bedarrides','Bollene','Bonnieux','Buoux','Cadenet','Caderousse','Caromb','Carpentras','Caseneuve','Castanet','Caumont-sur-Durance','Cavaillon','Chateauneuf-de-Gadagne','Chateauneuf-du-Pape','Cheval-Blanc','Coustellet','Crestet','Cucuron','Entraigues-sur-la-Sorgue','Entrechaux','Gargas','Gordes','Grignan','Joucas','L\'Isle-sur-la-Sorgue','La Bastide-des-Jourdans','La Roque-sur-Pernes','La Tour-d\'Aigues','Lacoste','Lagnes','Lamotte-du-Rhone','Lapalud','Lauris','Loriol-du-Comtat','Lourmarin','Malaucene','Mazan','Merindol','Methamis','Mirabeau','Mondragon','Monteux','Mormoiron','Mornas','Murs','Oppede','Orange','Pertuis','Piolenc','Puget','Puyvert','Richerenches','Robion','Roussillon','Rustrel','Saignon','Saint-Didier','Saint-Martin-de-Castillon','Saint-Pantaleon','Saint-Saturnin-les-Apt','Saint-Saturnin-les-Avignon','Sainte-Cecile-les-Vignes','Sarrians','Sault','Seguret','Senas','Serignan-du-Comtat','Sivergues','Sorgues','Suzette','Taillades','Thor','Uchaux','Vaison-la-Romaine','Valreas','Vedene','Venasque','Viens','Villedieu','Violes','Visan'],
-  '83 - Var': ['Aups','Bandol','Barjols','Bormes-les-Mimosas','Brignoles','Callas','Carces','Carnoules','Carqueiranne','Cogolin','Collobrieres','Cuers','Draguignan','Fayence','Flassans-sur-Issole','Flayosc','Frejus','Gaoupet','Gonfaron','Grimaud','Hyeres','La Crau','La Farlede','La Garde','La Londe-les-Maures','La Motte','La Rochette','La Seyne-sur-Mer','La Valette-du-Var','Le Beausset','Le Castellet','Le Lavandou','Le Luc','Le Muy','Le Pradet','Le Revest-les-Eaux','Les Arcs','Lorgues','Mazaugues','Montfort-sur-Argens','Nans-les-Pins','Neoules','Ollioules','Pierrefeu-du-Var','Plan-de-la-Tour','Pourrieres','Puget-sur-Argens','Pignans','Ramatuelle','Rians','Rocbaron','Roquebrune-sur-Argens','Sainte-Maxime','Saint-Cyr-sur-Mer','Saint-Maximin-la-Sainte-Baume','Saint-Raphael','Saint-Tropez','Saint-Zacharie','Sanary-sur-Mer','Signes','Six-Fours-les-Plages','Sollies-Pont','Sollies-Toucas','Sollies-Ville','Tavernes','Toulon','Trans-en-Provence','Varages','Vidauban'],
-  '12 - Aveyron': ['Baraqueville','Belmont-sur-Rance','Bozouls','Camarares','Cassagnes-Begonhes','Castanet','Comps-la-Grand-Ville','Decazeville','Espalion','Estaing','Firmi','Flavin','Flourens','Grand-Vabre','La Bastide-Pradines','La Cavalerie','La Loubiere','La Salvetat-Peyrales','Laguiole','Laissac-Severac-l\'Eglise','Luc-la-Primaube','Marcillac-Vallon','Marnhagues-et-Latour','Milhau','Montbazens','Mur-de-Barrez','Nant','Olemps','Pont-de-Salars','Requista','Rieupeyroux','Rignac','Rodez','Roquefort-sur-Soulzon','Saint-Affrique','Saint-Amans-des-Cots','Saint-Chely-d\'Aubrac','Saint-Geniez-d\'Olt','Saint-Just-sur-Viaur','Saint-Sernin-sur-Rance','Sainte-Radegonde','Salles-Curan','Salmiech','Sauclières','Sauveterre-de-Rouergue','Sebazac-Concourès','Sévérac-d\'Aveyron','Therondels','Trémouilles','Viala-du-Pas-de-Jaux','Vabres-l\'Abbaye','Villecomtal','Villefranche-de-Panat','Villefranche-de-Rouergue'],
-  '48 - Loz\u00e8re': ['Albaret-Sainte-Marie','Allegre-les-Fumades','Bagnols-les-Bains','Barre-des-Cevennes','Chanac','Chateauneuf-de-Randon','Chirac','Florac','Fournels','Grandrieu','Ispagnac','La Canourgue','La Malene','Langogne','Le Bleymard','Le Malzieu-Ville','Le Pont-de-Montvert','Les Bondons','Marvejols','Mas-Saint-Chely','Mende','Meyrueis','Nasbinals','Pierrefort','Pont-de-Montvert','Rieutort-de-Randon','Saint-Alban-sur-Limagnole','Saint-Bauzile','Saint-Chely-d\'Apcher','Saint-Etienne-du-Valdonnez','Saint-Germain-du-Teil','Saint-Jean-la-Fouillouse','Saint-Laurent-de-Muret','Saint-Pierre-de-Nogaret','Sainte-Enimie','Serverette','Villefort'],
-  '09 - Ari\u00e8ge': ['Aigues-Juntes','Aix-en-Oust','Ax-les-Thermes','Baulou','Belesta','Benaix','Besset','Biert','Bouan','Camon','Carla-Bayle','Carla-de-Roquefort','Castelnau-Durban','Foix','Gajan','Gaudiès','Gourbit','La Bastide-de-Serou','La Tour-du-Crieu','Lacourt','Lapege','Lavelanet','Le Fossat','Lescure','Leran','Lesparrou','Lordat','Luzenac','Mazeres','Mercus-Garrabet','Mirepoix','Montbel','Montgailhard','Montségur','Moulis','Niaux','Pamiers','Prayols','Rieux-de-Pelleport','Roquefixade','Roquefort-les-Cascades','Saint-Girons','Saint-Jean-du-Falga','Saint-Lizier','Saint-Martin-de-Caralp','Saint-Paul-de-Jarrat','Saverdun','Tarascon-sur-Ariege','Tignac','Unac','Varilhes','Verniolle'],
-  '31 - Haute-Garonne': ['Auterive','Avignonet-Lauragais','Azas','Baziege','Blagnac','Boussens','Caignac','Carbonne','Caraman','Carcadieres','Castanet-Tolosan','Cazeres','Cintegabelle','Collias','Colomiers','Couladere','Cugnaux','Escalquens','Fonsorbes','Fontenilles','Gaure','Grenade','L\'Isle-en-Dodon','La Salvetat-Saint-Gilles','Labastide-Beauvoir','Labarthe-sur-Leze','Lacroix-Falgarde','Lanta','Launac','Le Fousseret','Leguevin','Lherm','Mauzac','Montastruc-la-Conseillere','Montgiscard','Montjoire','Muret','Nailloux','Noueilles','Pinsaguel','Pins-Justaret','Portet-sur-Garonne','Ramonville-Saint-Agne','Revel','Saint-Gaudens','Saint-Jory','Saint-Lys','Saint-Orens-de-Gameville','Saint-Sulpice-sur-Leze','Toulouse','Tournefeuille','Verfeil','Villefranche-de-Lauragais','Villeneuve-les-Bouloc','Villeneuve-Tolosane'],
-  '81 - Tarn': ['Aiguefonde','Alban','Albi','Ambres','Anglès','Aussillon','Blan','Boissezon','Briatexte','Burlats','Cadalen','Cahuzac-sur-Vere','Cambounès','Carmaux','Castres','Caucalieres','Coufouleux','Curvalle','Dourgne','Fontrieu','Gaillac','Graulhet','Hautpoul','Jonquières','La Caune','La Salvetat-sur-Agout','Labruguière','Lacaune','Lacrouzette','Lagrave','Lautrec','Lavaur','Lempaut','Lombers','Lugan','Mailhoc','Mazamet','Milhars','Montdragon','Monestiés','Montels','Montredon-Labessonnie','Mouzieys-Teulet','Murat-sur-Vèbre','Palleville','Pampelonne','Rabastens','Réalmont','Roquecourbe','Rouffiac','Saint-Amancet','Saint-Benoît-de-Carmaux','Saint-Gauzens','Saint-Julien-du-Puy','Saint-Lieux-lès-Lavaur','Saint-Paul-Cap-de-Joux','Saint-Sulpice-la-Pointe','Saint-Urcisse','Salvagnac','Semalens','Senaux','Soual','Teillet','Valderies','Vaour','Vielmur-sur-Agout','Villardonnel','Villemur-sur-Tarn'],
+const SECTEURS_GEO={
+  'H\u00e9rault (34)':['Abeilhan','Adissan','Agde','Agones','Aigne','Alignan-du-Vent','Aniane','Aspiran','Assas','Aubais','Bassan','B\u00e9darieux','Bessan','Bouzigues','Brignac','Cabri\u00e8res','Campagnan','Canet','Cap-d\'Agde','Castelnau-de-Guers','Castelnau-le-Lez','Cazouls-d\'H\u00e9rault','Cazouls-l\u00e8s-B\u00e9ziers','C\u00e9bazan','Cers','Cessenon-sur-Orb','Cl\u00e9rmont-l\'H\u00e9rault','Corneilhan','Cournonsec','Cournonterral','Cruzy','Espondeilhan','F\u00e9rals-l\u00e8s-Mortagne','Florensac','Fontes','Frontignan','Gabian','Ganges','Gigean','Gignac','Grabels','Grande-Motte','Lattes','Launac','Lauret','Lav\u00e9rune','Le Caylar','Le Cr\u00e8s','Les Matelles','Lodeve','Loupian','Lunel','Lunel-Viel','Magalas','Marseillan','Maraussan','Mas-de-Londres','Mauguio','Maureilhan','Maurin','M\u00e9z\u00e8','Mireval','Montagnac','Montbazin','Montferrier-sur-Lez','Montpellier','Mudaison','Murviel-l\u00e8s-B\u00e9ziers','Murviel-l\u00e8s-Montpellier','N\u00e9ffiez','Nissan-lez-Ens\u00e9rune','Olargues','Oupia','Palavas-les-Flots','Paulhan','P\u00e9zenas','Pierrerue','Plaissan','Portiragnes','Poussan','Prades-le-Lez','Puimisson','Puilacher','Quarante','Roujan','Saint-And\u00e9ol-de-Clermont','Saint-Bauzille-de-Montmel','Saint-Br\u00e8s','Saint-Cl\u00e9ment-de-Rivi\u00e8re','Saint-G\u00e9ly-du-Fesc','Saint-Georges-d\'Orques','Saint-Guilhem-le-D\u00e9sert','Saint-Jean-de-V\u00e9das','Saint-Martin-de-Londres','Saint-Mathieu-de-Tr\u00e9viers','Saint-Pargoire','Saint-Pons-de-Thomi\u00e8res','Saint-Saturnin-de-Lucian','Saint-S\u00e9ries','Saint-Thibery','Sauvian','S\u00e8te','Servian','S\u00e9rignan','Teyran','Tourbes','Usclas-d\'H\u00e9rault','Valras-Plage','Valros','Vendargues','Vias','Vic-la-Gardiole','Villeneuve-l\u00e8s-Maguelone','Villeneuve-l\u00e8s-B\u00e9ziers','Villev\u00e9yrac'],
+  'Gard (30)':['Aigues-Mortes','Aigues-Vives','Al\u00e8s','Anduze','Arpaillargues','Barjac','Bagnols-sur-C\u00e8ze','Beaucaire','Beauvoisin','Bernis','Calvisson','Cannes-et-Clairan','Caveirac','Codognan','Combas','Crespian','Gallargues-le-Montueux','G\u00e9nolhac','Goudargues','Grande-Motte','Le Grau-du-Roi','Langlade','Lezan','Lussan','Manduel','Marguerittes','Milhaud','Monoblet','Montaren','Nages-et-Solorgues','Ners','N\u00eemes','Pont-du-Gard','Pont-Saint-Esprit','Poulx','Quissac','Remoulins','Rochefort-du-Gard','Rodilhan','Saint-Alexandre','Saint-Ambroix','Saint-Bonnet-du-Gard','Saint-Christol-l\u00e8s-Al\u00e8s','Saint-Dionisy','Saint-Gilles','Saint-Hippolyte-du-Fort','Saint-Jean-du-Gard','Saint-Laurent-d\'Aigouze','Saint-Privat-de-Champclos','Saint-Quentin-la-Poterie','Sainte-Anastasie','Sauv\u00e9','Sauzet','Saze','Sommi\u00e8res','Souvignargues','Tavel','Uchaud','Uz\u00e8s','Valleraugue','Vauvert','Vergeze','Villeneuve-l\u00e8s-Avignon'],
+  'Aude (11)':['Alaigne','Alzonne','Argeliers','Axat','Azille','Bram','Carcassonne','Castelnaudary','Caumont','Conques-sur-Orbiel','Coursan','Cuxac-d\'Aude','Fanjeaux','Fitou','Gruissan','La Palme','Lezignan-Corbi\u00e8res','Leucate','Limoux','Montolieu','Narbonne','Palairac','Port-la-Nouvelle','Quillan','Rustiques','Saint-Couat-d\'Aude','Sigean','Trebes','Tuchan','Ventenac-en-Minervois'],
+  'Pyr\u00e9n\u00e9es-Orientales (66)':['Alenya','Argeles-sur-Mer','Banyuls-sur-Mer','Baixas','Bompas','Cabestany','Canet-en-Roussillon','Ceret','Claira','Collioure','Elne','Estagel','Ille-sur-Tet','La Bastide','Le Boulou','Le Soler','Maureillas-las-Illas','Millas','Perpignan','Port-Vendres','Prades','Rivesaltes','Saint-Cyprien','Saint-Esteve','Saint-Genis-des-Fontaines','Sainte-Marie','Salses-le-Chateau','Thuir','Toulouges','Trouillas','Villelongue-de-la-Salanque','Villeneuve-de-la-Raho'],
+  'Bouches-du-Rh\u00f4ne (13)':['Aix-en-Provence','Arles','Aubagne','Berre-l\'Etang','Cassis','Chateauneuf-les-Martigues','Fos-sur-Mer','Gardanne','Istres','La Ciotat','Lamanon','Lancon-Provence','Marignane','Marseille','Martigues','Miramas','Noves','Pelissanne','Port-de-Bouc','Rognac','Rognes','Saint-Chamas','Saint-Martin-de-Crau','Saint-Remy-de-Provence','Saintes-Maries-de-la-Mer','Salon-de-Provence','Tarascon','Trets','Vitrolles'],
+  'Vaucluse (84)':['Apt','Avignon','Bollene','Bonnieux','Cadenet','Carpentras','Cavaillon','Gordes','L\'Isle-sur-la-Sorgue','La Tour-d\'Aigues','Lourmarin','Malaucene','Mazan','Monteux','Mormoiron','Orange','Pertuis','Roussillon','Saint-Didier','Saint-Saturnin-les-Apt','Sorgues','Vaison-la-Romaine','Valreas','Vedene'],
+  'Var (83)':['Bandol','Brignoles','Draguignan','Frejus','Hyeres','La Seyne-sur-Mer','Le Beausset','Le Luc','Les Arcs','Lorgues','Roquebrune-sur-Argens','Sainte-Maxime','Saint-Cyr-sur-Mer','Saint-Maximin-la-Sainte-Baume','Saint-Raphael','Sanary-sur-Mer','Six-Fours-les-Plages','Toulon','Trans-en-Provence','Vidauban'],
+  'Aveyron (12)':['Baraqueville','Decazeville','Espalion','Laguiole','Millau','Montbazens','Olemps','Pont-de-Salars','Rodez','Roquefort-sur-Soulzon','Saint-Affrique','Saint-Geniez-d\'Olt','Villefranche-de-Rouergue'],
+  'Loz\u00e8re (48)':['Chanac','Chateauneuf-de-Randon','Florac','La Canourgue','Langogne','Marvejols','Mende','Meyrueis','Nasbinals','Saint-Chely-d\'Apcher','Sainte-Enimie','Villefort'],
+  'Ari\u00e8ge (09)':['Ax-les-Thermes','Foix','La Tour-du-Crieu','Lavelanet','Mirepoix','Pamiers','Saint-Girons','Saverdun','Tarascon-sur-Ariege','Varilhes'],
+  'Haute-Garonne (31)':['Auterive','Blagnac','Carbonne','Caraman','Castanet-Tolosan','Cazeres','Colomiers','Fonsorbes','Cugnaux','Grenade','Labarthe-sur-Leze','Lanta','Muret','Nailloux','Portet-sur-Garonne','Revel','Saint-Gaudens','Saint-Lys','Toulouse','Tournefeuille','Villefranche-de-Lauragais'],
+  'Tarn (81)':['Albi','Alban','Aussillon','Carmaux','Castres','Gaillac','Graulhet','La Salvetat-sur-Agout','Lacaune','Lavaur','Lautrec','Mazamet','Montdragon','Rabastens','Saint-Paul-Cap-de-Joux','Saint-Sulpice-la-Pointe','Soual','Vielmur-sur-Agout'],
 };
 
-let cars=[],members=[],sectors=[],history=[],dragId=null,selColor=0,histFilt='all',currentPage='board',isAdmin=false;
-let openPicker=null;
+let cars=[],members=[],sectors=[],history=[],dragId=null,selColor=0,mRole=0,histFilt='all',currentPage='board',isAdmin=false,activePicker=null;
 
 const ini=n=>n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
 const avS=m=>{const c=AV[(m.color_idx||0)%AV.length];return `background:${c.bg};color:${c.tx}`};
 const opTag=op=>{const o=OPS.find(x=>x.id===op);return o?`<span class="op-tag ${o.cls}">${o.label}</span>`:''};
-const roleClass=i=>i===1?'role-1':i===2?'role-2':'role-0';
-
-// Trouver département d'une ville
-const findDept=name=>{
-  const e=Object.entries(SECTEURS_GEO).find(([,cities])=>cities.includes(name));
-  return e?e[0]:null;
-};
-const deptColor=dept=>{
-  const keys=Object.keys(SECTEURS_GEO);
-  const i=keys.indexOf(dept);
-  return i>=0?DEPT_COLORS[i%DEPT_COLORS.length]:{bg:'rgba(255,255,255,.06)',tx:'#888'};
-};
+const roleIdx=m=>{const s=m.role||'';if(s.includes('quipe'))return 1;if(s.includes('seau'))return 2;return 0;};
+const roleClass=i=>['role-0','role-1','role-2'][i]||'role-0';
+const findDept=name=>Object.entries(SECTEURS_GEO).find(([,c])=>c.includes(name));
+const deptColor=dept=>{const i=Object.keys(SECTEURS_GEO).indexOf(dept);return i>=0?DEPT_COLORS[i%DEPT_COLORS.length]:{bg:'rgba(255,255,255,.06)',tx:'#888'}};
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 
@@ -380,17 +464,21 @@ async function doLogin(){
 }
 async function doLogout(){
   await sb.auth.signOut();isAdmin=false;
-  document.getElementById('appScreen').style.display='none';
+  document.getElementById('appScreen').classList.remove('visible');
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('lPass').value='';document.getElementById('lEmail').value='';
 }
 function showApp(user){
   isAdmin=user.email===ADMIN_EMAIL;
   document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appScreen').style.display='block';
+  document.getElementById('appScreen').classList.add('visible');
   document.getElementById('sbUser').textContent=user.email;
-  document.getElementById('adminBadge').style.display=isAdmin?'flex':'none';
+  const ab=isAdmin?'flex':'none';
+  document.getElementById('adminBadge').style.display=ab;
+  document.getElementById('adminBadgeTop').style.display=isAdmin?'inline-flex':'none';
   document.getElementById('adminActions').style.display=isAdmin?'flex':'none';
+  document.getElementById('bnav-add').style.display=isAdmin?'flex':'none';
+  document.getElementById('bnav-car').style.display=isAdmin?'flex':'none';
   loadAll();
 }
 sb.auth.getSession().then(({data:{session}})=>{if(session)showApp(session.user)});
@@ -401,7 +489,9 @@ function goPage(page){
   document.getElementById('pageboard').style.display=page==='board'?'block':'none';
   document.getElementById('pagehistory').style.display=page==='history'?'block':'none';
   document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
-  document.getElementById('nav-'+page).classList.add('active');
+  const nb=document.getElementById('nav-'+page);if(nb)nb.classList.add('active');
+  document.querySelectorAll('.bnav-item').forEach(el=>el.classList.remove('active'));
+  const bb=document.getElementById('bnav-'+page);if(bb)bb.classList.add('active');
   if(page==='history')renderHist();
 }
 
@@ -430,28 +520,30 @@ function matchSearch(text){
 function buildPicker(carId,carSecs){
   const secSet=new Set(carSecs.map(s=>s.name));
   return `<div class="sec-picker-wrap" id="sp-${carId}">
-    <button class="sec-picker-btn" onclick="togglePicker(event,'${carId}')" ${isAdmin?'':'disabled'}>
+    <button class="sec-picker-btn" onclick="openPicker('${carId}')" ${isAdmin?'':'disabled'}>
       ＋ Ajouter ville / secteur
     </button>
     <div class="sec-dropdown" id="spd-${carId}">
+      <div class="sec-drop-header">
+        <span>Choisir des secteurs</span>
+        <button onclick="closePicker()">✕</button>
+      </div>
       <div class="sec-drop-search">
         <input type="text" id="sps-${carId}" placeholder="🔍 Rechercher une ville…" oninput="filterPicker('${carId}')"/>
       </div>
       <div class="sec-dept-list" id="spdl-${carId}">
         ${Object.entries(SECTEURS_GEO).map(([dept,cities])=>{
-          const dkey=dept.replace(/[^a-zA-Z0-9]/g,'_');
+          const dkey=encodeId(dept);
           return `<div class="sec-dept" id="sdept-${carId}-${dkey}">
             <div class="sec-dept-header" onclick="toggleDept('${carId}','${dkey}')">
               <span>${dept}</span><span id="dchev-${carId}-${dkey}">›</span>
             </div>
             <div class="sec-dept-cities" id="dcities-${carId}-${dkey}">
-              ${cities.map(city=>{
-                const ckey=city.replace(/[^a-zA-Z0-9]/g,'_');
-                const isSel=secSet.has(city);
-                return `<div class="sec-city-item${isSel?' sel':''}" id="sci-${carId}-${ckey}" onclick="toggleCity('${carId}','${city.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}')">
-                  <div class="chk">${isSel?'✓':''}</div><span>${city}</span>
-                </div>`;
-              }).join('')}
+              ${cities.map(city=>`
+                <div class="sec-city-item${secSet.has(city)?' sel':''}" id="sci-${carId}-${encodeId(city)}" onclick="toggleCity('${carId}',this)">
+                  <div class="chk">${secSet.has(city)?'✓':''}</div>
+                  <span>${city}</span>
+                </div>`).join('')}
             </div>
           </div>`;
         }).join('')}
@@ -464,28 +556,25 @@ function buildPicker(carId,carSecs){
   </div>`;
 }
 
-function togglePicker(e,carId){
-  e.stopPropagation();
+function encodeId(s){return s.replace(/[^a-zA-Z0-9]/g,'_')}
+
+function openPicker(carId){
   if(!isAdmin)return;
+  closePicker();
   const el=document.getElementById('spd-'+carId);if(!el)return;
-  if(openPicker&&openPicker!==carId){
-    const prev=document.getElementById('spd-'+openPicker);
-    if(prev)prev.classList.remove('open');
-  }
-  el.classList.toggle('open');
-  openPicker=el.classList.contains('open')?carId:null;
-  if(el.classList.contains('open')){
-    const inp=document.getElementById('sps-'+carId);
-    if(inp)setTimeout(()=>inp.focus(),50);
-  }
+  el.classList.add('open');
+  document.getElementById('pickerOverlay').style.display='block';
+  activePicker=carId;
+  setTimeout(()=>{const inp=document.getElementById('sps-'+carId);if(inp)inp.focus();},100);
 }
-document.addEventListener('click',()=>{
-  if(openPicker){
-    const el=document.getElementById('spd-'+openPicker);
+function closePicker(){
+  if(activePicker){
+    const el=document.getElementById('spd-'+activePicker);
     if(el)el.classList.remove('open');
-    openPicker=null;
+    activePicker=null;
   }
-});
+  document.getElementById('pickerOverlay').style.display='none';
+}
 function toggleDept(carId,dkey){
   const el=document.getElementById('dcities-'+carId+'-'+dkey);
   const chev=document.getElementById('dchev-'+carId+'-'+dkey);
@@ -496,11 +585,9 @@ function toggleDept(carId,dkey){
 function filterPicker(carId){
   const q=(document.getElementById('sps-'+carId)||{value:''}).value.toLowerCase().trim();
   Object.entries(SECTEURS_GEO).forEach(([dept,cities])=>{
-    const dkey=dept.replace(/[^a-zA-Z0-9]/g,'_');
-    let any=false;
+    const dkey=encodeId(dept);let any=false;
     cities.forEach(city=>{
-      const ckey=city.replace(/[^a-zA-Z0-9]/g,'_');
-      const el=document.getElementById('sci-'+carId+'-'+ckey);
+      const el=document.getElementById('sci-'+carId+'-'+encodeId(city));
       if(el){const show=!q||city.toLowerCase().includes(q);el.style.display=show?'flex':'none';if(show)any=true;}
     });
     const de=document.getElementById('sdept-'+carId+'-'+dkey);
@@ -509,73 +596,73 @@ function filterPicker(carId){
   });
 }
 
-async function toggleCity(carId,city){
+async function toggleCity(carId,el){
   if(!isAdmin)return;
+  const cityEl=el.querySelector('span');if(!cityEl)return;
+  const city=cityEl.textContent;
   const car=cars.find(c=>c.id===carId);if(!car)return;
   const existing=sectors.find(s=>s.car_id===carId&&s.name===city);
-  const ckey=city.replace(/[^a-zA-Z0-9]/g,'_');
-  const el=document.getElementById('sci-'+carId+'-'+ckey);
   if(existing){
-    // Retirer
     sectors=sectors.filter(s=>s.id!==existing.id);
-    if(el){el.classList.remove('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='';}
-    renderCarSecs(carId);
+    el.classList.remove('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='';
+    updateCarChips(carId);renderStats();
     await sb.from('sectors').delete().eq('id',existing.id);
     const hRow={action:'retrait',sector_name:city,car_name:car.name};
     await sb.from('sector_history').insert(hRow);
     history.unshift({...hRow,created_at:new Date().toISOString()});
     toast(`${city} retiré`);
   } else {
-    // Ajouter
     const {data,error}=await sb.from('sectors').insert({car_id:carId,name:city}).select().single();
     if(error){toast('Erreur Supabase');return;}
     sectors.push(data);
-    if(el){el.classList.add('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='✓';}
-    renderCarSecs(carId);
+    el.classList.add('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='✓';
+    updateCarChips(carId);renderStats();
     const hRow={action:'ajout',sector_name:city,car_name:car.name};
     await sb.from('sector_history').insert(hRow);
     history.unshift({...hRow,created_at:new Date().toISOString()});
     toast(`${city} ajouté ✓`);
   }
-  renderStats();
-  if(currentPage==='history')renderHist();
 }
-
 async function addCustom(carId){
   if(!isAdmin)return;
   const inp=document.getElementById('scc-'+carId);if(!inp)return;
   const city=inp.value.trim();if(!city)return;inp.value='';
-  await toggleCity(carId,city);
+  const car=cars.find(c=>c.id===carId);if(!car)return;
+  const existing=sectors.find(s=>s.car_id===carId&&s.name===city);
+  if(existing){toast('Déjà ajouté');return;}
+  const {data,error}=await sb.from('sectors').insert({car_id:carId,name:city}).select().single();
+  if(error){toast('Erreur Supabase');return;}
+  sectors.push(data);
+  updateCarChips(carId);renderStats();
+  const hRow={action:'ajout',sector_name:city,car_name:car.name};
+  await sb.from('sector_history').insert(hRow);
+  history.unshift({...hRow,created_at:new Date().toISOString()});
+  toast(`${city} ajouté ✓`);
 }
 
-// Mise à jour des chips sans reconstruire toute la carte
-function renderCarSecs(carId){
+function updateCarChips(carId){
   const ss=getSecs(carId);
   const car=cars.find(c=>c.id===carId);if(!car)return;
-  const chipsEl=document.querySelector(`#zone-chips-${carId}`);
+  const chipsEl=document.getElementById('zone-chips-'+carId);
+  const slblEl=document.getElementById('zone-slbl-'+carId);
   if(chipsEl)chipsEl.innerHTML=renderChips(ss,car);
-  const slblEl=document.querySelector(`#zone-slbl-${carId}`);
   if(slblEl)slblEl.textContent=`Secteurs & villes (${ss.length})`;
 }
+
 function renderChips(ss,car){
   if(!ss.length)return '<span style="font-size:11px;color:var(--text3)">Aucun secteur</span>';
   return ss.map(s=>{
-    const dept=findDept(s.name);
-    const dc=dept?deptColor(dept):{bg:'rgba(255,255,255,.06)',tx:'#888'};
-    return `<span class="chip-tag" style="background:${dc.bg};color:${dc.tx}">
-      ${s.name}
-      ${isAdmin?`<span class="x" onclick="rmSecById('${s.id}','${car.id}','${s.name.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}','${car.name.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}')">✕</span>`:''}
+    const e=findDept(s.name);
+    const dc=e?deptColor(e[0]):{bg:'rgba(255,255,255,.06)',tx:'#888'};
+    return `<span class="chip-tag" style="background:${dc.bg};color:${dc.tx}">${s.name}${isAdmin?`<span class="x" onclick="rmSec('${s.id}','${car.id}','${s.name.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}','${car.name.replace(/\\/g,'\\\\').replace(/'/g,'\\x27')}')">✕</span>`:''}
     </span>`;
   }).join('');
 }
-
-async function rmSecById(sid,carId,sname,cname){
+async function rmSec(sid,carId,sname,cname){
   if(!isAdmin)return;
   sectors=sectors.filter(s=>s.id!==sid);
-  renderCarSecs(carId);
-  renderStats();
-  // Met à jour le checkmark dans le picker
-  const ckey=sname.replace(/[^a-zA-Z0-9]/g,'_');
+  updateCarChips(carId);renderStats();
+  const ckey=encodeId(sname);
   const el=document.getElementById('sci-'+carId+'-'+ckey);
   if(el){el.classList.remove('sel');const chk=el.querySelector('.chk');if(chk)chk.textContent='';}
   await sb.from('sectors').delete().eq('id',sid);
@@ -594,10 +681,9 @@ function boxes(car){
   for(let i=0;i<obj;i++)h+=`<div class="box${i<n?'':' empty'}" style="${i<n?'background:'+col:''}"></div>`;
   return h+'</div>';
 }
-
 function pill(m){
-  const show=matchSearch(m.name+' '+ROLES[m.role_idx||0]);
-  const ri=m.role_idx!=null?m.role_idx:ROLES.findIndex(r=>r===m.role)||0;
+  const ri=roleIdx(m);
+  const show=matchSearch(m.name+' '+ROLES[ri]);
   return `<div class="pill" id="mp-${m.id}" draggable="true" ondragstart="ds(event,'${m.id}')" ondragend="de(event)" style="display:${show?'flex':'none'}">
     <span class="dh">⠿</span>
     <div class="av" style="${avS(m)}">${ini(m.name)}</div>
@@ -608,7 +694,6 @@ function pill(m){
     <button class="ic-btn" onclick="openProfile('${m.id}');event.stopPropagation()">👤</button>
   </div>`;
 }
-
 function renderStats(){
   const placed=members.filter(m=>m.car_id).length;
   const tBox=cars.reduce((a,c)=>a+(c.objectif||0),0);
@@ -666,7 +751,6 @@ function renderCars(){
     </div>`;
   }).join('')+(isAdmin?`<button class="add-car-btn" onclick="openAddCar()">+ Nouvelle voiture</button>`:'');
 }
-
 function setFilt(f){
   histFilt=f;
   ['all','ajout','retrait'].forEach(x=>document.getElementById('filt-'+x).classList.toggle('on',x===f));
@@ -679,13 +763,12 @@ function renderHist(){
   if(histFilt!=='all')rows=rows.filter(h=>h.action===histFilt);
   if(q)rows=rows.filter(h=>(h.sector_name+' '+h.car_name).toLowerCase().includes(q));
   document.getElementById('histCount').textContent=rows.length?`${rows.length} entrée${rows.length>1?'s':''}`:' Aucun résultat';
-  if(!rows.length){el.innerHTML=`<div class="empty-state"><div class="ei">🕐</div><p>Aucune entrée dans l'historique</p></div>`;return;}
+  if(!rows.length){el.innerHTML=`<div class="empty-state"><div class="ei">🕐</div><p>Aucune modification</p></div>`;return;}
   const grouped={};
   rows.forEach(h=>{
     const d=new Date(h.created_at);
     const key=d.toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-    if(!grouped[key])grouped[key]=[];
-    grouped[key].push(h);
+    if(!grouped[key])grouped[key]=[];grouped[key].push(h);
   });
   el.innerHTML=Object.entries(grouped).map(([day,items])=>`
     <div class="hist-day-header">${day}</div>
@@ -693,23 +776,18 @@ function renderHist(){
       const isA=h.action==='ajout';
       const d=new Date(h.created_at);
       const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-      const dept=findDept(h.sector_name);
-      const dc=dept?deptColor(dept):null;
+      const e=findDept(h.sector_name);
+      const dc=e?deptColor(e[0]):null;
       return `<div class="hist-row">
         <div class="hist-dot" style="background:${isA?'#22c55e':'#ef4444'}"></div>
         <div class="hist-body">
-          <div class="hist-txt">
-            <strong>${h.sector_name}</strong>
-            <span class="hist-badge ${isA?'add':'rm'}">${isA?'+ Ajout':'− Retrait'}</span>
-            ${dc?`<span style="display:inline-flex;padding:1px 6px;border-radius:10px;font-size:10px;margin-left:4px;background:${dc.bg};color:${dc.tx}">${dept.split(' - ')[1]}</span>`:''}
-          </div>
+          <div class="hist-txt"><strong>${h.sector_name}</strong><span class="hist-badge ${isA?'add':'rm'}">${isA?'+ Ajout':'− Retrait'}</span>${dc?`<span style="display:inline-flex;padding:1px 6px;border-radius:10px;font-size:10px;margin-left:4px;background:${dc.bg};color:${dc.tx}">${e[0].split('(')[0].trim()}</span>`:''}</div>
           <div class="hist-car">${h.car_name}</div>
         </div>
         <div class="hist-time">${time}</div>
       </div>`;
     }).join('')}`).join('');
 }
-
 function render(){renderStats();renderPool();renderCars();if(currentPage==='history')renderHist();}
 
 // ── DRAG ──
@@ -745,49 +823,55 @@ async function deleteCar(id){
 }
 
 // ── MODAL HELPERS ──
-let mRole=0;
-function selE(el,v){document.querySelectorAll('#modalBox .chip[data-type="emoji"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mEmoji').value=v}
-function selOp(el,v){document.querySelectorAll('#modalBox .chip[data-type="op"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');document.getElementById('mOp').value=v}
-function selRole(el,i){
-  document.querySelectorAll('#modalBox .chip[data-type="role"]').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');mRole=i;
-}
-function pickColor(el,i){selColor=i;document.querySelectorAll('#modalBox .cdot').forEach(d=>d.classList.remove('on'));el.classList.add('on');const av=document.getElementById('profAv');if(av){av.style.background=AV[i].bg;av.style.color=AV[i].tx}}
-function showModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modalBg').classList.add('open')}
+let mEmoji='🚗',mOp='free';
+function selE(el,v){document.querySelectorAll('#modalBox .chip[data-t="e"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');mEmoji=v;}
+function selOp(el,v){document.querySelectorAll('#modalBox .chip[data-t="o"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');mOp=v;}
+function selRole2(el,i){document.querySelectorAll('#modalBox .chip[data-t="r"]').forEach(c=>c.classList.remove('on'));el.classList.add('on');mRole=i;}
+function pickColor(el,i){selColor=i;document.querySelectorAll('#modalBox .cdot').forEach(d=>d.classList.remove('on'));el.classList.add('on');const av=document.getElementById('profAv');if(av){av.style.background=AV[i].bg;av.style.color=AV[i].tx;}}
+function showModal(html){document.getElementById('modalBox').innerHTML=`<div class="modal-handle"></div>${html}`;document.getElementById('modalBg').classList.add('open')}
 function closeModal(){document.getElementById('modalBg').classList.remove('open')}
 
 function openAddCar(){
   if(!isAdmin)return;
+  mEmoji='🚗';mOp='free';
   showModal(`<h2>Nouvelle voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" placeholder="Voiture Alpha"/></div>
-    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip" data-type="emoji" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="🚗"/></div>
-    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip" data-type="op" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="free"/></div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmAddCar()">Créer</button></div>`);
-  document.querySelector('#modalBox .chip[data-type="emoji"]').classList.add('on');
-  document.querySelector('#modalBox .chip[data-type="op"]').classList.add('on');
+    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e==='🚗'?' on':''}" data-t="e" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div></div>
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map((o,i)=>`<span class="chip${i===0?' on':''}" data-t="o" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div></div>
+    <div class="m-acts">
+      <div class="m-acts-row">
+        <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-solid" onclick="confirmAddCar()">Créer</button>
+      </div>
+    </div>`);
 }
 async function confirmAddCar(){
   if(!isAdmin)return;
   const name=(document.getElementById('mName').value||'').trim()||'Nouvelle voiture';
-  const {data,error}=await sb.from('cars').insert({name,emoji:document.getElementById('mEmoji').value||'🚗',operator:document.getElementById('mOp').value||'free',objectif:0}).select().single();
-  if(error){toast('Erreur Supabase');return;}
+  const {data,error}=await sb.from('cars').insert({name,emoji:mEmoji,operator:mOp,objectif:0}).select().single();
+  if(error){toast('Erreur: '+error.message);console.error(error);return;}
   cars.push(data);closeModal();render();toast(`"${name}" créée ✓`);
 }
 function openEditCar(id){
   if(!isAdmin)return;
   const car=cars.find(c=>c.id===id);if(!car)return;
+  mEmoji=car.emoji;mOp=car.operator;
   showModal(`<h2>Modifier la voiture</h2>
     <div class="field"><label>Nom</label><input id="mName" value="${car.name}"/></div>
-    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e===car.emoji?' on':''}" data-type="emoji" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div><input type="hidden" id="mEmoji" value="${car.emoji}"/></div>
-    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" data-type="op" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div><input type="hidden" id="mOp" value="${car.operator}"/></div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmEditCar('${id}')">Enregistrer</button></div>`);
+    <div class="field"><label>Emoji</label><div class="chip-row">${EMOJIS.map(e=>`<span class="chip${e===car.emoji?' on':''}" data-t="e" onclick="selE(this,'${e}')">${e}</span>`).join('')}</div></div>
+    <div class="field"><label>Opérateur</label><div class="chip-row">${OPS.map(o=>`<span class="chip${o.id===car.operator?' on':''}" data-t="o" onclick="selOp(this,'${o.id}')">${o.label}</span>`).join('')}</div></div>
+    <div class="m-acts">
+      <div class="m-acts-row">
+        <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-solid" onclick="confirmEditCar('${id}')">Enregistrer</button>
+      </div>
+    </div>`);
 }
 async function confirmEditCar(id){
   if(!isAdmin)return;
   const car=cars.find(c=>c.id===id);if(!car)return;
   car.name=(document.getElementById('mName').value||car.name).trim();
-  car.emoji=document.getElementById('mEmoji').value;
-  car.operator=document.getElementById('mOp').value;
+  car.emoji=mEmoji;car.operator=mOp;
   closeModal();render();
   await sb.from('cars').update({name:car.name,emoji:car.emoji,operator:car.operator}).eq('id',id);
   toast('Voiture mise à jour ✓');
@@ -796,24 +880,28 @@ function openAddMember(){
   if(!isAdmin)return;
   selColor=0;mRole=0;
   showModal(`<h2>Nouveau commercial</h2>
-    <div class="field"><label>Nom complet</label><input id="pName" placeholder="Jean Dupont"/></div>
-    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map((r,i)=>`<span class="chip${i===0?' on':''}" data-type="role" onclick="selRole(this,${i})">${r}</span>`).join('')}</div></div>
-    <div class="field"><label>Téléphone</label><input id="pPhone" placeholder="06 xx xx xx xx"/></div>
-    <div class="field"><label>Note</label><input id="pNote" placeholder="Infos utiles…"/></div>
+    <div class="field"><label>Nom complet</label><input id="pName" placeholder="Jean Dupont" autocomplete="off"/></div>
+    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map((r,i)=>`<span class="chip${i===0?' on':''}" data-t="r" onclick="selRole2(this,${i})">${r}</span>`).join('')}</div></div>
+    <div class="field"><label>Téléphone</label><input id="pPhone" type="tel" placeholder="06 xx xx xx xx" autocomplete="off"/></div>
+    <div class="field"><label>Note</label><input id="pNote" placeholder="Infos utiles…" autocomplete="off"/></div>
     <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((c,i)=>`<div class="cdot${i===0?' on':''}" style="background:${c.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Annuler</button><button class="btn btn-solid" onclick="confirmAddMember()">Ajouter</button></div>`);
+    <div class="m-acts">
+      <div class="m-acts-row">
+        <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-solid" onclick="confirmAddMember()">Ajouter</button>
+      </div>
+    </div>`);
 }
 async function confirmAddMember(){
   if(!isAdmin)return;
-  const name=(document.getElementById('pName').value||'').trim();if(!name)return alert('Nom requis');
-  const ri=mRole;
-  const {data,error}=await sb.from('members').insert({
-    name,role:ROLES[ri],role_idx:ri,
-    phone:document.getElementById('pPhone').value.trim(),
-    note:document.getElementById('pNote').value.trim(),
-    color_idx:selColor,car_id:null
-  }).select().single();
-  if(error){toast('Erreur Supabase');console.error(error);return;}
+  const name=(document.getElementById('pName').value||'').trim();
+  if(!name){toast('Nom requis');return;}
+  const role=ROLES[mRole];
+  const phone=(document.getElementById('pPhone').value||'').trim();
+  const note=(document.getElementById('pNote').value||'').trim();
+  const payload={name,role,phone,note,color_idx:selColor,car_id:null};
+  const {data,error}=await sb.from('members').insert(payload).select().single();
+  if(error){toast('Erreur: '+error.message);console.error('SUPABASE ERROR:',error);return;}
   members.push(data);closeModal();render();toast(`${name} ajouté ✓`);
 }
 function openProfile(id){
@@ -821,22 +909,24 @@ function openProfile(id){
   const car=m.car_id?cars.find(c=>c.id===m.car_id):null;
   const c=AV[(m.color_idx||0)%AV.length];
   selColor=m.color_idx||0;
-  const ri=m.role_idx!=null?m.role_idx:Math.max(0,ROLES.findIndex(r=>r===m.role));
+  const ri=roleIdx(m);
   mRole=ri;
   const editFields=isAdmin?`
     <div class="field"><label>Nom</label><input id="pName" value="${m.name}"/></div>
-    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map((r,i)=>`<span class="chip${i===ri?' on':''}" data-type="role" onclick="selRole(this,${i})">${r}</span>`).join('')}</div></div>
+    <div class="field"><label>Rôle</label><div class="chip-row">${ROLES.map((r,i)=>`<span class="chip${i===ri?' on':''}" data-t="r" onclick="selRole2(this,${i})">${r}</span>`).join('')}</div></div>
     <div class="field"><label>Téléphone</label><input id="pPhone" value="${m.phone||''}"/></div>
     <div class="field"><label>Note</label><input id="pNote" value="${m.note||''}"/></div>
     <div class="field"><label>Couleur du profil</label><div class="color-picker">${AV.map((ac,i)=>`<div class="cdot${i===selColor?' on':''}" style="background:${ac.bg}" onclick="pickColor(this,${i})"></div>`).join('')}</div></div>
     <div class="m-acts">
-      <button class="btn btn-danger" onclick="deleteMember('${id}')">Supprimer</button>
-      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
-      <button class="btn btn-solid" onclick="saveProfile('${id}')">Enregistrer</button>
+      <button class="btn btn-danger" style="width:100%;justify-content:center" onclick="deleteMember('${id}')">Supprimer</button>
+      <div class="m-acts-row">
+        <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
+        <button class="btn btn-solid" onclick="saveProfile('${id}')">Enregistrer</button>
+      </div>
     </div>`:`
-    <div style="font-size:13px;color:var(--text2);margin-bottom:6px">📞 ${m.phone||'Non renseigné'}</div>
-    <div style="font-size:13px;color:var(--text2);margin-bottom:18px">📝 ${m.note||'Aucune note'}</div>
-    <div class="m-acts"><button class="btn btn-ghost" onclick="closeModal()">Fermer</button></div>`;
+    <div style="font-size:14px;color:var(--text2);margin-bottom:8px">📞 ${m.phone||'Non renseigné'}</div>
+    <div style="font-size:14px;color:var(--text2);margin-bottom:20px">📝 ${m.note||'Aucune note'}</div>
+    <div class="m-acts"><button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="closeModal()">Fermer</button></div>`;
   showModal(`
     <div class="prof-head">
       <div class="prof-av" id="profAv" style="background:${c.bg};color:${c.tx}">${ini(m.name)}</div>
@@ -852,11 +942,12 @@ async function saveProfile(id){
   if(!isAdmin)return;
   const m=members.find(x=>x.id===id);if(!m)return;
   m.name=(document.getElementById('pName').value||m.name).trim();
-  m.role=ROLES[mRole];m.role_idx=mRole;
-  m.phone=document.getElementById('pPhone').value.trim();
-  m.note=document.getElementById('pNote').value.trim();
-  m.color_idx=selColor;closeModal();render();
-  await sb.from('members').update({name:m.name,role:m.role,role_idx:mRole,phone:m.phone,note:m.note,color_idx:m.color_idx}).eq('id',id);
+  m.role=ROLES[mRole];
+  m.phone=(document.getElementById('pPhone').value||'').trim();
+  m.note=(document.getElementById('pNote').value||'').trim();
+  m.color_idx=selColor;
+  closeModal();render();
+  await sb.from('members').update({name:m.name,role:m.role,phone:m.phone,note:m.note,color_idx:m.color_idx}).eq('id',id);
   toast('Profil mis à jour ✓');
 }
 async function deleteMember(id){
